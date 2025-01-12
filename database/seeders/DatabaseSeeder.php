@@ -22,5 +22,11 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('digikomweb'),
             'id_roles' => 1
         ]);
+        User::factory()->create([
+            'name' => 'John Doe',
+            'email' => 'johndoe@gmail.com',
+            'password' => Hash::make('password'),
+            'id_roles' => 3
+        ]);
     }
 }
