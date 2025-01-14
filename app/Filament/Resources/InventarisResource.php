@@ -63,7 +63,21 @@ class InventarisResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('deskripsi'),
+                Tables\Columns\ImageColumn::make('images'),
+                Tables\Columns\TextColumn::make('status')
+                    ->color(fn (string $state): string => match ($state) {
+                        'tersedia' => 'primary',
+                        'tidak tersedia' => 'danger',
+                    })
+                    ->icon(fn (string $state): string => match ($state) {
+                        'tersedia' => 'heroicon-m-check-badge',
+                        'tidak tersedia' => 'heroicon-m-exclamation-triangle',
+                    })
+                    ->formatStateUsing(function ($state) {
+                        return ucfirst($state);   
+                    })
             ])
             ->filters([
                 //
