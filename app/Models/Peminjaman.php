@@ -25,6 +25,6 @@ class Peminjaman extends Model
 
     public function inventaris()
     {
-        return $this->belongsTo(User::class, 'id_inventaris');
+        return $this->belongsTo(Inventaris::class, 'id_inventaris');
     }
 }

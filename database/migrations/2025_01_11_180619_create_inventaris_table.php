@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventaris', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nama');
             $table->text('deskripsi')->nullable();
             $table->integer('kuantitas')->nullable();
             $table->string('images')->nullable();

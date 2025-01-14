@@ -49,7 +49,9 @@ class ModulResource extends Resource
                     ->required()
                     ->downloadable()
                     ->Label('Upload modul'),
-                Forms\Components\FileUpload::make('image')
+                Forms\Components\FileUpload::make('images')
+                    ->disk('public')
+                    ->visibility('public')
                     ->image()
                     ->Label('Gambar'),
             ]);
@@ -70,15 +72,18 @@ class ModulResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('file_path')
                     ->label('File PDF')
-                    ->formatStateUsing(fn ($state) => 'Download PDF')
-                    ->url(fn ($record) => asset('storage/' . $record->file_path))
+                    ->formatStateUsing(fn($state) => 'Download PDF')
+                    ->url(fn($record) => asset('storage/' . $record->file_path))
                     ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('deskripsi')
                     ->label('Deskripsi')
                     ->placeholder('No description')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image')
+                Tables\Columns\ImageColumn::make('images')
+                    ->url(fn($record) => asset('storage/' . $record->images))
+                    ->label('Preview Gambar')
                     ->placeholder('No image')
+                    ->size(50),
             ])
             ->filters([
                 //
