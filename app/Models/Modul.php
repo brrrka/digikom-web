@@ -22,4 +22,8 @@ class Modul extends Model
     {
         return $this->belongsTo(Praktikum::class, 'id_praktikums');
     }
+
+    protected $casts = [
+        'file_path' => 'string',
+    ];
 }
