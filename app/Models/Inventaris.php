@@ -19,7 +19,7 @@ class Inventaris extends Model
         'status',
     ];
 
-    public function peminjamam()
+    public function peminjaman()
     {
         return $this->hasMany(Peminjaman::class, 'id_inventaris');
     }

@@ -5,13 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Konten extends Model
+class Artikel extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'id_users',
         'title',
-        'deskripsi',
-        'video_id'
+        'content',
+        'image',
+        'status'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'id_users');
+    }
 }

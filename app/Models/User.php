@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->hasMany(Peminjaman::class, 'id_users');
     }
 
+    public function artikel()
+    {
+        return $this->hasMany(Artikel::class, 'id_users');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kontens', function (Blueprint $table) {
+        Schema::create('artikels', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_users');
             $table->string('title');
-            $table->text('deskripsi')->nullable();
-            $table->string('video_id')->nullable();
+            $table->text('content');
+            $table->string('image')->nullable();
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
+            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kontens');
+        Schema::dropIfExists('artikels');
     }
 };
