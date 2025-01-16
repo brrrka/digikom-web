@@ -19,7 +19,7 @@ class PraktikumResource extends Resource
 
     protected static ?string $navigationGroup = 'Praktikum';
 
-    protected static ?string $navigationIcon = 'heroicon-m-bookmark';
+    protected static ?string $navigationIcon = 'heroicon-o-bookmark';
 
     protected static ?int $navigationSort = 1;
 

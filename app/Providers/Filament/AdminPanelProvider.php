@@ -25,10 +25,6 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Praktikum')
-            ])
             ->default()
             ->id('admin')
             ->path('admin')

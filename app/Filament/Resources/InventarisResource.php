@@ -17,7 +17,7 @@ class InventarisResource extends Resource
 {
     protected static ?string $model = Inventaris::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $navigationGroup = 'Inventaris dan Peminjaman';
 
@@ -65,6 +65,7 @@ class InventarisResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nama'),
                 Tables\Columns\TextColumn::make('deskripsi'),
+                Tables\Columns\TextColumn::make('kuantitas'),
                 Tables\Columns\ImageColumn::make('images'),
                 Tables\Columns\TextColumn::make('status')
                     ->color(fn (string $state): string => match ($state) {
