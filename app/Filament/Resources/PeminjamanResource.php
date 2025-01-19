@@ -23,6 +23,18 @@ class PeminjamanResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
+    protected static ?string $slug = 'peminjaman';
+
+    public static function getModelLabel(): string
+    {
+        return 'Peminjaman';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Peminjaman';
+    }
+
     public static function getNavigationLabel(): string
     {
         return 'Peminjaman';
@@ -90,7 +102,9 @@ class PeminjamanResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
