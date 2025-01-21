@@ -8,6 +8,11 @@ use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return view('app');
+})->name('home');
+
+// Route::get('/', [KontenController::class, 'getKontens'])->name('home');
 
 Route::get('/asisten', [AsistenController::class, 'getAsistens'])->name('asisten.index');
 
@@ -19,7 +24,6 @@ Route::get('/praktikum/modul', [ModulController::class, 'getModuls'])->name('mod
 
 Route::get('/moduls/download/{id}', [ModulController::class, 'downloadModul'])->name('moduls.download');
 
-Route::get('/', [KontenController::class, 'getKontens'])->name('home');
 
 // Route untuk membuat data peminjaman
 Route::get('/peminjaman/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
