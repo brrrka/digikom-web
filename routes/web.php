@@ -9,7 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('app');
+    return view('pages.welcome');
 })->name('home');
 
 // Route::get('/', [KontenController::class, 'getKontens'])->name('home');

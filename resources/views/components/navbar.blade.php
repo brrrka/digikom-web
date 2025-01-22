@@ -6,7 +6,7 @@
                 {{-- Logo --}}
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/LogoDigikom.png') }}" class="w-12 h-12" alt="">
+                        <img src="{{ asset('images/LogoDigikom.png') }}" class="w-16 h-16" alt="Logo Digikom">
                     </a>
                 </div>
 
@@ -71,16 +71,3 @@
         </div>
     </div>
 </nav>
-
-<script>
-function toggleMenu() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu.classList.contains('-translate-y-2')) {
-        mobileMenu.classList.remove('-translate-y-2', 'opacity-0', 'pointer-events-none');
-        mobileMenu.classList.add('translate-y-0', 'opacity-100');
-    } else {
-        mobileMenu.classList.add('-translate-y-2', 'opacity-0', 'pointer-events-none');
-        mobileMenu.classList.remove('translate-y-0', 'opacity-100');
-    }
-}
-</script>
