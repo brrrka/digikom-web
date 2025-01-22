@@ -20,6 +20,10 @@ export default {
                 light: "#FFFDCC",
                 dark: "#3A3738",
             },
+            backgroundImage: {
+                "hero-pattern":
+                    "url('" + process.env.MIX_ASSET_URL + "/images/Item5.jpg')",
+            },
         },
     },
 
