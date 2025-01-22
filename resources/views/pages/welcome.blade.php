@@ -31,9 +31,9 @@
                     </p>
                 </div>
 
-                <button class="absolute bottom-12 left-12 rounded-full bg-primary px-8 py-2 text-black font-semibold">
+                <a href="" class="absolute bottom-12 left-12 rounded-full bg-primary px-8 py-2 text-black font-semibold">
                     Learn More
-                </button>
+                </a>
             </div>
             <div class="flex-1 flex items-center h-full relative">
                 <div class="absolute inset-0 right-14 top-2 h-full flex items-center justify-end z-10">
@@ -55,7 +55,7 @@
         </div>
     </section>
 
-    <section class="pt-28 text-dark w-full" id="about">
+    <section class="pt-28 text-dark relative h-screen w-full" id="about">
         <div class="relative w-full">
             <div class="absolute inset-0 max-w-2xl z-10 pl-12 pr-12">
                 <h5 class="font-bold text-primary">ABOUT</h5>
@@ -63,12 +63,64 @@
                 <p class="">We're a vibrant hub where researchers, students, and innovators collaborate to push the boundaries of digital and computer architecture. Through hands-on projects, interdisciplinary teamwork, and a commitment to impactful solutions, we empower every member to turn ideas into technological breakthroughs.</p>
             </div>
             <img src="" alt="">
-            <img class="absolute right-0 -top-4 max-w-3xl z-20" src="{{ asset('images/Item4.png') }}" alt="Item 4">
+            <img class="absolute right-0 -top-4 max-w-2xl z-20" src="{{ asset('images/Item4.png') }}" alt="Item 4">
             <div class="absolute inset-0 -top-16 z-0">
                 <img src="{{ asset('images/Item5.png') }}" alt="">
             </div>
         </div>
     </section>
 
+    <section class="py-12">
+        <h1 class="text-primary text-4xl font-bold tracking-wide text-center mb-8">How We're Here for You</h1>
+        <div class="grid grid-cols-10 gap-3 text-white">
+            <div class="col-span-4 grid grid-rows-4 gap-4">
+                <div class="row-span-1 bg-primary/5 h-14 rounded-r-2xl"></div>
+                <div class="row-span-1 grid grid-cols-6 gap-3">
+                    <div class="col-span-2 bg-primary/5 rounded-r-2xl"></div>
+                    <div class="col-span-3 bg-primary rounded-2xl grid place-items-center px-2">
+                        <p class="text-center text-sm font-bold tracking-wide">Competition & Hackathons</p>
+                    </div>
+                    <div class="col-span-1 bg-primary/5 rounded-2xl"></div>
+                </div>
+                <div class="row-span-2 grid grid-cols-6 gap-3">
+                    <div class="col-span-2 bg-primary/5 rounded-r-2xl"></div>
+                    <div class="col-span-3 bg-primary rounded-2xl flex justify-center items-center px-4 py-2">
+                        <p class="text-center text-sm">
+                            Help you develop creativity, resilience, and teamwork while gaining invaluable experience in a competitive environment.
+                        </p>
+                    </div>
+                    <div class="col-span-1 bg-primary/5 rounded-2xl"></div>
+                </div>
+            </div>
+            <div class="col-span-2 grid grid-rows-4 gap-3">
+                <div class="row-span-1 bg-dark rounded-2xl px-4 py-2 flex justify-center items-center">
+                    <p class="text-center text-sm font-bold tracking-wide">Practice</p>
+                </div>
+                <div class="row-span-2 bg-dark rounded-2xl px-4 py-2 flex justify-center items-center">
+                    <p class="text-center text-sm">Learn and practice about digital logic and computer architecture.</p>
+                </div>
+                <div class="row-span-1 bg-dark/5 rounded-2xl"></div>
+            </div>
+            <div class="col-span-4 grid grid-rows-4 gap-3">
+                <div class="row-span-1 bg-red/5 h-14 rounded-l-2xl"></div>
+                <div class="row-span-1 grid grid-cols-6 gap-3">
+                    <div class="col-span-1 bg-red/5 rounded-2xl"></div>
+                    <div class="col-span-3 bg-red rounded-2xl px-4 py-2 flex justify-center items-center">
+                        <p class="text-center text-sm font-bold tracking-wide">Project-Based Learning</p>
+                    </div>
+                    <div class="col-span-2 bg-red/10 rounded-l-xl"></div>
+                </div>
+                <div class="row-span-2 grid grid-cols-6 gap-3">
+                    <div class="col-span-1 bg-red/5 rounded-2xl"></div>
+                    <div class="col-span-3 bg-red rounded-2xl px-4 py-2 flex justify-center items-center">
+                        <p class="text-center text-sm">Builds critical thinking and problem-solving through hands-on tasks and collaboration</p>
+                    </div>
+                    <div class="col-span-2 bg-red/5 rounded-l-xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <x-footer></x-footer>
     
 </x-app-layout>

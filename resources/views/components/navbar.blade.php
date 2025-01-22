@@ -71,16 +71,3 @@
         </div>
     </div>
 </nav>
-
-<script>
-function toggleMenu() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu.classList.contains('-translate-y-2')) {
-        mobileMenu.classList.remove('-translate-y-2', 'opacity-0', 'pointer-events-none');
-        mobileMenu.classList.add('translate-y-0', 'opacity-100');
-    } else {
-        mobileMenu.classList.add('-translate-y-2', 'opacity-0', 'pointer-events-none');
-        mobileMenu.classList.remove('translate-y-0', 'opacity-100');
-    }
-}
-</script>
