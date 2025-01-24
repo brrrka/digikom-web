@@ -27,6 +27,10 @@ export default {
                 "hero-pattern":
                     "url('" + process.env.MIX_ASSET_URL + "/images/Item5.jpg')",
             },
+            minWidth: {
+                md: "768px",
+                xl: "1600px",
+            },
         },
     },
 
