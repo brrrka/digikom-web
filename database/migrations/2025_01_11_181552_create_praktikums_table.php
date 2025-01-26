@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('praktikums', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('slug')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

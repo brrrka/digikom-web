@@ -33,7 +33,8 @@ class PraktikumResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\FileUpload::make('image')->disk('public')->image()->label('Foto'),
             ]);
     }
 
@@ -41,7 +42,8 @@ class PraktikumResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\ImageColumn::make('image')
             ])
             ->filters([
                 //
