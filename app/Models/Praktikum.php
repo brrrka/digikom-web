@@ -11,6 +11,8 @@ class Praktikum extends Model
 
     protected $fillable = [
         'name',
+        'slug',
+        'image',
     ];
 
     public function modul()
