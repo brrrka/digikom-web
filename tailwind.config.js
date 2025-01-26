@@ -9,6 +9,8 @@ export default {
         "./resources/views/**/*.blade.php",
     ],
 
+    safelist: ["bg-[url(/images/bg.png)]"],
+
     theme: {
         extend: {
             fontFamily: {
