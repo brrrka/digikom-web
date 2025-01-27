@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="hidden md:block rounded-full bg-primary px-8 py-2 text-black font-semibold">
+                    <a href="{{ route('login') }}" class="hidden md:block rounded-full shadow-md bg-primary px-8 py-2 text-black font-semibold">
                         Login
                     </a>
                 @endauth
