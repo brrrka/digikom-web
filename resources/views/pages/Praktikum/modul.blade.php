@@ -1,5 +1,5 @@
 <x-app-layout>
-   <section class="min-h-screen py-24 bg-gradient-to-t from-light-green to-white">
+   <section class="min-h-screen relative py-24 bg-gradient-to-t from-light-green to-white">
         <div class="container px-12 mx-auto flex items-center mb-4">
             <a class="flex-none text-dark-green" href="{{ route('praktikum.index') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 flex-none text-dark-green">
@@ -21,8 +21,14 @@
                </div>
            </div>
            @empty
-           <div class="w-full text-center text-gray-500 text-lg">
-               Belum ada modul yang tersedia.
+           <div class="absolute inset-0 w-full bg-black/50 z-50 flex justify-center items-center">
+               <div class="bg-white h-64 w-96 flex flex-col justify-center items-center rounded-3xl gap-4">
+                    <img src="{{ asset('images/waiting-sand.gif') }}" alt="">
+                    <p class="text-dark text-sm">Modul belum diupload. Mohon ditunggu ya!</p>
+                    <a href="{{ route('praktikum.index') }}" class="rounded-xl bg-dark-green-2 px-8 py-2 text-white">
+                       Kembali
+                    </a>
+               </div>
            </div>
            @endforelse
        </div>
