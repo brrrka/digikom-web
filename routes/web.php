@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('/asisten', [AsistenController::class, 'getAsistens'])->name('asisten.index');
 
 // Route peminjaman
+Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
 Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.riwayat');
 
 // Route praktikum
