@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PeminjamanController extends Controller
 {
+    public function index() {
+        return view('pages.peminjaman.index');
+    }
+
     public function riwayatPeminjaman()
     {
         $peminjaman = Peminjaman::where('id_users', Auth::id())->with('inventaris')->get();

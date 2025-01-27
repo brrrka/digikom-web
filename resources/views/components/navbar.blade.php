@@ -29,7 +29,7 @@
                            class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') ? 'font-semibold text-gray-900' : '' }}">
                             Praktikum
                         </a>
-                        <a href="{{ route('peminjaman.riwayat') }}" 
+                        <a href="{{ route('peminjaman') }}" 
                            class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
                             Peminjaman
                         </a>
@@ -87,7 +87,7 @@
                class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') ? 'font-semibold text-gray-900' : '' }}">
                 Praktikum
             </a>
-            <a href="{{ route('peminjaman.riwayat') }}" 
+            <a href="{{ route('peminjaman') }}" 
                class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
                 Peminjaman
             </a>
@@ -105,24 +105,3 @@
         </div>
     </div>
 </nav>
-
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const userMenuButton = document.getElementById('user-menu-button');
-    const userDropdownMenu = document.querySelector('[role="menu"]');
-
-    // Sembunyikan dropdown awalnya
-    userDropdownMenu.classList.add('hidden');
-
-    userMenuButton.addEventListener('click', function() {
-        userDropdownMenu.classList.toggle('hidden');
-    });
-
-    // Tutup dropdown jika mengklik di luar
-    document.addEventListener('click', function(event) {
-        if (!userMenuButton.contains(event.target) && !userDropdownMenu.contains(event.target)) {
-            userDropdownMenu.classList.add('hidden');
-        }
-    });
-});
-</script> --}}

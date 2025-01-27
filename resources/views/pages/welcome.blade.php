@@ -8,26 +8,26 @@
                 <img class="absolute top-44 w-48 right-0 lg:top-24 lg:w-36" src="{{ asset('images/Item2.png') }}" alt="Item 2" loading="lazy"> 
                 <img class="absolute bottom-96 lg:bottom-24 right-0 w-40" src="{{ asset('images/Ellipse2.png') }}" alt="Item 2" loading="lazy"> 
                 <div class="carousel-text absolute inset-0 -top-10 lg:top-4 h-full pl-12 pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
-                    <h1 class="text-3xl lg:text-5xl text-dark font-bold mb-4">
+                    <h1 class="text-3xl lg:text-5xl text-dark-digikom font-bold mb-4">
                         Building the <span class="text-primary">Future of Computing,</span> One Byte at a Time
                     </h1>
-                    <p class="text-dark lg:text-lg text-sm">
+                    <p class="text-dark-digikom lg:text-lg text-sm">
                         With a focus on <span class="text-primary">digital systems and computer architecture,</span> we are crafting solutions that pave the way for smarter, faster, and more efficient computing. Together, let's build the future of technology, one byte at a time.
                     </p>
                 </div>
                 <div class="carousel-text absolute inset-0 -top-10 lg:top-4 h-full pl-12 pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
-                    <h1 class="text-3xl lg:text-5xl text-dark font-bold mb-4">
+                    <h1 class="text-3xl lg:text-5xl text-dark-digikom font-bold mb-4">
                         <span class="text-primary">Empowering</span> Ideas Through Digital and Computer Architecture
                     </h1>
-                    <p class="text-dark lg:text-lg text-sm">
+                    <p class="text-dark-digikom lg:text-lg text-sm">
                         Unlock the potential of innovation with cutting-edge research in digital systems and computer architecture. We transform ideas into impactful solutions, driving the <span class="text-primary">evolution of modern technology.</span>
                     </p>
                 </div>
                 <div class="carousel-text absolute inset-0 -top-10 lg:top-4 h-full pl-12 pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
-                    <h1 class="text-3xl lg:text-5xl text-dark font-bold mb-4">
+                    <h1 class="text-3xl lg:text-5xl text-dark-digikom font-bold mb-4">
                         Discover, Design, Deliver: <span class="text-primary">The Art of Computer Architecture</span>
                     </h1>
-                    <p class="text-dark lg:text-lg text-sm">
+                    <p class="text-dark-digikom lg:text-lg text-sm">
                         Explore the limitless possibilities of technology with groundbreaking research in computer architecture. From concept to creation, we <span class="text-primary">design and deliver solutions</span> that shape the future of computing.
                     </p>
                 </div>
@@ -56,7 +56,7 @@
         </div>
     </section>
 
-    <section class="pt-28 text-dark relative min-h-150 lg:h-screen w-full" id="about">
+    <section class="pt-28 text-dark-digikom relative min-h-150 lg:h-screen w-full" id="about">
         <div class="relative w-full">
             <div class="absolute inset-0 max-w-xl lg:max-w-2xl z-30 pl-12 pr-12">
                 <h5 class="font-bold text-primary">ABOUT</h5>
@@ -95,36 +95,36 @@
             </div>
             <div class="col-span-10 lg:col-span-2 grid grid-rows-4 gap-4">
                 <div class="row-span-1 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:hidden h-14 bg-dark/5 rounded-2xl"></div>
-                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark ">
+                    <div class="col-span-2 lg:hidden h-14 bg-dark-digikom/5 rounded-2xl"></div>
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom ">
                         <p class="text-center text-sm font-bold tracking-wide">Practice</p>
                     </div>
-                    <div class="col-span-2 lg:hidden bg-dark/5 rounded-2xl"></div>
+                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:hidden bg-dark/5 rounded-2xl"></div>
-                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark ">
+                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl"></div>
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom ">
                         <p class="text-center text-sm">Learn and practice about digital logic and computer architecture.</p>
                     </div>
-                    <div class="col-span-2 lg:hidden bg-dark/5 rounded-2xl"></div>
+                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl"></div>
                 </div>
-                <div class="row-span-1 bg-dark/5 rounded-2xl"></div>
+                <div class="row-span-1 bg-dark-digikom/5 rounded-2xl"></div>
             </div>
             <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4">
-                <div class="row-span-1 bg-red/5 h-14 rounded-l-2xl"></div>
+                <div class="row-span-1 bg-red-digikom/5 h-14 rounded-l-2xl"></div>
                 <div class="row-span-1 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:col-span-1 bg-red/5 rounded-2xl"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-red rounded-2xl px-4 py-2 flex justify-center items-center">
+                    <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl"></div>
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center">
                         <p class="text-center text-sm font-bold tracking-wide">Project-Based Learning</p>
                     </div>
-                    <div class="col-span-2 lg:col-span-2 bg-red/10 rounded-l-xl"></div>
+                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/10 rounded-l-xl"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:col-span-1 bg-red/5 rounded-2xl"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-red rounded-2xl px-4 py-2 flex justify-center items-center">
+                    <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl"></div>
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center">
                         <p class="text-center text-sm">Builds critical thinking and problem-solving through hands-on tasks and collaboration</p>
                     </div>
-                    <div class="col-span-2 lg:col-span-2 bg-red/5 rounded-l-xl"></div>
+                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl"></div>
                 </div>
             </div>
         </div>
