@@ -2,20 +2,24 @@
 
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AsistenController;
-use App\Http\Controllers\KontenController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PraktikumController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// view home
+// Route home
 Route::get('/', function () {
     return view('pages.welcome');
 })->name('home');
 
-// view asisten
+// Route asisten
 Route::get('/asisten', [AsistenController::class, 'getAsistens'])->name('asisten.index');
+
+// Route profil digikom
+Route::get('/digikom', function () {
+    return view('pages.profile.index');
+})->name('digikom.index');
 
 // Route peminjaman
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');

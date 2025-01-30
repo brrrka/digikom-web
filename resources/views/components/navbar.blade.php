@@ -14,7 +14,7 @@
                     </div>
                     {{-- Logo --}}
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/LogoDigikom.png') }}" class="w-12 h-12" alt="Logo Digikom">
+                        <img src="{{ asset('images/LogoDigikom.png') }}" class="w-14 h-14" alt="Logo Digikom">
                     </a>
                 </div>
 
@@ -26,15 +26,15 @@
                             Home
                         </a>
                         <a href="{{ route('praktikum.index') }}" 
-                           class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') ? 'font-semibold text-gray-900' : '' }}">
+                           class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') || request()->routeIs('moduls.praktikum') ? 'font-semibold text-gray-900' : '' }}">
                             Praktikum
                         </a>
                         <a href="{{ route('peminjaman') }}" 
-                           class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
+                           class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman') || request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
                             Peminjaman
                         </a>
-                        <a href="{{ route('profile.edit') }}" 
-                           class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('profile.*') ? 'font-semibold text-gray-900' : '' }}">
+                        <a href="{{ route('digikom.index') }}" 
+                           class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'font-semibold text-gray-900' : '' }}">
                             Profil
                         </a>
                     </div>
@@ -84,15 +84,15 @@
                 Home
             </a>
             <a href="{{ route('praktikum.index') }}" 
-               class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') ? 'font-semibold text-gray-900' : '' }}">
+               class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') || request()->routeIs('moduls.praktikum') ? 'font-semibold text-gray-900' : '' }}">
                 Praktikum
             </a>
             <a href="{{ route('peminjaman') }}" 
-               class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
+               class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman') || request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
                 Peminjaman
             </a>
-            <a href="{{ route('profile.edit') }}" 
-               class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('profile.*') ? 'font-semibold text-gray-900' : '' }}">
+            <a href="{{ route('digikom.index') }}" 
+               class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'font-semibold text-gray-900' : '' }}">
                 Profil
             </a>
 
