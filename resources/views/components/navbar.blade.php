@@ -42,7 +42,7 @@
 
                 {{-- Login / User Dropdown --}}
                 @auth
-                    <div class="relative">
+                    <div class="relative hidden lg:block">
                         <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open user menu</span>
                             <img class="h-8 w-8 rounded-full" src="{{ asset('images/user.png') }}" alt="User profile picture">
@@ -95,13 +95,17 @@
                class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'font-semibold text-gray-900' : '' }}">
                 Profil
             </a>
-
-            @guest
+            @auth
+                <a href="{{ route('profile.edit') }}" 
+                    class="block hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200">
+                        {{ Auth::user()->name }}
+                </a>    
+            @else
                 <a href="{{ route('login') }}" 
                    class="block bg-primary text-center px-3 py-2 rounded-md font-semibold">
                     Login
                 </a>
-            @endguest
+            @endauth
         </div>
     </div>
 </nav>

@@ -18,7 +18,7 @@ Route::get('/asisten', [AsistenController::class, 'getAsistens'])->name('asisten
 
 // Route profil digikom
 Route::get('/digikom', function () {
-    return view('pages.profile.index');
+    return view('pages.profil.index');
 })->name('digikom.index');
 
 // Route peminjaman
