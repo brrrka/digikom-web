@@ -29,6 +29,7 @@ export default {
                 "dark-green-2": "#7E8F65",
                 "dark-green-3": "#50524D",
                 "dark-green-4": "#536836",
+                "dark-green-4": "#8EA66D",
                 "dark-digikom": "#3A3738",
                 "red-digikom": "#F14E3A",
             },
