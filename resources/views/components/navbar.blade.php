@@ -1,22 +1,22 @@
 <nav class="fixed top-0 left-0 right-0 z-50">
     {{-- Main Navbar --}}
     <div class="relative bg-white">
-        <div class="max-w-7xl mx-auto px-4 py-4">
+        <div class="max-w-7xl mx-auto px-8 lg:px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex-shrink-0 flex items-center">
-                    {{-- Mobile Menu Button --}}
-                    <div class="lg:hidden">
-                        <button onclick="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                            <svg id="menuIcon" class="h-8 w-8" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
-                    </div>
                     {{-- Logo --}}
                     <a href="{{ route('home') }}">
                         <img src="{{ asset('images/LogoDigikom.png') }}" class="w-14 h-14" alt="Logo Digikom">
                     </a>
                 </div>
+                {{-- Mobile Menu Button --}}
+                    <div class="lg:hidden">
+                        <button onclick="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-primary hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                            <svg id="menuIcon" class="h-8 w-8" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
 
                 {{-- Desktop Menu --}}
                 <div class="hidden lg:block">
@@ -45,7 +45,7 @@
                     <div class="relative">
                         <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open user menu</span>
-                            <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url ?? asset('images/default-avatar.png') }}" alt="User profile picture">
+                            <img class="h-8 w-8 rounded-full" src="{{ asset('images/user.png') }}" alt="User profile picture">
                         </button>
                         
                         {{-- User Dropdown Menu --}}
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="hidden md:block rounded-full shadow-md bg-primary px-8 py-2 text-black font-semibold">
+                    <a href="{{ route('login') }}" class="hidden lg:block rounded-full shadow-md bg-primary px-8 py-2 text-black font-semibold">
                         Login
                     </a>
                 @endauth
