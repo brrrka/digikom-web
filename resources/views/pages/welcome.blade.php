@@ -56,7 +56,7 @@
         </div>
     </section>
 
-    <section class="pt-28 text-dark-digikom relative min-h-150 lg:h-screen w-full" id="about">
+    <section class="pt-28 text-dark-digikom relative overflow-hidden min-h-150 lg:h-screen w-full" id="about">
         <div class="relative w-full">
             <div class="absolute inset-0 max-w-xl lg:max-w-2xl z-30 pl-12 pr-12">
                 <h5 class="font-bold text-primary">ABOUT</h5>
@@ -64,7 +64,7 @@
                 <p class="">We're a vibrant hub where researchers, students, and innovators collaborate to push the boundaries of digital and computer architecture. Through hands-on projects, interdisciplinary teamwork, and a commitment to impactful solutions, we empower every member to turn ideas into technological breakthroughs.</p>
             </div>
             <img src="" alt="">
-            <img class="absolute -right-96 -top-20 lg:-top-4 lg:right-0 min-w-md lg:max-w-2xl z-20" src="{{ asset('images/Item4.png') }}" alt="Item 4">
+            <img class="absolute -right-96 -top-20 lg:-top-4 lg:-right-10 min-w-md lg:max-w-2xl z-20" src="{{ asset('images/Item4.png') }}" alt="Item 4">
             <div class="absolute lg:min-w-full min-w-xl inset-0 -top-52 lg:-top-16 z-0">
                 <img class="min-w-full" src="{{ asset('images/Item5.png') }}" alt="Item 5">
             </div>
