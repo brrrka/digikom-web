@@ -22,38 +22,36 @@
         </div>
 
 
-        <div class="bg-white py-16 px-24 rounded-3xl shadow-2xl w-full max-w-xl mx-4 relative">
-            <h2 class="text-2xl font-semibold text-dark-green-2 mb-16 text-center">Masuk</h2>
+        <div class="bg-white py-8 px-24 rounded-3xl shadow-2xl w-full max-w-xl mt-4 relative">
+            <h2 class="text-2xl font-semibold text-dark-green-2 mb-0 text-center">Masuk</h2>
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-12">
+            <form method="POST" action="{{ route('login') }}" class="mt-12 space-y-10">
                 @csrf
-
-                <div class="mb-12 relative">
+                <div class="relative">
                     <label for="email"
                         class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1">Email</label>
                     <input type="email" id="email" name="email"
-                        class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-[#FBF8B5]"
+                        class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-light-green-3"
                         required placeholder="Ketik Email">
                 </div>
 
-                <div class="mb-12 relative">
+                <div class="relative">
                     <label for="password"
                         class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1">Password</label>
                     <input type="password" id="password" name="password"
-                        class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-[#FBF8B5]"
+                        class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-light-green-3"
                         required placeholder="Ketik Password">
                 </div>
 
                 <button type="submit"
-                    class="w-full py-4 px-4 bg-dark-green-2 hover:bg-[#5d745a] text-white rounded-3xl transition-colors mt-12">
+                    class="w-full py-4 px-4 bg-dark-green-2 hover:bg-dark-green-6 text-white rounded-3xl transition-colors">
                     Masuk
                 </button>
-
-                <div class="text-center text-sm text-dark-green-2 mt-8">
-                    Belum memiliki akun?
-                    <a href="{{ route('register') }}" class="text-[#718B6D] hover:underline font-semibold">Daftar</a>
-                </div>
             </form>
+            <div class="text-center text-sm text-dark-green-2 mt-4">
+                Belum memiliki akun?
+                <a href="{{ route('register') }}" class="text-dark-green-5 hover:underline font-semibold">Daftar</a>
+            </div>
         </div>
     </div>
 </x-app-layout>
