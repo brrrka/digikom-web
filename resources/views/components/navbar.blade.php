@@ -6,7 +6,7 @@
                 <div class="flex-shrink-0 flex items-center">
                     {{-- Logo --}}
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/LogoDigikom.png') }}" class="w-14 h-14" alt="Logo Digikom">
+                        <img src="{{ asset('images/LogoDigikom.png') }}" class="size-12 md:size-14" alt="Logo Digikom">
                     </a>
                 </div>
                 {{-- Mobile Menu Button --}}
@@ -80,19 +80,19 @@
 
         <div class="px-4 pt-16 pb-3 space-y-1">
             <a href="{{ route('home') }}" 
-               class="block text-primary px-3 py-2 rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('home') ? 'text-white bg-primary' : '' }}">
+               class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('home') ? 'text-white bg-primary' : '' }}">
                 Home
             </a>
             <a href="{{ route('praktikum.index') }}" 
-               class="block text-primary px-3 py-2 rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') || request()->routeIs('moduls.praktikum') ? 'text-white bg-primary' : '' }}">
+               class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('praktikum.*') || request()->routeIs('moduls.praktikum') ? 'text-white bg-primary' : '' }}">
                 Praktikum
             </a>
             <a href="{{ route('peminjaman') }}" 
-               class="block text-primary px-3 py-2 rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman') || request()->routeIs('peminjaman.*') ? 'text-white bg-primary' : '' }}">
+               class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman') || request()->routeIs('peminjaman.*') ? 'text-white bg-primary' : '' }}">
                 Peminjaman
             </a>
             <a href="{{ route('digikom.index') }}" 
-               class="block text-primary px-3 py-2 rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'text-white bg-primary' : '' }}">
+               class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'text-white bg-primary' : '' }}">
                 Profil
             </a>
             @auth
