@@ -34,7 +34,7 @@ class ModulResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('id_praktikums')
-                    ->relationship('praktikum', 'name')
+                    ->relationship('praktikum', 'name', fn($query) => $query->orderBy('id'))
                     ->label('Nama praktikum')
                     ->required(),
                 Forms\Components\TextInput::make('modul_ke')
