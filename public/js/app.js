@@ -91,6 +91,7 @@ const item1 = document.querySelectorAll(".item-1");
 const item2 = document.querySelectorAll(".item-2");
 const item3 = document.querySelectorAll(".item-3");
 const itemsTransparent = document.querySelectorAll(".items-transparent");
+const itemsTransparentPrimary = document.querySelectorAll(".items-transparent");
 
 item1.forEach((item) => {
     item.addEventListener("mouseover", function () {
