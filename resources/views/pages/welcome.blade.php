@@ -77,56 +77,56 @@
         <h1 class="text-primary text-2xl md:text-5xl font-bold tracking-wide text-center mb-4 md:mb-8">How We're Here for You</h1>
         <div class="hidden md:grid grid-cols-10 gap-8 lg:gap-4 text-white group">
             <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4">
-                <div class="row-span-1 bg-primary/5 h-14 rounded-r-2xl items-transparent"></div>
+                <div class="row-span-1 bg-primary/5 h-14 rounded-r-2xl items-transparent transition-all duration-200"></div>
                 <div class="row-span-1 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:col-span-2 bg-primary/5 rounded-r-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl grid place-items-center px-2 item-1">
-                        <p class="text-center text-sm font-bold tracking-wide">Competition & Hackathons</p>
+                    <div class="col-span-2 lg:col-span-2 bg-primary/5 rounded-r-2xl items-transparent transition-all duration-200"></div>
+                    <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl grid place-items-center px-2 item-1 transition-all duration-200">
+                        <p class="text-center text-sm font-bold tracking-wide transition-all duration-200">Competition & Hackathons</p>
                     </div>
-                    <div class="col-span-2 lg:col-span-1 bg-primary/5 rounded-2xl items-transparent"></div>
+                    <div class="col-span-2 lg:col-span-1 bg-primary/5 rounded-2xl items-transparent transition-all duration-200"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:col-span-2 bg-primary/5 rounded-r-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl flex justify-center items-center px-4 py-2 item-1">
+                    <div class="col-span-2 lg:col-span-2 bg-primary/5 rounded-r-2xl items-transparent transition-all duration-200"></div>
+                    <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl flex justify-center items-center px-4 py-2 item-1 transition-all duration-200">
                         <p class="text-center text-sm">
                             Help you develop creativity, resilience, and teamwork while gaining invaluable experience in a competitive environment.
                         </p>
                     </div>
-                    <div class="col-span-2 lg:col-span-1 bg-primary/5 rounded-2xl items-transparent"></div>
+                    <div class="col-span-2 lg:col-span-1 bg-primary/5 rounded-2xl items-transparent transition-all duration-200"></div>
                 </div>
             </div>
             <div class="col-span-10 lg:col-span-2 grid grid-rows-4 gap-4">
                 <div class="row-span-1 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:hidden h-14 bg-dark-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2">
+                    <div class="col-span-2 lg:hidden h-14 bg-dark-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2 transition-all duration-200">
                         <p class="text-center text-sm font-bold tracking-wide">Practice</p>
                     </div>
-                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent"></div>
+                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2">
+                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2 transition-all duration-200">
                         <p class="text-center text-sm">Learn and practice about digital logic and computer architecture.</p>
                     </div>
-                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent"></div>
+                    <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
                 </div>
-                <div class="row-span-1 bg-dark-digikom/5 rounded-2xl items-transparent"></div>
+                <div class="row-span-1 bg-dark-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
             </div>
             <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4">
-                <div class="row-span-1 bg-red-digikom/5 h-14 rounded-l-2xl items-transparent"></div>
+                <div class="row-span-1 bg-red-digikom/5 h-14 rounded-l-2xl items-transparent transition-all duration-200"></div>
                 <div class="row-span-1 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3">
+                    <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3 transition-all duration-200">
                         <p class="text-center text-sm font-bold tracking-wide">Project-Based Learning</p>
                     </div>
-                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl items-transparent"></div>
+                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl items-transparent transition-all duration-200"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
-                    <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3">
+                    <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl items-transparent transition-all duration-200"></div>
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3 transition-all duration-200">
                         <p class="text-center text-sm">Builds critical thinking and problem-solving through hands-on tasks and collaboration</p>
                     </div>
-                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl items-transparent"></div>
+                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl items-transparent transition-all duration-200"></div>
                 </div>
             </div>
         </div>
