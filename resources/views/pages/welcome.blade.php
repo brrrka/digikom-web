@@ -95,35 +95,35 @@
                     <div class="col-span-2 lg:col-span-1 bg-primary/5 rounded-2xl items-transparent"></div>
                 </div>
             </div>
-            <div class="col-span-10 lg:col-span-2 grid grid-rows-4 gap-4 item-2">
+            <div class="col-span-10 lg:col-span-2 grid grid-rows-4 gap-4">
                 <div class="row-span-1 grid grid-cols-6 gap-3">
                     <div class="col-span-2 lg:hidden h-14 bg-dark-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom">
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2">
                         <p class="text-center text-sm font-bold tracking-wide">Practice</p>
                     </div>
                     <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
                     <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom ">
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2">
                         <p class="text-center text-sm">Learn and practice about digital logic and computer architecture.</p>
                     </div>
                     <div class="col-span-2 lg:hidden bg-dark-digikom/5 rounded-2xl items-transparent"></div>
                 </div>
                 <div class="row-span-1 bg-dark-digikom/5 rounded-2xl items-transparent"></div>
             </div>
-            <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4 item-3">
+            <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4">
                 <div class="row-span-1 bg-red-digikom/5 h-14 rounded-l-2xl items-transparent"></div>
                 <div class="row-span-1 grid grid-cols-6 gap-3">
                     <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center">
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3">
                         <p class="text-center text-sm font-bold tracking-wide">Project-Based Learning</p>
                     </div>
-                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/10 rounded-l-xl items-transparent"></div>
+                    <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl items-transparent"></div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
                     <div class="col-span-2 lg:col-span-1 bg-red-digikom/5 rounded-2xl items-transparent"></div>
-                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center">
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3">
                         <p class="text-center text-sm">Builds critical thinking and problem-solving through hands-on tasks and collaboration</p>
                     </div>
                     <div class="col-span-2 lg:col-span-2 bg-red-digikom/5 rounded-l-xl items-transparent"></div>

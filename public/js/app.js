@@ -88,35 +88,45 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const item1 = document.querySelectorAll(".item-1");
-const item2 = document.querySelector(".item-2");
-const item3 = document.querySelector(".item-3");
-const itemTransparent = document.querySelectorAll(".items-transparent");
+const item2 = document.querySelectorAll(".item-2");
+const item3 = document.querySelectorAll(".item-3");
+const itemsTransparent = document.querySelectorAll(".items-transparent");
 
+console.log(itemsTransparent);
 item1.forEach((item) => {
     item.addEventListener("mouseover", function () {
-        item2.classList.add("opacity-50");
-        item3.classList.add("opacity-50");
+        item2.forEach((item) => {
+            item.classList.add("opacity-45");
+        });
 
-        // Iterasi melalui semua elemen dalam itemTransparent
-        itemTransparent.forEach((item) => {
+        item3.forEach((item) => {
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparent.forEach((item) => {
+            // Hapus dulu semua class background yang mungkin menggangu
+            item.classList.remove("bg-primary/5");
+            item.classList.remove("bg-dark-digikom/5");
+            item.classList.remove("bg-red-digikom/5");
+
+            // Tambahkan class baru
             item.classList.add("bg-primary");
             item.classList.add("opacity-100");
         });
     });
 
     item.addEventListener("mouseout", function () {
-        if (
-            item2.classList.contains("opacity-50") &&
-            item3.classList.contains("opacity-50")
-        ) {
-            item2.classList.remove("opacity-50");
-            item3.classList.remove("opacity-50");
+        item2.forEach((item) => {
+            item.classList.remove("opacity-45");
+        });
 
-            // Iterasi melalui semua elemen dalam itemTransparent
-            itemTransparent.forEach((item) => {
-                item.classList.remove("bg-primary");
-                item.classList.remove("opacity-50");
-            });
-        }
+        item3.forEach((item) => {
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparent.forEach((item) => {
+            item.classList.remove("bg-primary");
+            item.classList.remove("opacity-100");
+        });
     });
 });
