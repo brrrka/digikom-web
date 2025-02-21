@@ -90,8 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
 const item1 = document.querySelectorAll(".item-1");
 const item2 = document.querySelectorAll(".item-2");
 const item3 = document.querySelectorAll(".item-3");
-const itemsTransparent = document.querySelectorAll(".items-transparent");
+const itemsTransparent = document.querySelectorAll(".items-transparen
+const itemsTransparentPrimary = document.querySelectorAll(".items-transparent");
 const test = "test";
+
 
 item1.forEach((item) => {
     item.addEventListener("mouseover", function () {
