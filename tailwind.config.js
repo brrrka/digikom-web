@@ -41,7 +41,11 @@ export default {
                 xl: "1600px",
             },
             minHeight: {
+                125: "500px",
                 150: "600px",
+            },
+            inset: {
+                15: "60px",
             },
         },
     },

@@ -6,6 +6,7 @@
   <link rel="icon" href="{{ asset('images/LogoDigikom.png') }}">
   <title>{{ $title ?? 'Digikom Lab' }}</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 </head>
 <body>
