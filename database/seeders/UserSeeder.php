@@ -26,26 +26,5 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'),
             'id_roles' => 2
         ]);
-
-        User::factory()->create([
-            'name' => 'John Doe',
-            'email' => 'johndoe@gmail.com',
-            'password' => Hash::make('password123'),
-            'id_roles' => 3
-        ]);
-
-        User::factory()->create([
-            'name' => 'User Kedua',
-            'email' => 'user2@gmail.com',
-            'password' => Hash::make('password123'),
-            'id_roles' => 3
-        ]);
-
-        User::factory()->create([
-            'name' => 'User Ketiga',
-            'email' => 'user3   @gmail.com',
-            'password' => Hash::make('password123'),
-            'id_roles' => 3
-        ]);
     }
 }

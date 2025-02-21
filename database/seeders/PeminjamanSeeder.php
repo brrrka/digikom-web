@@ -15,7 +15,7 @@ class PeminjamanSeeder extends Seeder
     {
         Peminjaman::insert([
             [
-                'id_users' => 3,
+                'id_users' => 2,
                 'id_inventaris' => 1,
                 'kuantitas' => 1,
                 'tanggal_peminjaman' => '2025-01-01',
@@ -25,7 +25,7 @@ class PeminjamanSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_users' => 3, 
+                'id_users' => 2, 
                 'id_inventaris' => 2,
                 'kuantitas' => 1,
                 'tanggal_peminjaman' => '2025-01-03',

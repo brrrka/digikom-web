@@ -1,0 +1,14 @@
+/* Untuk browser berbasis WebKit (Chrome, Safari, Edge) */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Menyembunyikan scrollbar */
+}
+
+/* Untuk Firefox */
+.hide-scrollbar {
+    scrollbar-width: none; /* Menyembunyikan scrollbar */
+}
+
+/* Untuk browser lain (IE, Edge lama) */
+.hide-scrollbar {
+    -ms-overflow-style: none; /* Menyembunyikan scrollbar */
+}
