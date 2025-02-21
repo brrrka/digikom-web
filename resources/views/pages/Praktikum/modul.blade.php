@@ -15,14 +15,14 @@
             </h1>
         </div>
         
-        <div class="container mx-auto px-12 pt-12 flex-wrap flex justify-center items-center gap-8">
+        <div class="container mx-auto md:px-8 lg:px-20 gap-6 pt-12 flex-wrap flex justify-center items-center">
             @forelse ($moduls as $modul)
                 <div class="w-52 relative group">
                     <div class="h-14 w-full text-black shadow-md bg-light-green hover:bg-gradient-to-r from-gray-950 to-dark-green hover:text-white transition-all duration-300 cursor-pointer flex justify-center items-center rounded-2xl mb-2 modul">
                         <p>Modul {{ $modul->modul_ke }}</p>
                     </div>
                     
-                    <div class="absolute top-full left-0 w-full bg-white p-4 rounded-2xl shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10">
+                    <div class="w-full bg-white p-4 rounded-2xl shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out z-10">
                         <a href="{{ route('moduls.download', $modul->id) }}" class="flex justify-center items-center text-white h-10 w-full bg-gradient-to-r from-gray-950 to-dark-green text-sm rounded-lg mb-4">
                             Download Modul
                         </a>
