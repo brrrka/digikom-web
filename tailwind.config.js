@@ -36,9 +36,13 @@ export default {
                 "dark-digikom": "#3A3738",
                 "red-digikom": "#F14E3A",
             },
+            width: {
+                85: "340px",
+            },
             minWidth: {
+                115: "440px",
                 md: "768px",
-                xl: "1600px",
+                xl: "1480px",
             },
             minHeight: {
                 125: "500px",
@@ -46,6 +50,9 @@ export default {
             },
             inset: {
                 15: "60px",
+                18: "72px",
+                115: "440px",
+                125: "500px",
             },
         },
     },

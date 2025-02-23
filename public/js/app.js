@@ -90,10 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
 const item1 = document.querySelectorAll(".item-1");
 const item2 = document.querySelectorAll(".item-2");
 const item3 = document.querySelectorAll(".item-3");
-const itemsTransparent = document.querySelectorAll(".items-transparen
-const itemsTransparentPrimary = document.querySelectorAll(".items-transparent");
-const test = "test";
 
+const itemsTransparentPrimary = document.querySelectorAll(
+    ".items-transparent-primary"
+);
+const itemsTransparentDark = document.querySelectorAll(
+    ".items-transparent-dark"
+);
+const itemsTransparentRed = document.querySelectorAll(".items-transparent-red");
 
 item1.forEach((item) => {
     item.addEventListener("mouseover", function () {
@@ -105,11 +109,24 @@ item1.forEach((item) => {
             item.classList.add("opacity-45");
         });
 
-        itemsTransparent.forEach((item) => {
-            // Hapus dulu semua class background yang mungkin menggangu
-            item.classList.remove("bg-primary/5");
-            item.classList.remove("bg-dark-digikom/5");
-            item.classList.remove("bg-red-digikom/5");
+        itemsTransparentPrimary.forEach((item) => {
+            item.classList.remove("bg-primary/15");
+
+            // Tambahkan class baru
+            item.classList.add("bg-primary");
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparentDark.forEach((item) => {
+            item.classList.remove("bg-dark-digikom/15");
+
+            // Tambahkan class baru
+            item.classList.add("bg-primary");
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparentRed.forEach((item) => {
+            item.classList.remove("bg-red-digikom/15");
 
             // Tambahkan class baru
             item.classList.add("bg-primary");
@@ -126,7 +143,23 @@ item1.forEach((item) => {
             item.classList.remove("opacity-45");
         });
 
-        itemsTransparent.forEach((item) => {
+        itemsTransparentPrimary.forEach((item) => {
+            item.classList.add("bg-primary/15");
+
+            item.classList.remove("bg-primary");
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparentDark.forEach((item) => {
+            item.classList.add("bg-dark-digikom/15");
+
+            item.classList.remove("bg-primary");
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparentRed.forEach((item) => {
+            item.classList.add("bg-red-digikom/15");
+
             item.classList.remove("bg-primary");
             item.classList.remove("opacity-45");
         });
@@ -136,37 +169,66 @@ item1.forEach((item) => {
 item2.forEach((item) => {
     item.addEventListener("mouseover", function () {
         item1.forEach((item) => {
-            item.classList.add("opacity-35");
+            item.classList.add("opacity-45");
         });
 
         item3.forEach((item) => {
-            item.classList.add("opacity-35");
+            item.classList.add("opacity-45");
         });
 
-        itemsTransparent.forEach((item) => {
-            // Hapus dulu semua class background yang mungkin menggangu
-            item.classList.remove("bg-primary/5");
-            item.classList.remove("bg-dark-digikom/5");
-            item.classList.remove("bg-red-digikom/5");
+        itemsTransparentPrimary.forEach((item) => {
+            item.classList.remove("bg-primary/15");
 
             // Tambahkan class baru
             item.classList.add("bg-dark-digikom");
-            item.classList.add("opacity-35");
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparentDark.forEach((item) => {
+            item.classList.remove("bg-dark-digikom/15");
+
+            // Tambahkan class baru
+            item.classList.add("bg-dark-digikom");
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparentRed.forEach((item) => {
+            item.classList.remove("bg-red-digikom/15");
+
+            // Tambahkan class baru
+            item.classList.add("bg-dark-digikom");
+            item.classList.add("opacity-45");
         });
     });
 
     item.addEventListener("mouseout", function () {
         item1.forEach((item) => {
-            item.classList.remove("opacity-35");
+            item.classList.remove("opacity-45");
         });
 
         item3.forEach((item) => {
-            item.classList.remove("opacity-35");
+            item.classList.remove("opacity-45");
         });
 
-        itemsTransparent.forEach((item) => {
-            item.classList.remove("bg-dark-digikom");
-            item.classList.remove("opacity-35");
+        itemsTransparentPrimary.forEach((item) => {
+            item.classList.add("bg-primary/15");
+
+            item.classList.remove("bg-primary");
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparentDark.forEach((item) => {
+            item.classList.add("bg-dark-digikom/15");
+
+            item.classList.remove("bg-primary");
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparentRed.forEach((item) => {
+            item.classList.add("bg-red-digikom/15");
+
+            item.classList.remove("bg-primary");
+            item.classList.remove("opacity-45");
         });
     });
 });
@@ -174,37 +236,66 @@ item2.forEach((item) => {
 item3.forEach((item) => {
     item.addEventListener("mouseover", function () {
         item1.forEach((item) => {
-            item.classList.add("opacity-35");
+            item.classList.add("opacity-45");
         });
 
         item2.forEach((item) => {
-            item.classList.add("opacity-35");
+            item.classList.add("opacity-45");
         });
 
-        itemsTransparent.forEach((item) => {
-            // Hapus dulu semua class background yang mungkin menggangu
-            item.classList.remove("bg-primary/5");
-            item.classList.remove("bg-dark-digikom/5");
-            item.classList.remove("bg-red-digikom/5");
+        itemsTransparentPrimary.forEach((item) => {
+            item.classList.remove("bg-primary/15");
 
             // Tambahkan class baru
             item.classList.add("bg-red-digikom");
-            item.classList.add("opacity-35");
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparentDark.forEach((item) => {
+            item.classList.remove("bg-dark-digikom/15");
+
+            // Tambahkan class baru
+            item.classList.add("bg-red-digikom");
+            item.classList.add("opacity-45");
+        });
+
+        itemsTransparentRed.forEach((item) => {
+            item.classList.remove("bg-red-digikom/15");
+
+            // Tambahkan class baru
+            item.classList.add("bg-red-digikom");
+            item.classList.add("opacity-45");
         });
     });
 
     item.addEventListener("mouseout", function () {
         item1.forEach((item) => {
-            item.classList.remove("opacity-35");
+            item.classList.remove("opacity-45");
         });
 
         item2.forEach((item) => {
-            item.classList.remove("opacity-35");
+            item.classList.remove("opacity-45");
         });
 
-        itemsTransparent.forEach((item) => {
+        itemsTransparentPrimary.forEach((item) => {
+            item.classList.add("bg-primary/15");
+
             item.classList.remove("bg-red-digikom");
-            item.classList.remove("opacity-35");
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparentDark.forEach((item) => {
+            item.classList.add("bg-dark-digikom/15");
+
+            item.classList.remove("bg-red-digikom");
+            item.classList.remove("opacity-45");
+        });
+
+        itemsTransparentRed.forEach((item) => {
+            item.classList.add("bg-red-digikom/15");
+
+            item.classList.remove("bg-red-digikom");
+            item.classList.remove("opacity-45");
         });
     });
 });
