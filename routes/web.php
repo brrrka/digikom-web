@@ -23,7 +23,9 @@ Route::get('/digikom', function () {
 
 // Route peminjaman
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
+Route::get('/peminjaman/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
 Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.riwayat');
+Route::get('/peminjaman/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
 
 // Route praktikum
 Route::get('/praktikum', [PraktikumController::class, 'getPraktikums'])->name('praktikum.index');
