@@ -9,8 +9,19 @@ use Illuminate\Support\Facades\Auth;
 
 class PeminjamanController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('pages.peminjaman.index');
+    }
+
+    public function startPinjam()
+    {
+        return view('pages.peminjaman.start');
+    }
+
+    public function formPinjam()
+    {
+        return view('pages.peminjaman.form');
     }
 
     public function riwayatPeminjaman()

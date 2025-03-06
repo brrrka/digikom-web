@@ -11,7 +11,9 @@
                         Building the <span class="text-primary">Future of Computing,</span> One Byte at a Time
                     </h1>
                     <p class="text-dark-digikom lg:text-lg text-sm">
-                        With a focus on <span class="text-primary">digital systems and computer architecture,</span> we are crafting solutions that pave the way for smarter, faster, and more efficient computing. Together, let's build the future of technology, one byte at a time.
+                        With a focus on <span class="text-primary">digital systems and computer architecture,</span> we
+                        are crafting solutions that pave the way for smarter, faster, and more efficient computing.
+                        Together, let's build the future of technology, one byte at a time.
                     </p>
                 </div>
                 
@@ -20,7 +22,9 @@
                         <span class="text-primary">Empowering</span> Ideas Through Digital and Computer Architecture
                     </h1>
                     <p class="text-dark-digikom lg:text-lg text-sm">
-                        Unlock the potential of innovation with cutting-edge research in digital systems and computer architecture. We transform ideas into impactful solutions, driving the <span class="text-primary">evolution of modern technology.</span>
+                        Unlock the potential of innovation with cutting-edge research in digital systems and computer
+                        architecture. We transform ideas into impactful solutions, driving the <span
+                            class="text-primary">evolution of modern technology.</span>
                     </p>
                 </div>
                 
@@ -29,11 +33,14 @@
                         Discover, Design, Deliver: <span class="text-primary">The Art of Computer Architecture</span>
                     </h1>
                     <p class="text-dark-digikom lg:text-lg text-sm">
-                        Explore the limitless possibilities of technology with groundbreaking research in computer architecture. From concept to creation, we <span class="text-primary">design and deliver solutions</span> that shape the future of computing.
+                        Explore the limitless possibilities of technology with groundbreaking research in computer
+                        architecture. From concept to creation, we <span class="text-primary">design and deliver
+                            solutions</span> that shape the future of computing.
                     </p>
                 </div>
 
-                <a href="" class="hidden absolute bottom-4 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-96 lg:bottom-16 rounded-full bg-primary px-8 py-2 text-black font-semibold">
+                <a href=""
+                    class="hidden absolute bottom-4 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-96 lg:bottom-16 rounded-full bg-primary px-8 py-2 text-black font-semibold">
                     Learn More
                 </a>
             </div>
@@ -56,7 +63,6 @@
             </div>
         </div>
     </section>
-
     <section class="pt-28 text-dark-digikom relative min-h-125 md:min-h-150 lg:h-screen w-full" id="about">
         <img class="block absolute w-8 -bottom-18 md:w-16 left-0 md:-top-60 lg:-top-18" src="{{ asset('images/Item6.png') }}" alt="Item 6">
         <div class="relative w-full lg:overflow-hidden lg:h-full">
@@ -67,6 +73,7 @@
             </div>
             <img class="absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20" src="{{ asset('images/Item4.png') }}" alt="Item 4">
             <img class="absolute lg:min-w-full md:min-w-xl min-w-md top-4 md:-top-40 lg:-top-16 z-0" src="{{ asset('images/Item5.png') }}" alt="Item 5">
+
         </div>
     </section>
 
@@ -85,8 +92,10 @@
                 <div class="row-span-2 grid grid-cols-6 gap-3">
                     <div class="col-span-2 lg:col-span-2 bg-primary/15 rounded-r-2xl items-transparent-primary transition-all duration-200"></div>
                     <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl flex justify-center items-center px-4 py-2 item-1 transition-all duration-200">
+
                         <p class="text-center text-sm">
-                            Help you develop creativity, resilience, and teamwork while gaining invaluable experience in a competitive environment.
+                            Help you develop creativity, resilience, and teamwork while gaining invaluable experience in
+                            a competitive environment.
                         </p>
                     </div>
                     <div class="col-span-2 lg:col-span-1 bg-primary/15 rounded-2xl items-transparent-primary transition-all duration-200"></div>
@@ -124,30 +133,55 @@
                         <p class="text-center text-sm">Builds critical thinking and problem-solving through hands-on tasks and collaboration</p>
                     </div>
                     <div class="col-span-2 lg:col-span-2 bg-red-digikom/15 rounded-l-xl items-transparent-red transition-all duration-200"></div>
+
                 </div>
             </div>
         </div>
 
-        <div class="flex justify-start items-center md:hidden p-8 space-x-6 text-white snap-x snap-mandatory overflow-x-scroll hide-scrollbar">
-            <div class="flex-shrink-0 snap-center w-72 h-44 bg-primary rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
+        <div
+            class="flex justify-start items-center md:hidden p-8 space-x-6 text-white snap-x snap-mandatory overflow-x-scroll hide-scrollbar">
+            <div
+                class="flex-shrink-0 snap-center w-72 h-44 bg-primary rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
                 <h5 class="font-bold">Practice</h5>
                 <p class="text-sm">
                     Learn and practice about digital logic and computer architecture.
                 </p>
             </div>
-            <div class="flex-shrink-0 snap-center w-72 h-44 bg-red-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
+            <div
+                class="flex-shrink-0 snap-center w-72 h-44 bg-red-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
                 <h5 class="font-bold">Project-Based Learning</h5>
                 <p class="text-sm">
                     Builds critical thinking and problem-solving through hands-on tasks and collaboration
                 </p>
             </div>
-            <div class="flex-shrink-0 snap-center w-72 h-44 bg-dark-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
+            <div
+                class="flex-shrink-0 snap-center w-72 h-44 bg-dark-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
                 <h5 class="font-bold">Competition & Hackathons</h5>
                 <p class="text-sm">
-                    Help you develop creativity, resilience, and teamwork while gaining invaluable experience in a competitive environment.
+                    Help you develop creativity, resilience, and teamwork while gaining invaluable experience in a
+                    competitive environment.
                 </p>
             </div>
         </div>
     </section>
-    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const images = document.querySelectorAll('#image-container img');
+            let currentIndex = 0;
+
+            function showNextImage() {
+                images.forEach(img => img.classList.add('opacity-0'));
+
+                images[currentIndex].classList.remove('opacity-0');
+
+                currentIndex = (currentIndex + 1) % images.length;
+            }
+
+            showNextImage();
+
+            setInterval(showNextImage, 2000);
+        });
+    </script>
+
 </x-app-layout>
