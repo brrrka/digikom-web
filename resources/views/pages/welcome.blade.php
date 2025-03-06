@@ -58,7 +58,7 @@
     </section>
 
     <section class="pt-28 text-dark-digikom relative min-h-125 md:min-h-150 lg:h-screen w-full" id="about">
-        <img class="block absolute w-8 -bottom-18 md:w-16 left-0 md:-top-60 lg:-bottom-20" src="{{ asset('images/Item6.png') }}" alt="Item 6">
+        <img class="block absolute w-8 -bottom-18 md:w-16 left-0 md:-top-60 lg:-top-18" src="{{ asset('images/Item6.png') }}" alt="Item 6">
         <div class="relative w-full lg:overflow-hidden lg:h-full">
             <div class="absolute inset-0 max-w-lg lg:max-w-2xl z-30 px-5 md:pl-12 md:pr-12">
                 <h5 class="font-bold text-primary">ABOUT</h5>
