@@ -2,7 +2,7 @@
     <section class="flex h-dvh justify-center items-center overflow-hidden relative" id="home">
         <img class="block absolute top-28 w-16 left-0 md:top-44 md:w-32 lg:top-28 lg:w-20" src="{{ asset('images/Item1.png') }}" alt="Item 1" loading="lazy"> 
         <img class="block absolute bottom-64 -right-20 w-36 md:w-32 md:right-0 md:bottom-48 lg:bottom-0" src="{{ asset('images/Item3.png') }}" alt="Item 3">
-        <img class="block absolute w-48 -left-28 -bottom-6 md:top-44 right-0 lg:top-24 lg:left-125 lg:w-36" src="{{ asset('images/Item2.png') }}" alt="Item 2" loading="lazy"> 
+        <img class="block md:hidden lg:block absolute w-48 -left-28 -bottom-6 right-0 md:top-44 lg:top-24 lg:left-125 lg:w-36" src="{{ asset('images/Item2.png') }}" alt="Item 2" loading="lazy"> 
         <img class="hidden md:block absolute bottom-96 lg:bottom-28 lg:left-125 right-0 w-40" src="{{ asset('images/Ellipse2.png') }}" alt="Ellipse 2" loading="lazy"> 
         <div class="h-full w-full flex justify-center items-center flex-wrap flex-col md:flex-row">
             <div class="flex-1 text-center md:text-start w-full md:order-1 order-2 text-wrap relative h-full">
@@ -63,8 +63,9 @@
             </div>
         </div>
     </section>
-    <section class="pt-28 text-dark-digikom relative min-h-125 md:min-h-150 lg:h-screen w-full" id="about">
-        <img class="block absolute w-8 -bottom-18 md:w-16 left-0 md:-top-60 lg:-top-18" src="{{ asset('images/Item6.png') }}" alt="Item 6">
+
+    <section class="pt-16 lg:pt-28 text-dark-digikom overflow-x-hidden overflow-y-visible lg:overflow-visible relative min-h-125 md:min-h-150 lg:h-screen w-full" id="about">
+        <img class="block absolute w-8 bottom-0 z-50 md:w-16 left-0 md:-top-60 lg:-top-18" src="{{ asset('images/Item6.png') }}" alt="Item 6">
         <div class="relative w-full lg:overflow-hidden lg:h-full">
             <div class="absolute inset-0 max-w-lg lg:max-w-2xl z-30 px-5 md:pl-12 md:pr-12">
                 <h5 class="font-bold text-primary">ABOUT</h5>
