@@ -26,6 +26,10 @@ Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminja
 Route::get('/peminjaman/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
 Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.riwayat');
 Route::get('/peminjaman/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
+Route::post('/peminjaman/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
+Route::get('/peminjaman/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
+Route::post('/peminjaman/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
+Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
 
 // Route praktikum
 Route::get('/praktikum', [PraktikumController::class, 'getPraktikums'])->name('praktikum.index');
@@ -34,6 +38,7 @@ Route::get('/moduls/download/{id}', [ModulController::class, 'downloadModul'])->
 
 // Route untuk membuat data peminjaman
 Route::get('/peminjaman/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
+
 Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
 
 // Route artikel
