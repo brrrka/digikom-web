@@ -6,12 +6,10 @@
         <img class="absolute top-28 right-0 w-36 md:w-36 sm:w-24 max-sm:w-16 max-sm:opacity-40"
             src="{{ asset('images/Ellipse11.png') }}" alt="Ellipse 11">
 
-        <!-- Main content container with responsive padding -->
         <div
             class="absolute inset-0 flex flex-col md:flex-row justify-center items-center px-4 sm:px-8 md:px-12 lg:px-24 py-16">
 
-            <!-- Left section with tabs and illustration -->
-            <div class="flex-none flex flex-col gap-4 justify-center items-center mb-8 md:mb-0">
+            <div class="flex-none flex flex-col gap-4 justify-center items-center mb-8 md:mb-0 mt-24">
                 <div class="flex justify-center items-center flex-col gap-4">
                     <button @click="activeTab = 'visi'"
                         :class="{ 'text-white': activeTab === 'visi', 'text-black': activeTab === 'misi' }"
@@ -30,11 +28,11 @@
                         </div>
                     </button>
                 </div>
-                <img class="w-40 sm:w-48 md:w-60 hidden md:block" src="{{ asset('images/Illustration3.png') }}"
-                    alt="Illustration 3">
+                <dotlottie-player src="https://lottie.host/8010dfa6-e30d-4dc7-aa2e-df4750adc72e/kUcd6iKLgo.lottie"
+                    class="hidden md:block" background="transparent" speed="1" style="width: 350px; height: 350px"
+                    loop autoplay></dotlottie-player>
             </div>
 
-            <!-- Right section with content -->
             <div class="flex-1 w-full md:w-auto">
                 <div
                     class="h-auto md:h-96 min-h-64 max-w-4xl bg-dark-green-4 text-white rounded-2xl px-4 sm:px-6 md:px-8 py-8">
@@ -70,4 +68,5 @@
             </div>
         </div>
     </section>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </x-app-layout>

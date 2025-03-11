@@ -31,6 +31,7 @@ class ModulResource extends Resource
         return 'Modul Praktikum';
     }
 
+
     public static function form(Form $form): Form
     {
         return $form

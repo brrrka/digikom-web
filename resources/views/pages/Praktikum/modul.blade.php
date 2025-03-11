@@ -37,7 +37,7 @@
         </div>
 
         <div
-            class="container mx-auto px-4 lg:px-20 gap-8 md:gap-10 lg:gap-x-6 pt-12 flex-wrap flex justify-center items-start mt-8">
+            class="container mx-auto px-4 lg:px-20 gap-16 md:gap-10 lg:gap-x-16 gap-x-6 pt-12 flex-wrap flex justify-center items-start mt-8">
             @foreach ($moduls as $modul)
                 <div class="w-40 md:w-72 lg:w-52 relative group">
                     <div
