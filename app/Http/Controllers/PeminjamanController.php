@@ -146,7 +146,7 @@ class PeminjamanController extends Controller
         }
 
         if ($successCount > 0) {
-            return redirect()->route('peminjaman.riwayat')->with('success', 'Peminjaman berhasil diajukan!');
+            return redirect()->route('peminjaman')->with('success', 'Peminjaman berhasil diajukan!');
         } else {
             return redirect()->route('peminjaman.form')->with('error', 'Tidak ada barang yang dipinjam atau kuantitas tidak valid.');
         }
@@ -154,7 +154,38 @@ class PeminjamanController extends Controller
 
     public function show($id)
     {
+        // Check if the logged-in user owns this peminjaman record
         $peminjaman = Peminjaman::with('inventaris')->findOrFail($id);
+
+        // Check if the current user is the owner of this peminjaman
+        if ($peminjaman->id_users !== Auth::id()) {
+            return redirect()->route('peminjaman')
+                ->with('error', 'Anda tidak memiliki akses ke data peminjaman ini.');
+        }
+
         return view('pages.peminjaman.detail', compact('peminjaman'));
+    }
+
+    // You should also implement the download method for the peminjaman proof
+    public function download($id)
+    {
+        $peminjaman = Peminjaman::with(['inventaris', 'user'])->findOrFail($id);
+
+        // Check if the current user is the owner of this peminjaman
+        if ($peminjaman->id_users !== Auth::id()) {
+            return redirect()->route('peminjaman')
+                ->with('error', 'Anda tidak memiliki akses ke data peminjaman ini.');
+        }
+
+        // Check if the peminjaman is approved
+        if ($peminjaman->status !== 'disetujui') {
+            return redirect()->route('peminjaman.show', $peminjaman->id)
+                ->with('error', 'Bukti peminjaman hanya tersedia untuk peminjaman yang disetujui.');
+        }
+
+        // Generate PDF or any other document format
+        // $pdf = PDF::loadView('pages.peminjaman.pdf', compact('peminjaman'));
+
+        // return $pdf->download('bukti-peminjaman-P00' . $peminjaman->id . '.pdf');
     }
 }
