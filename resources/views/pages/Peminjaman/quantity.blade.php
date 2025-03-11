@@ -1,4 +1,4 @@
-<!-- quantity-selection.blade.php -->
+
 <x-app-layout>
     <div class="min-h-screen flex flex-col px-4 md:px-48">
         <div class="flex justify-center mt-32 relative">

@@ -97,11 +97,24 @@
                         architecture.</span> Through hands-on projects, interdisciplinary teamwork, and a commitment to
                     impactful solutions, we empower every member to turn ideas into technological breakthroughs.</p>
             </div>
-            <img class="absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20"
+
+            <!-- Carousel images -->
+            <img id="carousel-img-0"
+                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-100 transition-opacity duration-500"
                 src="{{ asset('images/Item4.png') }}" alt="Item 4">
+            <img id="carousel-img-1"
+                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
+                src="{{ asset('images/Item4-b.png') }}" alt="Item 4-b">
+            <img id="carousel-img-2"
+                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
+                src="{{ asset('images/Item4-c.png') }}" alt="Item 4-c">
+            <img id="carousel-img-3"
+                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
+                src="{{ asset('images/Item4-d.png') }}" alt="Item 4-d">
+
+            <!-- Background image (static) -->
             <img class="absolute lg:min-w-full md:min-w-xl min-w-md top-4 md:-top-40 lg:-top-16 z-0"
                 src="{{ asset('images/Item5.png') }}" alt="Item 5">
-
         </div>
     </section>
 
@@ -119,7 +132,8 @@
                     </div>
                     <div
                         class="col-span-2 lg:col-span-3 bg-primary rounded-2xl grid place-items-center px-2 item-1 transition-all duration-200">
-                        <p class="text-center text-sm font-bold tracking-wide transition-all duration-200">Competition &
+                        <p class="text-center text-sm font-bold tracking-wide transition-all duration-200">Competition
+                            &
                             Hackathons</p>
                     </div>
                     <div
@@ -234,19 +248,20 @@
     </section>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const images = document.querySelectorAll('#image-container img');
-            let currentIndex = 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.carousel-images');
+            let currentImageIndex = 0;
 
             function showNextImage() {
-                images.forEach(img => img.classList.add('opacity-0'));
+                const nextImageIndex = (currentImageIndex + 1) % images.length;
 
-                images[currentIndex].classList.remove('opacity-0');
+                images[nextImageIndex].classList.replace('opacity-0', 'opacity-100');
 
-                currentIndex = (currentIndex + 1) % images.length;
+                setTimeout(() => {
+                    images[currentImageIndex].classList.replace('opacity-100', 'opacity-0');
+                    currentImageIndex = nextImageIndex;
+                }, 50);
             }
-
-            showNextImage();
 
             setInterval(showNextImage, 2000);
         });

@@ -8,7 +8,7 @@
                 <a class="w-80 py-3 flex justify-center items-center rounded-xl bg-dark-green text-white hover:bg-dark-green-4 transition-all duration-200 z-10"
                     href="{{ route('peminjaman.start') }}" class="">Pinjam barang</a>
                 <a class="w-80 py-3 flex justify-center items-center rounded-xl bg-light-green text-black hover:bg-light-green-2 transition-all duration-200 z-10"
-                    href="{{ route('peminjaman.riwayat') }}" class="">Status peminjaman</a>
+                    href="{{ route('peminjaman.status') }}" class="">Status peminjaman</a>
             </div>
         @else
             <img class="absolute z-10 w-96 h-96 right-8 top-24" src="{{ asset('images/Illustration1.png') }}"

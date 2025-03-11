@@ -37,8 +37,8 @@ class PeminjamanController extends Controller
 
     public function riwayatPeminjaman()
     {
-        $peminjaman = Peminjaman::where('id_users', Auth::id())->with('inventaris')->get();
-        return view('pages.peminjaman.riwayat', compact('peminjaman'));
+        $peminjaman = Peminjaman::where('id_users', Auth::id())->with('inventaris')->Paginate(5);
+        return view('pages.peminjaman.status', compact('peminjaman'));
     }
 
     // Method to handle the quantity selection page

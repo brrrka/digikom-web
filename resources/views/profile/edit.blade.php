@@ -1,32 +1,32 @@
 <x-app-layout>
-
-    <div class="absolute right-24 top-40 z-10">
+    <!-- Decorative images with responsive adjustments -->
+    <div class="absolute right-24 top-40 z-10 md:block hidden">
         <img src="{{ asset('images/ArrangingFiles.png') }}" class="w-48" />
     </div>
-    <div class="absolute right-0 top-0 ">
+    <div class="absolute right-0 top-0 md:block hidden">
         <img src="{{ asset('images/Ellipse14.png') }}" class="w-48" />
     </div>
-    <div class="absolute left-0 top-96 ">
+    <div class="absolute left-0 top-96 md:block hidden">
         <img src="{{ asset('images/Ellipse15.png') }}" class="w-48" />
     </div>
-    <div class="absolute left-16 top-[480px] ">
+    <div class="absolute left-16 top-[480px] md:block hidden">
         <img src="{{ asset('images/SignUpForm.png') }}" class="w-64" />
     </div>
 
     <div class="min-h-screen bg-gradient-to-b from-white via-white to-[#eef8e2] flex flex-col items-center">
-        <h1 class="mt-32 text-2xl font-bold">Akun Saya</h1>
-        <div class="mt-8 w-1/3">
+        <h1 class="mt-20 md:mt-32 text-xl md:text-2xl font-bold">Akun Saya</h1>
+        <div class="mt-6 md:mt-8 w-full md:w-2/3 lg:w-1/2 xl:w-1/3 px-4 md:px-0">
             <div class="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
                 <!-- Card Pertama (Profile Update) -->
                 <div class="p-4 sm:p-8 bg-[#F1FAE4] shadow sm:rounded-lg">
-                    <div class="max-w-xl">
+                    <div class="max-w-xl mx-auto">
                         <section>
                             <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                                 @csrf
                             </form>
 
                             <form method="post" action="{{ route('profile.update') }}"
-                                class="flex flex-col justify-center items-center gap-8">
+                                class="flex flex-col justify-center items-center gap-6 md:gap-8">
                                 @csrf
                                 @method('patch')
 
@@ -92,7 +92,7 @@
 
                 <!-- Card Kedua (Update Password) -->
                 <div class="p-4 sm:p-8 bg-[#F1FAE4] shadow sm:rounded-lg">
-                    <div class="max-w-xl">
+                    <div class="max-w-xl mx-auto">
                         <section>
                             <header>
                                 <h2 class="text-lg font-medium text-dark-green-2">
@@ -100,7 +100,8 @@
                                 </h2>
                             </header>
 
-                            <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                            <form method="post" action="{{ route('password.update') }}"
+                                class="mt-6 space-y-4 md:space-y-6">
                                 @csrf
                                 @method('put')
 
@@ -164,11 +165,11 @@
         </div>
 
         <!-- Tombol Log Out -->
-        <div class="mt-12 mb-12 w-1/4"> <!-- Jarak antara card dan tombol log out -->
+        <div class="mt-8 md:mt-12 mb-12 w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 md:px-0">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit"
-                    class="px-4 py-4 bg-red-600 text-white rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 w-full">
+                    class="px-4 py-3 md:py-4 bg-red-600 text-white rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 w-full">
                     {{ __('Log Out') }}
                 </button>
             </form>

@@ -24,12 +24,16 @@ Route::get('/digikom', function () {
 // Route peminjaman
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
 Route::get('/peminjaman/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
-Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.riwayat');
+Route::get('/peminjaman/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
 Route::get('/peminjaman/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
 Route::post('/peminjaman/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
 Route::get('/peminjaman/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
 Route::post('/peminjaman/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
 Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
+Route::get('/peminjaman/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
+Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
+Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+Route::get('/peminjaman/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
 
 // Route praktikum
 Route::get('/praktikum', [PraktikumController::class, 'getPraktikums'])->name('praktikum.index');
@@ -37,9 +41,7 @@ Route::get('/praktikum/{slug}', [ModulController::class, 'getModulsByPraktikum']
 Route::get('/moduls/download/{id}', [ModulController::class, 'downloadModul'])->name('moduls.download');
 
 // Route untuk membuat data peminjaman
-Route::get('/peminjaman/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
 
-Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
 
 // Route artikel
 Route::get('/artikel', [ArtikelController::class, 'getArtikels'])->name('artikel.index');
