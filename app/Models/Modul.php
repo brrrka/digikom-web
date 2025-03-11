@@ -15,7 +15,7 @@ class Modul extends Model
         'title',
         'deskripsi',
         'file_path',
-        'images',
+        'link_video',
     ];
 
     public function praktikum()

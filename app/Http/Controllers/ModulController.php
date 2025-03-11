@@ -11,24 +11,14 @@ class ModulController extends Controller
 {
     public function getModulsByPraktikum($slug)
     {
-            $praktikum = Praktikum::where('slug', $slug)->firstOrFail();
-            $moduls = Modul::where('id_praktikums', $praktikum->id)->get();
+        $praktikum = Praktikum::where('slug', $slug)->firstOrFail();
+        $moduls = Modul::where('id_praktikums', $praktikum->id)
+            ->orderBy('modul_ke', 'asc')
+            ->get();
 
-            return view('pages.praktikum.modul', compact('moduls', 'praktikum'));
-            // return response()->json($moduls);           
+        return view('pages.praktikum.modul', compact('moduls', 'praktikum'));
     }
-    
-    // public function downloadModul($id)
-    // {
-    //     $modul = Modul::findOrFail($id);
-    //     dd(Storage::exists($modul->file_path), $modul->file_path);
 
-    //     if ($modul && Storage::exists($modul->file_path)) {
-    //         return Storage::download($modul->file_path, $modul->title . '.pdf');
-    //     }
-
-    //     return redirect()->back()->with('error', 'File tidak ditemukan');
-    // }
 
     public function downloadModul($id)
     {

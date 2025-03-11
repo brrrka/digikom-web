@@ -10,9 +10,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule as ValidationRule;
 
 class ModulResource extends Resource
 {
@@ -40,21 +42,25 @@ class ModulResource extends Resource
                 Forms\Components\TextInput::make('modul_ke')
                     ->numeric()
                     ->label('Modul ke')
-                    ->required(),
+                    ->required()
+                    ->unique(Modul::class, 'modul_ke', ignoreRecord: true, modifyRuleUsing: function ($rule) {
+                        $rule->where('id_praktikums', request('id_praktikums'));
+                    })
+                    ->rules([
+                        fn($get) => ValidationRule::unique('moduls', 'modul_ke')
+                            ->where('id_praktikums', $get('id_praktikums'))
+                            ->ignore($get('id')),
+                    ]),
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->label('Judul modul'),
                 Forms\Components\Textarea::make('deskripsi'),
                 Forms\Components\FileUpload::make('file_path')
-                    ->disk('public') // Menentukan disk storage
-                    ->required()
+                    ->disk('public')
                     ->downloadable()
                     ->Label('Upload modul'),
-                Forms\Components\FileUpload::make('images')
-                    ->disk('public')
-                    ->visibility('public')
-                    ->image()
-                    ->Label('Gambar'),
+                Forms\Components\TextInput::make('link_video')
+                    ->Label('Link Video'),
             ]);
     }
 

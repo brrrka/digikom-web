@@ -10,6 +10,9 @@
         'Organisasi dan Arsitektur Komputer 1' => 'red',
         default => 'blue',
     };
+
+    $moduls = $moduls->sortBy('modul_ke');
+    $modulKosong = $moduls->every(fn($modul) => empty($modul->link_video) && empty($modul->download_link));
 @endphp
 
 <x-app-layout>
@@ -34,8 +37,8 @@
         </div>
 
         <div
-            class="container mx-auto px-4 lg:px-20 gap-8 md:gap-10 lg:gap-x-6 pt-12 flex-wrap flex justify-center items-start">
-            @forelse ($moduls as $modul)
+            class="container mx-auto px-4 lg:px-20 gap-8 md:gap-10 lg:gap-x-6 pt-12 flex-wrap flex justify-center items-start mt-8">
+            @foreach ($moduls as $modul)
                 <div class="w-40 md:w-72 lg:w-52 relative group">
                     <div
                         class="h-14 w-full text-black shadow-md bg-light-green hover:bg-gradient-to-r from-gray-950 to-dark-green hover:text-white transition-all duration-300 cursor-pointer flex justify-center items-center rounded-2xl mb-2 modul">
@@ -44,12 +47,14 @@
 
                     <div
                         class="w-full bg-white p-4 rounded-2xl shadow-lg hidden group-hover:block transition-all duration-300 ease-in-out z-10">
-                        <a href="{{ route('moduls.download', $modul->id) }}"
-                            class="flex justify-center items-center text-white h-10 w-full bg-gradient-to-r from-gray-950 to-dark-green text-sm rounded-lg mb-4">
+                        <a href="{{ $modul->file_path ? route('moduls.download', $modul->id) : '#' }}"
+                            class="download-btn flex justify-center items-center text-white h-10 w-full bg-gradient-to-r from-gray-950 to-dark-green text-sm rounded-lg mb-4 hover:bg-gray-100"
+                            data-file="{{ $modul->file_path }}">
                             Download Modul
                         </a>
-                        <a href="#"
-                            class="flex justify-center items-center text-dark-green-3 h-10 w-full bg-transparent p-0.5 bg-gradient-to-r from-gray-950 to-dark-green-2 text-sm rounded-lg">
+                        <a href="{{ $modul->link_video ? $modul->link_video : '#' }}" target="_blank"
+                            class="video-btn flex justify-center items-center text-dark-green-3 h-10 w-full bg-transparent p-0.5 bg-gradient-to-r from-gray-950 to-dark-green-2 text-sm rounded-lg"
+                            data-video="{{ $modul->link_video }}">
                             <div class="flex justify-center items-center w-full h-full rounded-md bg-white gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -61,19 +66,48 @@
                         </a>
                     </div>
                 </div>
-            @empty
-                <div class="fixed inset-0 w-full bg-black/50 z-50 flex justify-center items-center">
-                    <div
-                        class="bg-white px-2 w-85 h-52 md:h-64 md:w-96 flex flex-col justify-center items-center rounded-3xl gap-4">
-                        <img src="{{ asset('images/waiting-sand.gif') }}" alt="">
-                        <p class="text-dark text-sm">Modul belum diupload. Mohon ditunggu ya!</p>
-                        <a href="{{ route('praktikum.index') }}"
-                            class="rounded-xl bg-dark-green-2 px-8 py-2 text-white">
-                            Kembali
-                        </a>
-                    </div>
-                </div>
-            @endforelse
+            @endforeach
+
         </div>
+
+        <div id="popup" class="fixed inset-0 w-full bg-black/50 z-50 flex justify-center items-center hidden">
+            <div
+                class="bg-white px-2 w-85 h-52 md:h-64 md:w-96 flex flex-col justify-center items-center rounded-3xl gap-4">
+                <img src="{{ asset('images/waiting-sand.gif') }}" alt="">
+                <p class="text-dark text-sm">Konten belum tersedia. Mohon ditunggu ya!</p>
+                <button id="close-popup" class="rounded-xl bg-dark-green-2 px-8 py-2 text-white">
+                    Kembali
+                </button>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const popup = document.getElementById("popup");
+                const closePopup = document.getElementById("close-popup");
+
+                document.querySelectorAll(".download-btn, .video-btn").forEach(button => {
+                    button.addEventListener("click", function(event) {
+                        const file = this.getAttribute("data-file");
+                        const video = this.getAttribute("data-video");
+
+                        if (!file && this.classList.contains("download-btn")) {
+                            event.preventDefault();
+                            popup.classList.remove("hidden");
+                        }
+
+                        if (!video && this.classList.contains("video-btn")) {
+                            event.preventDefault();
+                            popup.classList.remove("hidden");
+                        }
+                    });
+                });
+
+                closePopup.addEventListener("click", function() {
+                    popup.classList.add("hidden");
+                });
+            });
+        </script>
+
     </section>
 </x-app-layout>

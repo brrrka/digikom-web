@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('Digikom Lab')
+            ->favicon(asset('images/LogoDigikom.png'))
             ->colors([
                 'primary' => Color::Green,
             ])
