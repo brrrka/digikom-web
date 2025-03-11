@@ -46,8 +46,9 @@
                     </p>
                 </div>
 
-                <a href=""
-                    class="hidden absolute bottom-4 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-96 lg:bottom-16 rounded-full bg-primary px-8 py-2 text-black font-semibold">
+                <a href="https://www.youtube.com/watch?v=vU7pd9IUsmo&t=26s&ab_channel=DigikomTeknikKomputerUnand"
+                    target="_blank"
+                    class=" absolute bottom-12 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-48 lg:bottom-40 rounded-full bg-primary px-8 py-2 text-black font-semibold">
                     Learn More
                 </a>
             </div>
@@ -92,7 +93,8 @@
                 <h1 class="text-xl md:text-4xl leading-tight font-bold my-4 text-pretty">Your <span
                         class="text-primary">Gateway</span> to <span class="text-primary">Cutting-Edge</span> Digital
                     and Architecture Computer</h1>
-                <p class="text-sm md:text-base">We're a vibrant hub where <span class="text-dark-green">researchers,
+                <p class="text-sm md:text-base md:w-full w-1/2">We're a vibrant hub where <span
+                        class="text-dark-green">researchers,
                         students, and innovators collaborate to push the boundaries of digital and computer
                         architecture.</span> Through hands-on projects, interdisciplinary teamwork, and a commitment to
                     impactful solutions, we empower every member to turn ideas into technological breakthroughs.</p>
@@ -121,101 +123,105 @@
     <section class="py-8 md:py-20 lg:py-12">
         <h1 class="text-primary text-2xl md:text-5xl font-bold tracking-wide text-center mb-4 md:mb-8">How We're Here
             for You</h1>
-        <div class="hidden md:grid grid-cols-10 gap-8 lg:gap-4 text-white">
+
+        <!-- Desktop Layout -->
+        <div class="hidden md:grid grid-cols-10 gap-8 lg:gap-4 text-white" id="cardsContainer">
+            <!-- Competition & Hackathons Column -->
             <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4">
                 <div
-                    class="row-span-1 bg-primary/15 h-14 rounded-r-2xl items-transparent-primary transition-all duration-200">
+                    class="row-span-1 bg-primary/15 h-14 rounded-r-2xl transition-all duration-300 empty-box competition-empty">
                 </div>
                 <div class="row-span-1 grid grid-cols-6 gap-3">
                     <div
-                        class="col-span-2 lg:col-span-2 bg-primary/15 rounded-r-2xl items-transparent-primary transition-all duration-200">
+                        class="col-span-2 lg:col-span-2 bg-primary/15 rounded-r-2xl transition-all duration-300 empty-box competition-empty">
+                    </div>
+                    <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl grid place-items-center px-2 content-box competition-content cursor-pointer transition-all duration-300"
+                        data-category="competition">
+                        <p class="text-center text-sm font-bold tracking-wide transition-all duration-300">Competition
+                            & Hackathons</p>
                     </div>
                     <div
-                        class="col-span-2 lg:col-span-3 bg-primary rounded-2xl grid place-items-center px-2 item-1 transition-all duration-200">
-                        <p class="text-center text-sm font-bold tracking-wide transition-all duration-200">Competition
-                            &
-                            Hackathons</p>
-                    </div>
-                    <div
-                        class="col-span-2 lg:col-span-1 bg-primary/15 rounded-2xl items-transparent-primary transition-all duration-200">
+                        class="col-span-2 lg:col-span-1 bg-primary/15 rounded-2xl transition-all duration-300 empty-box competition-empty">
                     </div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
                     <div
-                        class="col-span-2 lg:col-span-2 bg-primary/15 rounded-r-2xl items-transparent-primary transition-all duration-200">
+                        class="col-span-2 lg:col-span-2 bg-primary/15 rounded-r-2xl transition-all duration-300 empty-box competition-empty">
                     </div>
-                    <div
-                        class="col-span-2 lg:col-span-3 bg-primary rounded-2xl flex justify-center items-center px-4 py-2 item-1 transition-all duration-200">
-
+                    <div class="col-span-2 lg:col-span-3 bg-primary rounded-2xl flex justify-center items-center px-4 py-2 content-box competition-content cursor-pointer transition-all duration-300"
+                        data-category="competition">
                         <p class="text-center text-sm">
                             Help you develop creativity, resilience, and teamwork while gaining invaluable experience in
                             a competitive environment.
                         </p>
                     </div>
                     <div
-                        class="col-span-2 lg:col-span-1 bg-primary/15 rounded-2xl items-transparent-primary transition-all duration-200">
+                        class="col-span-2 lg:col-span-1 bg-primary/15 rounded-2xl transition-all duration-300 empty-box competition-empty">
                     </div>
                 </div>
             </div>
+
+            <!-- Practice Column -->
             <div class="col-span-10 lg:col-span-2 grid grid-rows-4 gap-4">
                 <div class="row-span-1 grid grid-cols-6 gap-3">
                     <div
-                        class="col-span-2 lg:hidden h-14 bg-dark-digikom/15 rounded-2xl items-transparent-dark transition-all duration-200">
+                        class="col-span-2 lg:hidden h-14 bg-dark-digikom/15 rounded-2xl transition-all duration-300 empty-box practice-empty">
                     </div>
-                    <div
-                        class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2 transition-all duration-200">
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom content-box practice-content cursor-pointer transition-all duration-300"
+                        data-category="practice">
                         <p class="text-center text-sm font-bold tracking-wide">Practice</p>
                     </div>
                     <div
-                        class="col-span-2 lg:hidden bg-dark-digikom/15 rounded-2xl items-transparent-dark transition-all duration-200">
+                        class="col-span-2 lg:hidden bg-dark-digikom/15 rounded-2xl transition-all duration-300 empty-box practice-empty">
                     </div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
                     <div
-                        class="col-span-2 lg:hidden bg-dark-digikom/15 rounded-2xl items-transparent-dark transition-all duration-200">
+                        class="col-span-2 lg:hidden bg-dark-digikom/15 rounded-2xl transition-all duration-300 empty-box practice-empty">
                     </div>
-                    <div
-                        class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom item-2 transition-all duration-200">
+                    <div class="col-span-2 lg:col-span-6 grid place-items-center rounded-2xl px-2 bg-dark-digikom content-box practice-content cursor-pointer transition-all duration-300"
+                        data-category="practice">
                         <p class="text-center text-sm">Learn and practice about digital logic and computer
                             architecture.</p>
                     </div>
                     <div
-                        class="col-span-2 lg:hidden bg-dark-digikom/15 rounded-2xl items-transparent-dark transition-all duration-200">
+                        class="col-span-2 lg:hidden bg-dark-digikom/15 rounded-2xl transition-all duration-300 empty-box practice-empty">
                     </div>
                 </div>
                 <div
-                    class="row-span-1 bg-dark-digikom/15 rounded-2xl items-transparent-dark transition-all duration-200">
+                    class="row-span-1 bg-dark-digikom/15 rounded-2xl transition-all duration-300 empty-box practice-empty">
                 </div>
             </div>
+
+            <!-- Project-Based Learning Column -->
             <div class="col-span-10 lg:col-span-4 grid grid-rows-4 gap-4">
                 <div
-                    class="row-span-1 bg-red-digikom/15 h-14 rounded-l-2xl items-transparent-red transition-all duration-200">
+                    class="row-span-1 bg-red-digikom/15 h-14 rounded-l-2xl transition-all duration-300 empty-box project-empty">
                 </div>
                 <div class="row-span-1 grid grid-cols-6 gap-3">
                     <div
-                        class="col-span-2 lg:col-span-1 bg-red-digikom/15 rounded-2xl items-transparent-red transition-all duration-200">
+                        class="col-span-2 lg:col-span-1 bg-red-digikom/15 rounded-2xl transition-all duration-300 empty-box project-empty">
                     </div>
-                    <div
-                        class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3 transition-all duration-200">
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center content-box project-content cursor-pointer transition-all duration-300"
+                        data-category="project">
                         <p class="text-center text-sm font-bold tracking-wide">Project-Based Learning</p>
                     </div>
                     <div
-                        class="col-span-2 lg:col-span-2 bg-red-digikom/15 rounded-l-xl items-transparent-red transition-all duration-200">
+                        class="col-span-2 lg:col-span-2 bg-red-digikom/15 rounded-l-xl transition-all duration-300 empty-box project-empty">
                     </div>
                 </div>
                 <div class="row-span-2 grid grid-cols-6 gap-3">
                     <div
-                        class="col-span-2 lg:col-span-1 bg-red-digikom/15 rounded-2xl items-transparent-red transition-all duration-200">
+                        class="col-span-2 lg:col-span-1 bg-red-digikom/15 rounded-2xl transition-all duration-300 empty-box project-empty">
                     </div>
-                    <div
-                        class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center item-3 transition-all duration-200">
+                    <div class="col-span-2 lg:col-span-3 bg-red-digikom rounded-2xl px-4 py-2 flex justify-center items-center content-box project-content cursor-pointer transition-all duration-300"
+                        data-category="project">
                         <p class="text-center text-sm">Builds critical thinking and problem-solving through hands-on
                             tasks and collaboration</p>
                     </div>
                     <div
-                        class="col-span-2 lg:col-span-2 bg-red-digikom/15 rounded-l-xl items-transparent-red transition-all duration-200">
+                        class="col-span-2 lg:col-span-2 bg-red-digikom/15 rounded-l-xl transition-all duration-300 empty-box project-empty">
                     </div>
-
                 </div>
             </div>
         </div>
@@ -223,21 +229,21 @@
         <div
             class="flex justify-start items-center md:hidden p-8 space-x-6 text-white snap-x snap-mandatory overflow-x-scroll hide-scrollbar">
             <div
-                class="flex-shrink-0 snap-center w-72 h-44 bg-primary rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
+                class="flex-shrink-0 snap-center w-72 h-44 bg-primary rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4 hover:scale-105 transition-all duration-300">
                 <h5 class="font-bold">Practice</h5>
                 <p class="text-sm">
                     Learn and practice about digital logic and computer architecture.
                 </p>
             </div>
             <div
-                class="flex-shrink-0 snap-center w-72 h-44 bg-red-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
+                class="flex-shrink-0 snap-center w-72 h-44 bg-red-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4 hover:scale-105 transition-all duration-300">
                 <h5 class="font-bold">Project-Based Learning</h5>
                 <p class="text-sm">
                     Builds critical thinking and problem-solving through hands-on tasks and collaboration
                 </p>
             </div>
             <div
-                class="flex-shrink-0 snap-center w-72 h-44 bg-dark-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4">
+                class="flex-shrink-0 snap-center w-72 h-44 bg-dark-digikom rounded-2xl flex flex-col gap-2 justify-center items-center text-center px-4 hover:scale-105 transition-all duration-300">
                 <h5 class="font-bold">Competition & Hackathons</h5>
                 <p class="text-sm">
                     Help you develop creativity, resilience, and teamwork while gaining invaluable experience in a
@@ -245,6 +251,108 @@
                 </p>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const contentBoxes = document.querySelectorAll('.content-box');
+                const emptyBoxes = document.querySelectorAll('.empty-box');
+                const container = document.getElementById('cardsContainer');
+
+                const originalBackgrounds = {};
+                emptyBoxes.forEach((box, index) => {
+                    const bgClasses = Array.from(box.classList).filter(cls =>
+                        cls.startsWith('bg-') &&
+                        !cls.includes('bg-primary/40') &&
+                        !cls.includes('bg-dark-digikom/40') &&
+                        !cls.includes('bg-red-digikom/40')
+                    );
+
+                    originalBackgrounds[index] = bgClasses;
+                });
+
+                const colors = {
+                    'competition': {
+                        active: 'bg-primary',
+                        highlight: 'bg-primary/40'
+                    },
+                    'practice': {
+                        active: 'bg-dark-digikom',
+                        highlight: 'bg-dark-digikom/40'
+                    },
+                    'project': {
+                        active: 'bg-red-digikom',
+                        highlight: 'bg-red-digikom/40'
+                    }
+                };
+
+                const competitionBoxes = document.querySelectorAll('.competition-content');
+                const practiceBoxes = document.querySelectorAll('.practice-content');
+                const projectBoxes = document.querySelectorAll('.project-content');
+
+                function handleCategoryHover(category) {
+                    contentBoxes.forEach(box => {
+                        if (!box.classList.contains(`${category}-content`)) {
+                            box.classList.add('opacity-50');
+                        } else {
+                            box.classList.add('scale-105');
+                        }
+                    });
+
+                    emptyBoxes.forEach(box => {
+                        if (!box.dataset.originalBg) {
+                            const bgClasses = Array.from(box.classList).filter(cls => cls.startsWith('bg-'));
+                            box.dataset.originalBg = bgClasses.join(' ');
+                        }
+
+                        box.classList.remove('bg-primary/40', 'bg-dark-digikom/40', 'bg-red-digikom/40');
+
+                        box.classList.add(colors[category].highlight);
+                    });
+                }
+
+                function resetHoverEffects() {
+                    contentBoxes.forEach(box => {
+                        box.classList.remove('opacity-50', 'scale-105');
+                    });
+
+                    emptyBoxes.forEach((box, index) => {
+                        box.classList.remove('bg-primary/40', 'bg-dark-digikom/40', 'bg-red-digikom/40');
+
+                        if (originalBackgrounds[index]) {
+                            originalBackgrounds[index].forEach(bgClass => {
+                                if (!box.classList.contains(bgClass)) {
+                                    box.classList.add(bgClass);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                function addCategoryListeners(boxes, category) {
+                    boxes.forEach(box => {
+                        box.addEventListener('mouseenter', () => {
+                            handleCategoryHover(category);
+                        });
+
+                        box.addEventListener('mouseleave', () => {
+                            setTimeout(() => {
+                                const isHoveringCategory = document.querySelectorAll(
+                                    `.${category}-content:hover`).length > 0;
+                                if (!isHoveringCategory) {
+                                    resetHoverEffects();
+                                }
+                            }, 100);
+                        });
+                    });
+                }
+
+                addCategoryListeners(competitionBoxes, 'competition');
+                addCategoryListeners(practiceBoxes, 'practice');
+                addCategoryListeners(projectBoxes, 'project');
+
+                container.addEventListener('mouseleave', resetHoverEffects);
+            });
+        </script>
     </section>
 
     <script>
