@@ -42,13 +42,25 @@
                                     @enderror
                                 </div>
 
-                                <!-- Custom Input Field - Email -->
-                                <div class="w-full relative">
+                                <div class="w-full relative opacity-50">
+                                    <label for="nim"
+                                        class="absolute bg-[#F1FAE4] bottom-9 left-5 text-sm font-bold text-dark-green-2">NIM</label>
+                                    <input id="nim" name="nim" type="text"
+                                        class="mt-1 block w-full rounded-xl border-dark-green-2 border-2 bg-[#F1FAE4] text-sm py-3 text-dark-green-2"
+                                        value="{{ old('nim', $user->nim) }}" required autofocus autocomplete="nim"
+                                        disabled />
+                                    @error('nim')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="w-full relative opacity-50">
                                     <label for="email"
                                         class="absolute bg-[#F1FAE4] bottom-9 left-5 text-sm font-bold text-dark-green-2">Email</label>
                                     <input id="email" name="email" type="email"
                                         class="mt-1 block w-full rounded-xl border-dark-green-2 border-2 bg-[#F1FAE4] text-sm py-3 text-dark-green-2"
-                                        value="{{ old('email', $user->email) }}" required autocomplete="username" />
+                                        value="{{ old('email', $user->email) }}" required autocomplete="username"
+                                        disabled />
                                     @error('email')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -153,8 +165,9 @@
                                     </button>
 
                                     @if (session('status') === 'password-updated')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-green-600">{{ __('Saved.') }}</p>
+                                        <p x-data="{ show: true }" x-show="show" x-transition
+                                            x-init="setTimeout(() => show = false, 2000)" class="text-sm text-green-600">
+                                            {{ __('Saved.') }}</p>
                                     @endif
                                 </div>
                             </form>
@@ -164,7 +177,6 @@
             </div>
         </div>
 
-        <!-- Tombol Log Out -->
         <div class="mt-8 md:mt-12 mb-12 w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 md:px-0">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

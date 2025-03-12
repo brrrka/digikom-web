@@ -6,52 +6,74 @@ use App\Http\Controllers\ModulController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PraktikumController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route home
+// Route Home
 Route::get('/', function () {
     return view('pages.welcome');
 })->name('home');
 
-// Route asisten
+// Route Verifikasi Email
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/dashboard');
+    })->middleware(['signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('status', 'verification-link-sent');
+    })->middleware('throttle:6,1')->name('verification.send');
+});
+
+// Route Asisten
 Route::get('/asisten', [AsistenController::class, 'getAsistens'])->name('asisten.index');
 
-// Route profil digikom
+// Route Profil Digikom
 Route::get('/digikom', function () {
     return view('pages.profil.index');
 })->name('digikom.index');
 
-// Route peminjaman
-Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
-Route::get('/peminjaman/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
-Route::get('/peminjaman/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
-Route::get('/peminjaman/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
-Route::post('/peminjaman/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
-Route::get('/peminjaman/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
-Route::post('/peminjaman/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
-Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
-Route::get('/peminjaman/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
-Route::post('/peminjaman', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
-Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
-Route::get('/peminjaman/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
+// Route Peminjaman
+Route::prefix('peminjaman')->group(function () {
+    Route::get('/', [PeminjamanController::class, 'index'])->name('peminjaman');
+    Route::get('/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
+    Route::get('/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
+    Route::get('/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
+    Route::get('/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
+    Route::post('/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
+    Route::post('/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
+    Route::post('/', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
+    Route::get('/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
+    Route::get('/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+    Route::get('/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
+});
 
-// Route praktikum
-Route::get('/praktikum', [PraktikumController::class, 'getPraktikums'])->name('praktikum.index');
-Route::get('/praktikum/{slug}', [ModulController::class, 'getModulsByPraktikum'])->name('moduls.praktikum');
+// Route Praktikum & Modul
+Route::prefix('praktikum')->group(function () {
+    Route::get('/', [PraktikumController::class, 'getPraktikums'])->name('praktikum.index');
+    Route::get('/{slug}', [ModulController::class, 'getModulsByPraktikum'])->name('moduls.praktikum');
+});
+
 Route::get('/moduls/download/{id}', [ModulController::class, 'downloadModul'])->name('moduls.download');
 
-// Route untuk membuat data peminjaman
+// Route Artikel
+Route::prefix('artikel')->group(function () {
+    Route::get('/', [ArtikelController::class, 'getArtikels'])->name('artikel.index');
+    Route::get('/{id}', [ArtikelController::class, 'showArtikels'])->name('artikel.show');
+});
 
-
-// Route artikel
-Route::get('/artikel', [ArtikelController::class, 'getArtikels'])->name('artikel.index');
-Route::get('/artikel/{id}', [ArtikelController::class, 'showArtikels'])->name('artikel.show');
-
-// Route profil
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Route Profil
+Route::middleware('auth')->prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';
