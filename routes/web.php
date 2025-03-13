@@ -49,7 +49,7 @@ Route::prefix('peminjaman')->group(function () {
     Route::post('/', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
     Route::get('/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
     Route::get('/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
-    Route::get('/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
+    Route::get('/peminjaman/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
 });
 
 // Route Praktikum & Modul

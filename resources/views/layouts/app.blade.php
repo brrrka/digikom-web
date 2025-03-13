@@ -8,6 +8,9 @@
     <title>{{ $title ?? 'Digikom Lab' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -17,71 +20,73 @@
 
     <x-footer></x-footer>
 
-    <!-- Toast Container -->
-    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
-
-    <!-- Toast Script -->
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        function showToast(message, type = 'success', duration = 3000) {
-            const container = document.getElementById('toast-container');
+        // Konfigurasi default Toastr
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-bottom-right",
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true
+        };
 
-            // Define colors based on your tailwind config
-            const toastClasses = {
-                success: 'bg-primary text-dark-digikom',
-                error: 'bg-red-digikom text-white',
-                warning: 'bg-light-green-3 text-dark-digikom',
-                info: 'bg-light-blue text-dark-digikom'
-            };
+        // Jalankan toast jika ada flash message
+        @if (session()->has('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
 
-            const toast = document.createElement('div');
-            toast.className =
-                `${toastClasses[type]} px-4 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full max-w-xs`;
-            toast.innerHTML = `<div class="flex items-center">
-                           <span>${message}</span>
-                           <button class="ml-auto text-sm" onclick="this.parentElement.parentElement.remove()">×</button>
-                         </div>`;
+        @if (session()->has('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
 
-            container.appendChild(toast);
+        @if (session()->has('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
 
-            // Animate in
-            setTimeout(() => {
-                toast.classList.remove('translate-x-full');
-            }, 10);
-
-            // Remove after duration
-            setTimeout(() => {
-                toast.classList.add('opacity-0');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, duration);
-        }
+        @if (session()->has('warning'))
+            toastr.warning("{{ session('warning') }}");
+        @endif
     </script>
 
-    <!-- Flash Message Handling -->
-    @if (session('success'))
-        <script>
-            showToast("{{ session('success') }}", 'success');
-        </script>
-    @endif
+    <script>
+        // Konfigurasi default Toastr
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-bottom-right",
+            timeOut: 5000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true
+        };
 
-    @if (session('error'))
-        <script>
-            showToast("{{ session('error') }}", 'error');
-        </script>
-    @endif
+        // Jalankan toast jika ada flash message
+        @if (session()->has('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
 
-    @if (session('warning'))
-        <script>
-            showToast("{{ session('warning') }}", 'warning');
-        </script>
-    @endif
+        @if (session()->has('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
 
-    @if (session('info'))
-        <script>
-            showToast("{{ session('info') }}", 'info');
-        </script>
-    @endif
+        @if (session()->has('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
+
+        @if (session()->has('warning'))
+            toastr.warning("{{ session('warning') }}");
+        @endif
+
+        // Menangani error validasi
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+    </script>
 
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

@@ -6,6 +6,7 @@ use App\Models\Inventaris;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PeminjamanController extends Controller
 {
@@ -41,7 +42,6 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.status', compact('peminjaman'));
     }
 
-    // Method to handle the quantity selection page
     public function quantitySelection(Request $request)
     {
         $request->validate([
@@ -52,7 +52,6 @@ class PeminjamanController extends Controller
             'alasan' => 'required|string',
         ]);
 
-        // Get the selected items with their details
         $selectedItems = Inventaris::whereIn('id', $request->id_inventaris)->get();
 
         // Pass the form data to the next page
@@ -63,7 +62,6 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.quantity', compact('selectedItems', 'tanggal_peminjaman', 'tanggal_selesai', 'alasan'));
     }
 
-    // New method for confirmation page
     public function confirmPeminjaman(Request $request)
     {
         $request->validate([
@@ -73,9 +71,9 @@ class PeminjamanController extends Controller
             'tanggal_peminjaman' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_peminjaman',
             'alasan' => 'required|string',
+            'jangka'
         ]);
 
-        // Filter out items with zero quantity
         $validInventarisIds = [];
         $quantities = [];
 
@@ -87,7 +85,6 @@ class PeminjamanController extends Controller
             }
         }
 
-        // If no valid items, redirect back
         if (empty($validInventarisIds)) {
             return redirect()->route('peminjaman.form')->with('error', 'Tidak ada barang yang dipilih');
         }
@@ -131,6 +128,14 @@ class PeminjamanController extends Controller
             $inventaris = Inventaris::find($inventarisId);
 
             if ($inventaris && $inventaris->kuantitas >= $kuantitas && $inventaris->status == 'tersedia') {
+                // Hitung selisih hari
+                $tanggalPinjam = \Carbon\Carbon::parse($request->tanggal_peminjaman);
+                $tanggalSelesai = \Carbon\Carbon::parse($request->tanggal_selesai);
+                $selisihHari = $tanggalPinjam->diffInDays($tanggalSelesai);
+
+                // Tentukan jangka peminjaman
+                $jangka = $selisihHari <= 14 ? 'pendek' : 'panjang';
+
                 Peminjaman::create([
                     'id_users' => Auth::id(),
                     'id_inventaris' => $inventarisId,
@@ -139,6 +144,7 @@ class PeminjamanController extends Controller
                     'tanggal_selesai' => $request->tanggal_selesai,
                     'alasan' => $request->alasan,
                     'status' => 'diajukan',
+                    'jangka' => $jangka, // Tambahkan jangka
                 ]);
 
                 $successCount++;
@@ -151,6 +157,7 @@ class PeminjamanController extends Controller
             return redirect()->route('peminjaman.form')->with('error', 'Tidak ada barang yang dipinjam atau kuantitas tidak valid.');
         }
     }
+
 
     public function show($id)
     {
@@ -169,7 +176,7 @@ class PeminjamanController extends Controller
     // You should also implement the download method for the peminjaman proof
     public function download($id)
     {
-        $peminjaman = Peminjaman::with(['inventaris', 'user'])->findOrFail($id);
+        $peminjaman = Peminjaman::findOrFail($id);
 
         // Check if the current user is the owner of this peminjaman
         if ($peminjaman->id_users !== Auth::id()) {
@@ -183,9 +190,16 @@ class PeminjamanController extends Controller
                 ->with('error', 'Bukti peminjaman hanya tersedia untuk peminjaman yang disetujui.');
         }
 
-        // Generate PDF or any other document format
-        // $pdf = PDF::loadView('pages.peminjaman.pdf', compact('peminjaman'));
+        // Check if bukti_path exists
+        if (!$peminjaman->bukti_path || !Storage::disk('public')->exists($peminjaman->bukti_path)) {
+            return redirect()->route('peminjaman.show', $peminjaman->id)
+                ->with('error', 'Bukti peminjaman tidak tersedia.');
+        }
 
-        // return $pdf->download('bukti-peminjaman-P00' . $peminjaman->id . '.pdf');
+        // Download the file
+        return Storage::disk('public')->download(
+            $peminjaman->bukti_path,
+            'Surat_Peminjaman_P00' . $peminjaman->id . '.docx'
+        );
     }
 }

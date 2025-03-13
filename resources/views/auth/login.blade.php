@@ -30,7 +30,7 @@
                 <div class="relative">
                     <label for="email"
                         class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1">Email</label>
-                    <input type="email" id="email" name="email"
+                    <input type="email" id="email" name="email" value="{{ old('email') }}"
                         class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-light-green-3"
                         required placeholder="Ketik Email">
                 </div>

@@ -24,15 +24,24 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
 
-        if (Auth::user()->id_roles == 1) {
-            return redirect('/admin');
+            // Tambahkan flash message untuk login sukses
+            session()->flash('success', 'Login berhasil!');
+
+            if (Auth::user()->id_roles == 1) {
+                return redirect('/admin');
+            }
+
+            return redirect('/');
+        } catch (\Exception $e) {
+            // Flash message untuk login gagal
+            session()->flash('error', 'Email atau password salah!');
+            return back()->withInput($request->only('email'));
         }
-
-        return redirect('/');
     }
 
     /**
@@ -45,6 +54,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        // Tambahkan flash message untuk logout sukses
+        session()->flash('info', 'Anda telah keluar dari sistem');
 
         return redirect('/');
     }

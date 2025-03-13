@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('kuantitas');
             $table->date('tanggal_peminjaman');
             $table->date('tanggal_selesai');
+            $table->text('alasan');
+            $table->enum('jangka', ['pendek', 'panjang']);
+            $table->string('bukti_path')->nullable();
             $table->enum('status', ['diajukan', 'disetujui', 'ditolak', 'dipinjam', 'jatuh tenggat', 'dikembalikan'])->default('diajukan');
             $table->timestamps();
         });

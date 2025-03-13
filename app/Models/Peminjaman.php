@@ -16,6 +16,8 @@ class Peminjaman extends Model
         'kuantitas',
         'tanggal_peminjaman',
         'tanggal_selesai',
+        'jangka',
+        'alasan',
         'status'
     ];
 
