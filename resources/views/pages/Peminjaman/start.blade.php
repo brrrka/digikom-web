@@ -1,10 +1,10 @@
 <x-app-layout>
-    <div class="min-h-screen bg-gradient-to-b from-white via-white to-[#eef8e2] flex flex-col px-48">
+    <div class="min-h-screen bg-gradient-to-b from-white via-white to-[#eef8e2] flex flex-col px-4 md:px-48">
 
-        <div class="absolute right-0 top-40">
+        <div class="absolute right-0 top-40 hidden md:block">
             <img src="{{ asset('images/productinspection.png') }}" class="w-64" />
         </div>
-        <div class="absolute right-64 top-80">
+        <div class="absolute right-64 top-80 hidden md:block">
             <img src="{{ asset('images/researchanalysisreport.png') }}" class="w-64" />
         </div>
 
@@ -16,22 +16,23 @@
                 </svg>
             </a>
 
-            <h1 class="text-2xl font-bold self-center">Pinjam Barang</h1>
+            <h1 class="text-xl md:text-2xl font-bold self-center">Pinjam Barang</h1>
         </div>
 
-        <div class="mt-16 flex flex-col ">
+        <div class="mt-8 md:mt-16 flex flex-col">
             <h2 class="font-bold">Ketentuan durasi peminjaman alat</h2>
             <p>Jangka pendek: 1 - 14 hari sejak tanggal peminjaman</p>
             <p>Jangka panjang: 3 minggu - 6 bulan sejak tanggal peminjaman</p>
-            <p class="mt-12 break-words max-w-1/2"><span class="font-bold">catatan:</span> untuk peminjaman jangka
+            <p class="mt-6 md:mt-12 break-words"><span class="font-bold">catatan:</span> untuk peminjaman jangka
                 panjang
                 mesti
                 dilakukan <span class="font-bold">pengecekan</span>
             </p>
             <p>kondisi barang setiap 2 minggu sekali ke LAB DIGIKOM</p>
         </div>
-        <div class="mt-12">
-            <a class="py-3 bg-dark-green-2 text-white px-16 rounded-3xl" href="{{ Route('peminjaman.form') }}">
+        <div class="mt-8 md:mt-12 flex justify-center md:justify-start">
+            <a class="py-2 md:py-3 bg-dark-green-2 text-white px-8 md:px-16 rounded-3xl text-center"
+                href="{{ Route('peminjaman.form') }}">
                 Selanjutnya
             </a>
         </div>

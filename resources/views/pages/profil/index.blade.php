@@ -9,7 +9,7 @@
         <div
             class="absolute inset-0 flex flex-col md:flex-row justify-center items-center px-4 sm:px-8 md:px-12 lg:px-24 py-16">
 
-            <div class="flex-none flex flex-col gap-4 justify-center items-center mb-8 md:mb-0 mt-24">
+            <div class="flex-none flex flex-col gap-4 justify-center items-center mb-8 md:mb-0 lg:mt-24 mt-4">
                 <div class="flex justify-center items-center flex-col gap-4">
                     <button @click="activeTab = 'visi'"
                         :class="{ 'text-white': activeTab === 'visi', 'text-black': activeTab === 'misi' }"

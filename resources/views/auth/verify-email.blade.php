@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-xl mx-auto mt-10 text-center">
+    <div class="max-w-xl min-h-screen mx-auto text-center flex flex-col justify-center align-center items-center">
         <h2 class="text-2xl font-bold">Verifikasi Email Anda</h2>
         <p class="mt-4 text-gray-600">Kami telah mengirimkan email verifikasi ke alamat yang Anda daftarkan. Jika belum
             menerima, klik tombol di bawah.</p>
@@ -10,7 +10,7 @@
 
         <form method="POST" action="{{ route('verification.send') }}" class="mt-6">
             @csrf
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
+            <button type="submit" class="px-4 py-2 bg-primary text-white rounded">
                 Kirim Ulang Email Verifikasi
             </button>
         </form>

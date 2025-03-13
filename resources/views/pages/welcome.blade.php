@@ -11,7 +11,7 @@
         <div class="h-full w-full flex justify-center items-center flex-wrap flex-col md:flex-row">
             <div class="flex-1 text-center md:text-start w-full md:order-1 order-2 text-wrap relative h-full">
                 <div
-                    class="carousel-text absolute inset-0 top-0 md:-top-10 lg:top-4 h-full md:pl-12 px-6 md:pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
+                    class="carousel-text absolute inset-0 -top-10 md:-top-10 lg:top-4 h-full md:pl-12 px-6 md:pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
                     <h1 class="text-xl md:text-3xl lg:text-5xl text-dark-digikom font-bold mb-4 text-pretty">
                         Building the <span class="text-primary">Future of Computing,</span> One Byte at a Time
                     </h1>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div
-                    class="carousel-text absolute inset-0 top-0 md:-top-10 lg:top-4 h-full md:pl-12 px-6 md:pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
+                    class="carousel-text absolute inset-0 -top-10 md:-top-10 lg:top-4 h-full md:pl-12 px-6 md:pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
                     <h1 class="text-xl md:text-3xl lg:text-5xl text-dark-digikom font-bold mb-4 text-pretty">
                         <span class="text-primary">Empowering</span> Ideas Through Digital and Computer Architecture
                     </h1>
@@ -35,7 +35,7 @@
                 </div>
 
                 <div
-                    class="carousel-text absolute inset-0 top-0 md:-top-10 lg:top-4 h-full md:pl-12 px-6 md:pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
+                    class="carousel-text absolute inset-0 -top-10 md:-top-10 lg:top-4 h-full md:pl-12 px-6 md:pr-5 flex flex-col justify-center transition-all duration-300 ease-in-out opacity-0">
                     <h1 class="text-xl md:text-3xl lg:text-5xl text-dark-digikom font-bold mb-4 text-pretty">
                         Discover, Design, Deliver: <span class="text-primary">The Art of Computer Architecture</span>
                     </h1>
@@ -83,7 +83,7 @@
     </section>
 
     <section
-        class="pt-16 lg:pt-28 text-dark-digikom overflow-x-hidden overflow-y-visible lg:overflow-visible relative min-h-125 md:min-h-150 lg:h-screen w-full"
+        class="pt-16 lg:pt-28 text-dark-digikom overflow-hidden lg:mb-0 mb-8 lg:overflow-visible relative min-h-125 md:min-h-150 lg:h-screen w-full"
         id="about">
         <img class="block absolute w-8 bottom-0 z-50 md:w-16 left-0 md:-top-60 lg:-top-18"
             src="{{ asset('images/Item6.png') }}" alt="Item 6">
@@ -102,16 +102,16 @@
 
             <!-- Carousel images -->
             <img id="carousel-img-0"
-                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-100 transition-opacity duration-500"
+                class="carousel-images absolute min-w-115 top-4 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-100 transition-opacity duration-500"
                 src="{{ asset('images/Item4.png') }}" alt="Item 4">
             <img id="carousel-img-1"
-                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
+                class="carousel-images absolute min-w-115 top-4 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
                 src="{{ asset('images/Item4-b.png') }}" alt="Item 4-b">
             <img id="carousel-img-2"
-                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
+                class="carousel-images absolute min-w-115 top-4 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
                 src="{{ asset('images/Item4-c.png') }}" alt="Item 4-c">
             <img id="carousel-img-3"
-                class="carousel-images absolute min-w-115 top-18 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
+                class="carousel-images absolute min-w-115 top-4 -right-56 md:-right-115 md:-top-16 lg:-top-4 lg:-right-10 md:min-w-md lg:max-w-2xl z-20 opacity-0 transition-opacity duration-500"
                 src="{{ asset('images/Item4-d.png') }}" alt="Item 4-d">
 
             <!-- Background image (static) -->
@@ -258,22 +258,20 @@
                 const emptyBoxes = document.querySelectorAll('.empty-box');
                 const container = document.getElementById('cardsContainer');
 
+                // Store original empty box backgrounds for reset
                 const originalBackgrounds = {};
                 emptyBoxes.forEach((box, index) => {
                     const bgClasses = Array.from(box.classList).filter(cls =>
-                        cls.startsWith('bg-') &&
-                        !cls.includes('bg-primary/40') &&
-                        !cls.includes('bg-dark-digikom/40') &&
-                        !cls.includes('bg-red-digikom/40')
+                        cls.startsWith('bg-')
                     );
-
                     originalBackgrounds[index] = bgClasses;
                 });
 
+                // Define color classes for each category
                 const colors = {
                     'competition': {
                         active: 'bg-primary',
-                        highlight: 'bg-primary/40'
+                        highlight: 'bg-primary/40' // 40% opacity version
                     },
                     'practice': {
                         active: 'bg-dark-digikom',
@@ -285,11 +283,9 @@
                     }
                 };
 
-                const competitionBoxes = document.querySelectorAll('.competition-content');
-                const practiceBoxes = document.querySelectorAll('.practice-content');
-                const projectBoxes = document.querySelectorAll('.project-content');
-
+                // Function to handle category hover effects
                 function handleCategoryHover(category) {
+                    // Fade out other content boxes
                     contentBoxes.forEach(box => {
                         if (!box.classList.contains(`${category}-content`)) {
                             box.classList.add('opacity-50');
@@ -298,24 +294,31 @@
                         }
                     });
 
+                    // Change ALL empty boxes to the hovered category's color (with reduced opacity)
                     emptyBoxes.forEach(box => {
+                        // Store original background if not already stored
                         if (!box.dataset.originalBg) {
                             const bgClasses = Array.from(box.classList).filter(cls => cls.startsWith('bg-'));
                             box.dataset.originalBg = bgClasses.join(' ');
                         }
 
+                        // Remove all color highlight classes
+                        box.classList.remove('bg-primary/15', 'bg-dark-digikom/15', 'bg-red-digikom/15');
                         box.classList.remove('bg-primary/40', 'bg-dark-digikom/40', 'bg-red-digikom/40');
 
+                        // Add the appropriate highlight color class
                         box.classList.add(colors[category].highlight);
                     });
                 }
 
+                // Function to reset all hover effects
                 function resetHoverEffects() {
                     contentBoxes.forEach(box => {
                         box.classList.remove('opacity-50', 'scale-105');
                     });
 
                     emptyBoxes.forEach((box, index) => {
+                        // Remove all highlight colors
                         box.classList.remove('bg-primary/40', 'bg-dark-digikom/40', 'bg-red-digikom/40');
 
                         if (originalBackgrounds[index]) {
@@ -327,6 +330,10 @@
                         }
                     });
                 }
+
+                const competitionBoxes = document.querySelectorAll('.competition-content');
+                const practiceBoxes = document.querySelectorAll('.practice-content');
+                const projectBoxes = document.querySelectorAll('.project-content');
 
                 function addCategoryListeners(boxes, category) {
                     boxes.forEach(box => {

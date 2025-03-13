@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen flex flex-col px-48">
+    <div class="min-h-screen flex flex-col px-4 md:px-48">
         <div class="flex justify-center mt-32 relative">
             <a class="absolute left-0 flex-none text-black" href="{{ route('peminjaman') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -7,31 +7,33 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
             </a>
-            <h1 class="text-2xl font-bold self-center">Pinjam Barang</h1>
+            <h1 class="text-xl md:text-2xl font-bold self-center">Pinjam Barang</h1>
         </div>
-        <form action="{{ route('peminjaman.quantity') }}" method="POST" class="mt-12 flex flex-col items-center">
+        <form action="{{ route('peminjaman.quantity') }}" method="POST"
+            class="mt-8 md:mt-12 flex flex-col items-center">
             @csrf
-            <div class="flex flex-col w-96 relative">
+            <div class="flex flex-col w-full max-w-96 relative">
                 <label for="tanggal_peminjaman"
                     class="absolute bottom-9 left-8 bg-white text-sm font-regular px-1">Tanggal
                     pinjam</label>
                 <input type="date" id="tanggal_peminjaman" name="tanggal_peminjaman"
-                    class="rounded-3xl px-4 py-3 text-sm focus:border-dark-green focus:ring-dark-green" required>
+                    class="rounded-3xl px-4 py-3 text-sm focus:border-dark-green focus:ring-dark-green w-full" required>
             </div>
-            <div class="flex flex-col w-96 relative mt-8">
+            <div class="flex flex-col w-full max-w-96 relative mt-8">
                 <label for="tanggal_selesai" class="absolute bottom-9 left-8 bg-white text-sm font-regular px-1">Tanggal
                     selesai</label>
                 <input type="date" id="tanggal_selesai" name="tanggal_selesai"
-                    class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green" required>
+                    class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green w-full"
+                    required>
             </div>
-            <div class="flex flex-col w-96 relative mt-8">
+            <div class="flex flex-col w-full max-w-96 relative mt-8">
                 <label for="alasan" class="absolute bottom-9 left-8 bg-white text-sm font-regular px-1">Alasan
                     Peminjaman</label>
                 <input type="text" id="alasan" name="alasan"
-                    class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green"
+                    class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green w-full"
                     placeholder="Sertakan alasan yang jelas" required>
             </div>
-            <div class="flex flex-col w-96 relative mt-8">
+            <div class="flex flex-col w-full max-w-96 relative mt-8">
                 <label for="barang_search" class="absolute bottom-9 left-8 bg-white text-sm font-regular px-1 ">Barang
                     yang
                     dipinjam</label>
@@ -53,10 +55,10 @@
                 </div>
             </div>
 
-            <div id="selected-items" class="flex flex-wrap w-96 gap-2 mt-2">
+            <div id="selected-items" class="flex flex-wrap w-full max-w-96 gap-2 mt-2">
             </div>
 
-            <button type="submit" class="bg-dark-digikom text-white w-96 rounded-3xl py-3 mt-8">
+            <button type="submit" class="bg-dark-digikom text-white w-full max-w-96 rounded-3xl py-3 mt-8">
                 Selanjutnya
             </button>
         </form>
