@@ -27,16 +27,6 @@
             <div class="bg-white py-8 px-24 rounded-3xl shadow-2xl w-full max-w-xl mx-4 relative my-8">
                 <h2 class="text-2xl font-semibold text-dark-green-2 mb-2 text-center">Daftar</h2>
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <form method="POST" action="{{ route('register') }}" class="space-y-8">
                     @csrf
 
@@ -50,8 +40,8 @@
                     </div>
 
                     <div class="mb-6 relative">
-                        <label for="username"
-                            class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1">Username</label>
+                        <label for="username" class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1">Nama
+                            Lengkap</label>
                         <input type="text" id="name" name="name"
                             class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-[#FBF8B5]"
                             required placeholder="Ketik Username" value="{{ old('name') }}">
@@ -65,7 +55,14 @@
                             required placeholder="Ketik NIM" value="{{ old('nim') }}">
                     </div>
 
-                    <!-- Field Password dengan Fitur Intip -->
+                    <div class="mb-6 relative">
+                        <label for="no_telp" class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1">Nomor
+                            Telepon / WA Aktif</label>
+                        <input type="text" id="no_telp" name="no_telp"
+                            class="w-full px-8 py-3 rounded-3xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary transition-colors placeholder-[#FBF8B5]"
+                            required placeholder="Ketik Nomor Telepon Aktif" value="{{ old('no_telp') }}">
+                    </div>
+
                     <div class="mb-6 relative">
                         <label for="password"
                             class="absolute -top-3 text-sm text-dark-green ml-8 bg-white px-1 z-10">Password</label>

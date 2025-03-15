@@ -43,10 +43,12 @@
                     </div>
 
                     <div class="bg-gray-200 rounded-lg p-4 my-4">
-                        <div class="flex justify-between py-2">
-                            <div>{{ $peminjaman->inventaris->nama }}</div>
-                            <div>{{ $peminjaman->kuantitas }}</div>
-                        </div>
+                        @foreach ($peminjaman->detailPeminjaman as $detailPeminjaman)
+                            <div class="flex justify-between py-2">
+                                <div>{{ $peminjaman->detailPeminjaman[$loop->index]->inventaris->nama }}</div>
+                                <div>{{ $peminjaman->detailPeminjaman[$loop->index]->kuantitas }}</div>
+                            </div>
+                        @endforeach
                     </div>
 
                     <div class="mt-6">

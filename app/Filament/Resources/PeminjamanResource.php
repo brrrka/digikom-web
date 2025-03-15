@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PeminjamanResource\Pages;
 use App\Filament\Resources\PeminjamanResource\RelationManagers;
 use App\Models\Peminjaman;
+use App\Models\DetailPeminjaman;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -50,7 +51,7 @@ class PeminjamanResource extends Resource
                     ->required(),
 
                 Forms\Components\Select::make('id_inventaris')
-                    ->relationship('inventaris', 'nama', fn (Builder $query) => $query->where('status', 'tersedia'))
+                    ->relationship('inventaris', 'nama', fn(Builder $query) => $query->where('status', 'tersedia'))
                     ->required()
                     ->label('Nama alat'),
 
@@ -83,12 +84,12 @@ class PeminjamanResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.name'),
                 Tables\Columns\TextColumn::make('inventaris.nama'),
-                Tables\Columns\TextColumn::make('kuantitas'),
+                Tables\Columns\TextColumn::make('detail_peminjaman.kuantitas'),
                 Tables\Columns\TextColumn::make('tanggal_peminjaman'),
                 Tables\Columns\TextColumn::make('tanggal_selesai'),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn ($state) => ucfirst($state))
-                    ->color(fn ($state) => match ($state) {
+                    ->formatStateUsing(fn($state) => ucfirst($state))
+                    ->color(fn($state) => match ($state) {
                         'diajukan' => 'warning',
                         'disetujui' => 'success',
                         'ditolak' => 'danger',

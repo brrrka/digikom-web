@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->text('deskripsi')->nullable();
             $table->integer('kuantitas')->nullable();
+            $table->integer('total_dipinjam')->default(0);
             $table->string('images')->nullable();
             $table->enum('status', ['tersedia', 'tidak tersedia']);
             $table->timestamps();

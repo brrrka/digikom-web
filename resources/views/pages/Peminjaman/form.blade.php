@@ -48,6 +48,8 @@
                                 <div class="p-3 hover:bg-gray-100 cursor-pointer text-sm item-option "
                                     data-id="{{ $item['id'] }}" data-nama="{{ $item['nama'] }}">
                                     {{ $item['nama'] }}
+                                    <p class="text-xs text-gray-500">Tersedia: {{ $item['tersedia'] }} dari
+                                        {{ $item['kuantitas'] }}</p>
                                 </div>
                             @endif
                         @endforeach

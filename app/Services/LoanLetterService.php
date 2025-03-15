@@ -27,7 +27,7 @@ class LoanLetterService
         $templateProcessor->setValue('tanggal_surat', \Carbon\Carbon::now()->isoFormat('DD MMMM YYYY'));
         $templateProcessor->setValue('nama_peminjam', $user->name);
         $templateProcessor->setValue('nim_peminjam', $user->nim);
-        $templateProcessor->setValue('no_hp_peminjam', $user->phone ?? '-');
+        $templateProcessor->setValue('no_hp_peminjam', $user->no_telp ?? '-');
         $templateProcessor->setValue('alasan_peminjaman', $peminjaman->alasan);
 
         // Get inventory item

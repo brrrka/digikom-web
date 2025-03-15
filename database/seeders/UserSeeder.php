@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin Digikom',
             'email' => 'admin@digikom.com',
             'nim' => '2211513026',
+            'no_telp' => '08123456789',
             'password' => Hash::make('digikomweb'),
             'id_roles' => 1
         ]);
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
             'name' => 'Asisten Digikom',
             'email' => 'asisten@gmail.com',
             'nim' => '2211513025',
+            'no_telp' => '08123456789',
             'password' => Hash::make('password123'),
             'id_roles' => 2
         ]);
@@ -32,7 +34,8 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Berka Ganteng',
             'email' => 'user@gmail.com',
-            'nim' => '2211513024',
+            'nim' => '2211513021',
+            'no_telp' => '08123456789',
             'password' => Hash::make('password123'),
             'id_roles' => 2
         ]);

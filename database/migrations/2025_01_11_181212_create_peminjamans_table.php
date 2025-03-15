@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('peminjamans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade');
-            $table->foreignId('id_inventaris')->constrained('inventaris')->onDelete('cascade');
-            $table->integer('kuantitas');
             $table->date('tanggal_peminjaman');
             $table->date('tanggal_selesai');
             $table->text('alasan');

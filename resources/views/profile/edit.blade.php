@@ -48,8 +48,21 @@
                                     <input id="nim" name="nim" type="text"
                                         class="mt-1 block w-full rounded-xl border-dark-green-2 border-2 bg-[#F1FAE4] text-sm py-3 text-dark-green-2"
                                         value="{{ old('nim', $user->nim) }}" required autofocus autocomplete="nim"
-                                        disabled />
+                                        readonly />
                                     @error('nim')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="w-full relative">
+                                    <label for="no_telp"
+                                        class="absolute bg-[#F1FAE4] bottom-9 left-5 text-sm font-bold text-dark-green-2">Nomor
+                                        Telepon / WA Aktif</label>
+                                    <input id="no_telp" name="no_telp" type="text"
+                                        class="mt-1 block w-full rounded-xl border-dark-green-2 border-2 bg-[#F1FAE4] text-sm py-3 text-dark-green-2"
+                                        value="{{ old('no_telp', $user->no_telp) }}" required autofocus
+                                        autocomplete="no_telp" />
+                                    @error('no_telp')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -60,7 +73,7 @@
                                     <input id="email" name="email" type="email"
                                         class="mt-1 block w-full rounded-xl border-dark-green-2 border-2 bg-[#F1FAE4] text-sm py-3 text-dark-green-2"
                                         value="{{ old('email', $user->email) }}" required autocomplete="username"
-                                        disabled />
+                                        readonly />
                                     @error('email')
                                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                     @enderror

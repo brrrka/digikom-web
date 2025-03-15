@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             InventarisSeeder::class,
-            PeminjamanSeeder::class,
             PraktikumSeeder::class,
             ModulSeeder::class,
             KontenSeeder::class,

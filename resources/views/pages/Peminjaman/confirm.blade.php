@@ -40,14 +40,20 @@
                     </div>
 
                     <div class="bg-gray-100 rounded-lg p-4 my-4">
+                        @php $totalItems = 0; @endphp
                         @foreach ($selectedItems as $item)
-                            @if ($quantities[$item->id] > 0)
+                            @if (isset($quantities[$item->id]) && $quantities[$item->id] > 0)
+                                @php $totalItems++; @endphp
                                 <div class="flex justify-between py-1">
                                     <div>{{ $item->nama }}</div>
                                     <div>{{ $quantities[$item->id] }}</div>
                                 </div>
                             @endif
                         @endforeach
+
+                        @if ($totalItems == 0)
+                            <div class="text-center text-red-500">Tidak ada barang yang dipilih</div>
+                        @endif
                     </div>
 
                     <div class="mt-4">

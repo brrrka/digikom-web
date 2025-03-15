@@ -22,7 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'nim',
         'password',
-        'id_roles'
+        'id_roles',
+        'no_telp'
     ];
 
     protected $attributes = [

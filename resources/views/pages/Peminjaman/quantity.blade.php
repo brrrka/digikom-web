@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <div class="min-h-screen flex flex-col px-4 md:px-48">
         <div class="flex justify-center mt-32 relative">
@@ -63,6 +62,7 @@
     </div>
 
     <script>
+        // Pastikan ada inline script di halaman quantity.blade.php yang seperti ini
         document.addEventListener('DOMContentLoaded', function() {
             // Handle quantity increase/decrease
             const decreaseButtons = document.querySelectorAll('.decrease-btn');
@@ -90,6 +90,14 @@
             submitButton.disabled = true;
             submitButton.classList.add('opacity-50', 'cursor-not-allowed');
 
+            // Initialize counters to 0
+            document.querySelectorAll('input[id^="quantity-"]').forEach(input => {
+                const id = input.id.replace('quantity-', '');
+                const quantityText = document.getElementById(`quantity-text-${id}`);
+                input.value = 0;
+                quantityText.textContent = 0;
+            });
+
             // Decrease quantity
             decreaseButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -111,12 +119,12 @@
             increaseButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const id = this.getAttribute('data-id');
-                    const maxQuantity = parseInt(this.getAttribute('data-max'));
+                    const availableQuantity = parseInt(this.getAttribute('data-max'));
                     const input = document.getElementById(`quantity-${id}`);
                     const quantityText = document.getElementById(`quantity-text-${id}`);
                     let value = parseInt(input.value);
 
-                    if (value < maxQuantity) {
+                    if (value < availableQuantity) {
                         value += 1;
                         input.value = value;
                         quantityText.textContent = value;

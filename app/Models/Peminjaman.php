@@ -8,17 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Peminjaman extends Model
 {
     use HasFactory;
-
     protected $table = 'peminjamans';
     protected $fillable = [
         'id_users',
-        'id_inventaris',
-        'kuantitas',
         'tanggal_peminjaman',
         'tanggal_selesai',
         'jangka',
         'alasan',
-        'status'
+        'status',
+        'bukti_path'
     ];
 
     public function user()
@@ -26,8 +24,14 @@ class Peminjaman extends Model
         return $this->belongsTo(User::class, 'id_users');
     }
 
+    public function detailPeminjaman()
+    {
+        return $this->hasMany(DetailPeminjaman::class, 'id_peminjaman');
+    }
+
     public function inventaris()
     {
-        return $this->belongsTo(Inventaris::class, 'id_inventaris');
+        return $this->belongsToMany(Inventaris::class, 'detail_peminjaman', 'id_peminjaman', 'id_inventaris')
+            ->withPivot('kuantitas');
     }
 }
