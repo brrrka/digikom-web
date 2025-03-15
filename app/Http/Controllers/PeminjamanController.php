@@ -50,7 +50,6 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.status', compact('peminjaman'));
     }
 
-    // Di dalam method quantitySelection di PeminjamanController
     public function quantitySelection(Request $request)
     {
         $request->validate([
@@ -61,22 +60,7 @@ class PeminjamanController extends Controller
             'alasan' => 'required|string',
         ]);
 
-        // Mengambil hanya inventaris yang tersedia
-        $selectedItems = Inventaris::whereIn('id', $request->id_inventaris)
-            ->get()
-            ->map(function ($item) {
-                $item->stok_tersedia = $item->kuantitas - $item->total_dipinjam;
-                return $item;
-            })
-            ->filter(function ($item) {
-                return $item->stok_tersedia > 0 && $item->status == 'tersedia';
-            });
-
-        // Jika tidak ada item tersedia, kembali ke form
-        if ($selectedItems->isEmpty()) {
-            return redirect()->route('peminjaman.form')
-                ->with('error', 'Tidak ada barang yang tersedia untuk dipinjam');
-        }
+        $selectedItems = Inventaris::whereIn('id', $request->id_inventaris)->get();
 
         // Pass the form data to the next page
         $tanggal_peminjaman = $request->tanggal_peminjaman;

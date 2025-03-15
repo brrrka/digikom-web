@@ -15,15 +15,19 @@ class GenerateLoanLetter implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $peminjaman;
+    protected $peminjamanId;
 
     public function __construct(Peminjaman $peminjaman)
     {
-        $this->peminjaman = $peminjaman;
+        $this->peminjamanId = $peminjaman->id;
     }
 
     public function handle(LoanLetterService $loanLetterService)
     {
-        $loanLetterService->generateLoanLetter($this->peminjaman);
+        $peminjaman = Peminjaman::find($this->peminjamanId);
+
+        if ($peminjaman) {
+            $loanLetterService->generateLoanLetter($peminjaman);
+        }
     }
 }

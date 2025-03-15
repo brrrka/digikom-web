@@ -3,11 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PeminjamanResource\Pages;
-use App\Filament\Resources\PeminjamanResource\RelationManagers;
 use App\Models\Peminjaman;
 use App\Models\DetailPeminjaman;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -50,15 +50,21 @@ class PeminjamanResource extends Resource
                     ->label('Nama peminjam')
                     ->required(),
 
-                Forms\Components\Select::make('id_inventaris')
-                    ->relationship('inventaris', 'nama', fn(Builder $query) => $query->where('status', 'tersedia'))
-                    ->required()
-                    ->label('Nama alat'),
+                Forms\Components\Repeater::make('detail_peminjaman')
+                    ->relationship('detailPeminjaman')
+                    ->schema([
+                        Forms\Components\Select::make('id_inventaris')
+                            ->relationship('inventaris', 'nama', fn(Builder $query) => $query->where('status', 'tersedia'))
+                            ->required()
+                            ->label('Nama alat'),
 
-                Forms\Components\TextInput::make('kuantitas')
-                    ->numeric()
-                    ->required()
-                    ->label('Jumlah'),
+                        Forms\Components\TextInput::make('kuantitas')
+                            ->numeric()
+                            ->required()
+                            ->label('Jumlah'),
+                    ])
+                    ->label('Detail Peminjaman')
+                    ->required(),
 
                 Forms\Components\DatePicker::make('tanggal_peminjaman')
                     ->required(),
@@ -82,9 +88,17 @@ class PeminjamanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('inventaris.nama'),
-                Tables\Columns\TextColumn::make('detail_peminjaman.kuantitas'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Nama Peminjam'),
+
+                Tables\Columns\TextColumn::make('detailPeminjaman.inventaris.nama')
+                    ->label('Nama Alat')
+                    ->listWithLineBreaks(),
+
+                Tables\Columns\TextColumn::make('detailPeminjaman.kuantitas')
+                    ->label('Jumlah')
+                    ->listWithLineBreaks(),
+
                 Tables\Columns\TextColumn::make('tanggal_peminjaman'),
                 Tables\Columns\TextColumn::make('tanggal_selesai'),
                 Tables\Columns\TextColumn::make('status')
@@ -99,9 +113,7 @@ class PeminjamanResource extends Resource
                     })
                     ->badge()
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -117,7 +129,8 @@ class PeminjamanResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Menambahkan relasi detail peminjaman
+            // RelationManager\DetailPeminjaman::class,
         ];
     }
 

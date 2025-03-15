@@ -14,16 +14,18 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
-// Email Verification Handler
+// Email Verification Handler - Redirect ke halaman welcome setelah verifikasi berhasil
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect('/home');
+
+    // Make sure this redirects to your home page
+    return redirect('/')->with('verified', true);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // Resend Verification Email
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Verification link sent!');
+    return back()->with('message', 'Link verifikasi telah dikirim!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 

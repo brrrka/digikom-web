@@ -15,7 +15,6 @@ class Inventaris extends Model
         'deskripsi',
         'kuantitas',
         'total_dipinjam',
-        'images',
         'status',
     ];
 

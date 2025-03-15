@@ -34,7 +34,7 @@ class PeminjamanObserver
         ) {
             if ($peminjaman->bukti_path) {
                 Storage::delete('public/' . $peminjaman->bukti_path);
-                $peminjaman->bukti_path = null; 
+                $peminjaman->bukti_path = null;
                 $peminjaman->save();
             }
         }
