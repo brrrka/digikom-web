@@ -19,7 +19,7 @@ class KontenResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-play-circle';
 
-    protected static ?string $navigationGroup = 'Konten';
+    protected static ?string $navigationGroup = 'Konten (Coming Soon)';
 
     protected static ?string $navigationLabel = 'Konten';
 

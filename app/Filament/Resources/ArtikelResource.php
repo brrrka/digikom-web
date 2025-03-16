@@ -19,7 +19,7 @@ class ArtikelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Konten';
+    protected static ?string $navigationGroup = 'Konten (Coming Soon)';
 
     protected static ?string $navigationLabel = 'Artikel';
 
@@ -44,7 +44,7 @@ class ArtikelResource extends Resource
                     ->options([
                         'draft' => 'Draft',
                         'published' => 'Published',
-                ])
+                    ])
             ]);
     }
 
