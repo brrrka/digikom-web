@@ -10,25 +10,22 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// Route untuk verifikasi email
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
-// Email Verification Handler - Redirect ke halaman welcome setelah verifikasi berhasil
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-
-    // Make sure this redirects to your home page
     return redirect('/')->with('verified', true);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-// Resend Verification Email
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Link verifikasi telah dikirim!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-
+// Route publik (tidak memerlukan autentikasi)
 Route::get('/', function () {
     return view('pages.welcome');
 })->name('home');
@@ -39,22 +36,6 @@ Route::get('/digikom', function () {
     return view('pages.profil.index');
 })->name('digikom.index');
 
-// Route Peminjaman
-Route::prefix('peminjaman')->group(function () {
-    Route::get('/', [PeminjamanController::class, 'index'])->name('peminjaman');
-    Route::get('/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
-    Route::get('/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
-    Route::get('/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
-    Route::get('/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
-    Route::post('/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
-    Route::post('/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
-    Route::post('/', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
-    Route::get('/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
-    Route::get('/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
-    Route::get('/peminjaman/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
-});
-
-// Route Praktikum & Modul
 Route::prefix('praktikum')->group(function () {
     Route::get('/', [PraktikumController::class, 'getPraktikums'])->name('praktikum.index');
     Route::get('/{slug}', [ModulController::class, 'getModulsByPraktikum'])->name('moduls.praktikum');
@@ -62,13 +43,30 @@ Route::prefix('praktikum')->group(function () {
 
 Route::get('/moduls/download/{id}', [ModulController::class, 'downloadModul'])->name('moduls.download');
 
-// Route Artikel
 Route::prefix('artikel')->group(function () {
     Route::get('/', [ArtikelController::class, 'getArtikels'])->name('artikel.index');
     Route::get('/{id}', [ArtikelController::class, 'showArtikels'])->name('artikel.show');
 });
 
-// Route Profil
+// Route yang memerlukan autentikasi dan verifikasi
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Route Peminjaman
+    Route::prefix('peminjaman')->group(function () {
+        Route::get('/', [PeminjamanController::class, 'index'])->name('peminjaman');
+        Route::get('/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
+        Route::get('/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
+        Route::get('/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
+        Route::get('/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
+        Route::post('/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
+        Route::post('/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
+        Route::post('/', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
+        Route::get('/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
+        Route::get('/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+        Route::get('/peminjaman/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
+    });
+});
+
+// Route profil (hanya memerlukan autentikasi, tidak perlu verifikasi)
 Route::middleware('auth')->prefix('profile')->group(function () {
     Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
