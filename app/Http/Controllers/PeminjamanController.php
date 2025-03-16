@@ -235,60 +235,119 @@ class PeminjamanController extends Controller
     // Add this method to update inventory quantities when a loan is approved
     public function updatePeminjamanStatus(Request $request, $id)
     {
-        // This method would be called by an admin or authorized user
+        // Validasi status peminjaman yang valid
         $request->validate([
-            'status' => 'required|in:disetujui,ditolak,dikembalikan',
+            'status' => 'required|in:diajukan,disetujui,dipinjam,dikembalikan,jatuh tenggat,ditolak',
         ]);
 
         $peminjaman = Peminjaman::with('detailPeminjaman.inventaris')->findOrFail($id);
         $oldStatus = $peminjaman->status;
         $newStatus = $request->status;
 
+        // Jika tidak ada perubahan status, kembalikan tanpa melakukan apapun
+        if ($oldStatus === $newStatus) {
+            return redirect()->back()->with('info', 'Status peminjaman tidak berubah.');
+        }
+
         DB::beginTransaction();
 
         try {
-            // Update the peminjaman status
+            // Update status peminjaman
             $peminjaman->status = $newStatus;
             $peminjaman->save();
 
-            // If peminjaman is approved, update inventory quantities
-            if ($newStatus == 'disetujui' && $oldStatus != 'disetujui') {
-                foreach ($peminjaman->detailPeminjaman as $detail) {
-                    $inventaris = $detail->inventaris;
-                    $inventaris->total_dipinjam += $detail->kuantitas;
+            // Logika pembaruan inventaris berdasarkan transisi status
+            switch ($newStatus) {
+                case 'disetujui':
+                    // Hanya jika status sebelumnya adalah 'diajukan'
+                    if ($oldStatus === 'diajukan') {
+                        foreach ($peminjaman->detailPeminjaman as $detail) {
+                            $inventaris = $detail->inventaris;
 
-                    // Update status if all items are borrowed
-                    if ($inventaris->kuantitas <= $inventaris->total_dipinjam) {
-                        $inventaris->status = 'tidak tersedia';
+                            // Validasi ketersediaan barang
+                            $tersedia = $inventaris->kuantitas - $inventaris->total_dipinjam;
+                            if ($tersedia < $detail->kuantitas) {
+                                throw new \Exception("Barang '{$inventaris->nama}' tidak tersedia dalam jumlah yang cukup.");
+                            }
+
+                            // Update nilai total_dipinjam
+                            $inventaris->total_dipinjam += $detail->kuantitas;
+
+                            // Update status inventaris jika semua barang terpinjam
+                            if ($inventaris->kuantitas <= $inventaris->total_dipinjam) {
+                                $inventaris->status = 'tidak tersedia';
+                            }
+
+                            $inventaris->save();
+                        }
                     }
+                    break;
 
-                    $inventaris->save();
-                }
-            }
+                case 'dipinjam':
+                    // Transisi dari 'disetujui' ke 'dipinjam' tidak perlu mengubah inventaris
+                    // karena barang sudah dianggap terpinjam pada tahap 'disetujui'
+                    break;
 
-            // If items are returned, update inventory quantities
-            if ($newStatus == 'dikembalikan' && $oldStatus == 'disetujui') {
-                foreach ($peminjaman->detailPeminjaman as $detail) {
-                    $inventaris = $detail->inventaris;
-                    $inventaris->total_dipinjam -= $detail->kuantitas;
+                case 'dikembalikan':
+                    // Kembalikan barang ke inventaris jika status sebelumnya adalah 'dipinjam' atau 'disetujui'
+                    if ($oldStatus === 'dipinjam' || $oldStatus === 'disetujui' || $oldStatus === 'jatuh tenggat') {
+                        foreach ($peminjaman->detailPeminjaman as $detail) {
+                            $inventaris = $detail->inventaris;
 
-                    // Make sure total_dipinjam doesn't go below 0
-                    if ($inventaris->total_dipinjam < 0) {
-                        $inventaris->total_dipinjam = 0;
+                            // Kurangi total_dipinjam
+                            $inventaris->total_dipinjam -= $detail->kuantitas;
+
+                            // Pastikan total_dipinjam tidak negatif
+                            if ($inventaris->total_dipinjam < 0) {
+                                $inventaris->total_dipinjam = 0;
+                            }
+
+                            // Update status inventaris kembali menjadi tersedia
+                            if ($inventaris->total_dipinjam < $inventaris->kuantitas) {
+                                $inventaris->status = 'tersedia';
+                            }
+
+                            $inventaris->save();
+                        }
                     }
+                    break;
 
-                    // Update status back to available
-                    if ($inventaris->total_dipinjam < $inventaris->kuantitas) {
-                        $inventaris->status = 'tersedia';
+                case 'jatuh tenggat':
+                    // Tidak perlu mengubah inventaris, karena barang masih dianggap terpinjam
+                    break;
+
+                case 'ditolak':
+                    // Jika peminjaman ditolak dan sebelumnya sudah 'disetujui',
+                    // kembalikan barang ke inventaris
+                    if ($oldStatus === 'disetujui') {
+                        foreach ($peminjaman->detailPeminjaman as $detail) {
+                            $inventaris = $detail->inventaris;
+
+                            // Kurangi total_dipinjam
+                            $inventaris->total_dipinjam -= $detail->kuantitas;
+
+                            // Pastikan total_dipinjam tidak negatif
+                            if ($inventaris->total_dipinjam < 0) {
+                                $inventaris->total_dipinjam = 0;
+                            }
+
+                            // Update status inventaris kembali menjadi tersedia
+                            if ($inventaris->total_dipinjam < $inventaris->kuantitas) {
+                                $inventaris->status = 'tersedia';
+                            }
+
+                            $inventaris->save();
+                        }
                     }
+                    // Jika status sebelumnya adalah 'diajukan', tidak perlu mengubah inventaris
+                    break;
 
-                    $inventaris->save();
-                }
+                default:
+                    break;
             }
 
             DB::commit();
-
-            return redirect()->back()->with('success', 'Status peminjaman berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Status peminjaman berhasil diperbarui menjadi ' . $newStatus);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui status: ' . $e->getMessage());

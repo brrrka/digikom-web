@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('id_users')->constrained('users')->onDelete('cascade');
             $table->date('tanggal_peminjaman');
             $table->date('tanggal_selesai');
+            $table->date('tanggal_pengembalian')->nullable();
             $table->text('alasan');
             $table->enum('jangka', ['pendek', 'panjang']);
             $table->string('bukti_path')->nullable();

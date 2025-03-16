@@ -13,6 +13,7 @@ class Peminjaman extends Model
         'id_users',
         'tanggal_peminjaman',
         'tanggal_selesai',
+        'tanggal_pengembalian',
         'jangka',
         'alasan',
         'status',
