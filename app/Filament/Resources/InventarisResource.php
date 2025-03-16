@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources;
 
+use App\Exports\ExportAllData;
 use App\Filament\Resources\InventarisResource\Pages;
 use App\Filament\Resources\InventarisResource\RelationManagers;
+use App\Imports\ImportInventaris;
 use App\Models\Inventaris;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +14,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InventarisResource extends Resource
 {
@@ -68,21 +72,32 @@ class InventarisResource extends Resource
                 Tables\Columns\TextColumn::make('kuantitas'),
                 Tables\Columns\ImageColumn::make('images'),
                 Tables\Columns\TextColumn::make('status')
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'tersedia' => 'primary',
                         'tidak tersedia' => 'danger',
                     })
-                    ->icon(fn (string $state): string => match ($state) {
+                    ->icon(fn(string $state): string => match ($state) {
                         'tersedia' => 'heroicon-m-check-badge',
                         'tidak tersedia' => 'heroicon-m-exclamation-triangle',
                     })
                     ->formatStateUsing(function ($state) {
-                        return ucfirst($state);   
+                        return ucfirst($state);
                     })
             ])
             ->filters([
                 //
             ])
+            ->headerActions(
+                [
+                    Action::make('exportAll')
+                        ->label('Export All Data')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->action(function () {
+                            return Excel::download(new ExportAllData, 'all_data.xlsx');
+                        }),
+
+                ]
+            )
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

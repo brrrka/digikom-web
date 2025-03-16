@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources;
 
+use App\Exports\ExportAllData;
 use App\Filament\Resources\PeminjamanResource\Pages;
+use App\Imports\ImportInventaris;
+use App\Imports\ImportPeminjaman;
 use App\Models\Peminjaman;
 use App\Models\DetailPeminjaman;
 use App\Models\Inventaris;
@@ -14,6 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PeminjamanResource extends Resource
 {
@@ -137,6 +141,7 @@ class PeminjamanResource extends Resource
     {
         return $table
             ->columns([
+
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nama Peminjam')
                     ->sortable()
@@ -184,6 +189,7 @@ class PeminjamanResource extends Resource
                         'dikembalikan' => 'Dikembalikan',
                     ])
             ])
+
             ->actions([
                 // Action untuk melihat detail peminjaman
                 Tables\Actions\ViewAction::make()
@@ -282,7 +288,18 @@ class PeminjamanResource extends Resource
 
                 // Action untuk edit
                 Tables\Actions\EditAction::make(),
+
             ])
+
+            ->headerActions([
+                Action::make('exportAll')
+                    ->label('Export All Data')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->action(function () {
+                        return Excel::download(new ExportAllData, 'all_data.xlsx');
+                    }),
+            ])
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
