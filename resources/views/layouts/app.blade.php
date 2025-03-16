@@ -24,7 +24,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        // Konfigurasi default Toastr
         toastr.options = {
             closeButton: true,
             progressBar: true,
@@ -38,6 +37,7 @@
         @if (session()->has('success'))
             toastr.success("{{ session('success') }}");
         @endif
+
 
         @if (session()->has('error'))
             toastr.error("{{ session('error') }}");
@@ -85,6 +85,12 @@
             @foreach ($errors->all() as $error)
                 toastr.error("{{ $error }}");
             @endforeach
+        @endif
+    </script>
+
+    <script>
+        @if (auth()->check() && !auth()->user()->hasVerifiedEmail())
+            toastr.warning("Email belum diverifikasi. Silakan cek email untuk verifikasi.");
         @endif
     </script>
 

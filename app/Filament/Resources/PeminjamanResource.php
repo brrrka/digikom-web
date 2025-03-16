@@ -187,7 +187,8 @@ class PeminjamanResource extends Resource
                         'dipinjam' => 'Dipinjam',
                         'jatuh tenggat' => 'Jatuh Tenggat',
                         'dikembalikan' => 'Dikembalikan',
-                    ])
+                    ]),
+
             ])
 
             ->actions([
@@ -289,15 +290,6 @@ class PeminjamanResource extends Resource
                 // Action untuk edit
                 Tables\Actions\EditAction::make(),
 
-            ])
-
-            ->headerActions([
-                Action::make('exportAll')
-                    ->label('Export All Data')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->action(function () {
-                        return Excel::download(new ExportAllData, 'all_data.xlsx');
-                    }),
             ])
 
             ->bulkActions([

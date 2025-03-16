@@ -20,7 +20,7 @@ class ExportPeminjaman implements FromCollection, WithHeadings, WithTitle, WithS
             })->implode("\n"); // Gunakan "\n" untuk baris baru
 
             return [
-                'ID' => $peminjaman->id,
+                'ID' => 'PD-' . $peminjaman->id,
                 'Nama Peminjam' => $peminjaman->user->name,
                 'NIM' => $peminjaman->user->nim,
                 'Tanggal Peminjaman' => $peminjaman->tanggal_peminjaman,

@@ -44,8 +44,7 @@
 
                 {{-- Login / User Dropdown --}}
                 @auth
-                    <div class="relative hidden lg:block" x-data="{ open: false }" x-init="open = false">
-                        <!-- Tombol User -->
+                    <div class="relative hidden lg:block" x-data="{ open: false }">
                         <button type="button"
                             class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-white"
                             id="user-menu-button" @click="open = !open" aria-expanded="false" aria-haspopup="true">
@@ -57,13 +56,11 @@
                             @endif
                         </button>
 
-                        {{-- User Dropdown Menu --}}
-                        <div x-show="open" @click.away="open = false"
+                        <div x-show="open" x-cloak @click.away="open = false"
                             class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                            role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                            role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
                             <a href="{{ route('profile.edit') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1" id="user-menu-item-0">
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 Profil Saya
                             </a>
                             <form method="POST" action="{{ route('logout') }}">

@@ -13,7 +13,6 @@ class Modul extends Model
         'id_praktikums',
         'modul_ke',
         'title',
-        'deskripsi',
         'file_path',
         'link_video',
     ];

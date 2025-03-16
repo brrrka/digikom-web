@@ -18,21 +18,18 @@ class ModulSeeder extends Seeder
                 'id_praktikums' => 1,
                 'modul_ke' => 1,
                 'title' => 'Gerbang Logika',
-                'deskripsi' => 'Gerbang Logika dasar adalah itulah pokoknya',
                 'file_path' => 'modul_1.pdf',
             ],
             [
                 'id_praktikums' => 2,
                 'modul_ke' => 4,
                 'title' => 'Wombat 1',
-                'deskripsi' => 'Mesin wombat 1 dasar adalah itulah pokoknya',
                 'file_path' => 'modul_4.pdf',
             ],
             [
                 'id_praktikums' => 3,
                 'modul_ke' => 2,
                 'title' => 'Processor',
-                'deskripsi' => 'Processor dasar adalah itulah pokoknya',
                 'file_path' => 'modul_2.pdf',
             ],
         ]);

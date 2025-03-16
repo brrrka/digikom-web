@@ -17,8 +17,9 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect('/')->with('verified', true);
+    return redirect('/')->with('success', 'Email berhasil diverifikasi!');
 })->middleware(['auth', 'signed'])->name('verification.verify');
+
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();

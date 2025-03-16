@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('id_praktikums')->constrained('praktikums')->onDelete('cascade');
             $table->integer('modul_ke');
             $table->string('title');
-            $table->text('deskripsi')->nullable();
             $table->string('file_path')->nullable();
             $table->string('link_video')->nullable();
             $table->timestamps();

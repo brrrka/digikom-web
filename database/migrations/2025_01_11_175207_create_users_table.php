@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('nim')->unique();
             $table->string('no_telp');
+            $table->boolean('is_asisten')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('id_roles')->constrained('roles')->onDelete('cascade')->default(3);
+            $table->foreignId('id_roles')->constrained('roles')->onDelete('cascade')->default(2);
             $table->rememberToken();
             $table->timestamps();
         });

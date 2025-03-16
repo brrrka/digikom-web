@@ -35,7 +35,7 @@
                 @endphp
 
                 <div class="col-span-1 px-4 py-3 {{ $rowColor }} text-center">{{ $index + 1 }}</div>
-                <div class="col-span-2 px-4 py-3 {{ $rowColor }} text-center">P00{{ $pinjam->id }}</div>
+                <div class="col-span-2 px-4 py-3 {{ $rowColor }} text-center">PD-{{ $pinjam->id }}</div>
                 <div class="col-span-2 px-4 py-3 {{ $rowColor }} text-center">
                     {{ \Carbon\Carbon::parse($pinjam->tanggal_peminjaman)->format('d/m/Y') }}
                 </div>

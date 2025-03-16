@@ -15,7 +15,7 @@
                 <div class="bg-white rounded-2xl p-12 border-2 border-black shadow-sm">
                     <div class="mb-6">
                         <span class="text-lg font-bold text-green-digikom">ID Peminjaman:</span>
-                        <span class="text-lg">P00{{ $peminjaman->id }}</span>
+                        <span class="text-lg">PD-{{ $peminjaman->id }}</span>
                     </div>
 
                     <div class="flex flex-row justify-between mb-8">

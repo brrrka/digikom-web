@@ -16,7 +16,7 @@
             <input type="hidden" name="tanggal_selesai" value="{{ $tanggal_selesai }}">
             <input type="hidden" name="alasan" value="{{ $alasan }}">
 
-            <h2 class="absolute font-semibold text-md -top-3 lg:left-[274px] left-4 bg-white px-2">Detail peminjaman
+            <h2 class="absolute font-semibold text-md -top-3 md:left-[274px] left-4 bg-white px-2">Detail peminjaman
             </h2>
 
             @foreach ($selectedItems as $item)
