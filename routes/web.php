@@ -1,4 +1,5 @@
 <?php
+// routes/web.php - Tambahkan di bagian akhir file
 
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AsistenController;
@@ -19,7 +20,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     $request->fulfill();
     return redirect('/')->with('success', 'Email berhasil diverifikasi!');
 })->middleware(['auth', 'signed'])->name('verification.verify');
-
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
@@ -75,3 +75,6 @@ Route::middleware('auth')->prefix('profile')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+// Admin routes
+require __DIR__ . '/admin.php';
