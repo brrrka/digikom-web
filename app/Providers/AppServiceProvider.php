@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use App\Models\Peminjaman;
 use App\Observers\PeminjamanObserver;
-use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register Peminjaman Observer
         Peminjaman::observe(PeminjamanObserver::class);
     }
 }

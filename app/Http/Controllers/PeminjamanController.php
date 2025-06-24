@@ -23,28 +23,113 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.start');
     }
 
+    // PERBAIKAN: Method formPinjam dengan data real-time dan error handling
     public function formPinjam()
     {
-        $inventaris = Inventaris::all()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'nama' => $item->nama,
-                'deskripsi' => $item->deskripsi,
-                'image' => $item->images,
-                'kuantitas' => $item->kuantitas,
-                'total_dipinjam' => $item->total_dipinjam,
-                'tersedia' => $item->kuantitas - $item->total_dipinjam,
-                'status' => $item->status,
-                'is_available' => ($item->kuantitas - $item->total_dipinjam) > 0 && $item->status == 'tersedia',
-            ];
-        });
-        return view('pages.peminjaman.form', compact('inventaris'));
+        try {
+            $inventarisItems = Inventaris::all();
+            $inventaris = collect();
+
+            foreach ($inventarisItems as $item) {
+                $stockInfo = Inventaris::getStockInfo($item->id);
+
+                if ($stockInfo && $stockInfo['is_available']) {
+                    $inventaris->push([
+                        'id' => $stockInfo['id'],
+                        'nama' => $stockInfo['nama'],
+                        'deskripsi' => $item->deskripsi,
+                        'image' => $item->images,
+                        'kuantitas' => $stockInfo['kuantitas'],
+                        'tersedia' => $stockInfo['tersedia'],
+                        'status' => $stockInfo['status'],
+                        'is_available' => $stockInfo['is_available'],
+                    ]);
+                }
+            }
+
+
+            return view('pages.peminjaman.form', compact('inventaris'));
+        } catch (\Exception $e) {
+
+            return redirect()->route('peminjaman')
+                ->with('error', 'Terjadi kesalahan saat memuat form peminjaman. Silakan coba lagi.');
+        }
+    }
+
+    // PERBAIKAN: Method confirmPeminjaman dengan validasi dan error handling yang lebih baik
+    public function confirmPeminjaman(Request $request)
+    {
+        $request->validate([
+            'id_inventaris' => 'required|array',
+            'id_inventaris.*' => 'exists:inventaris,id',
+            'kuantitas' => 'required|array',
+            'tanggal_peminjaman' => 'required|date|after_or_equal:today',
+            'tanggal_selesai' => 'required|date|after:tanggal_peminjaman',
+            'alasan' => 'required|string|min:10',
+        ]);
+
+        $validInventarisIds = [];
+        $quantities = [];
+        $errors = [];
+
+        foreach ($request->id_inventaris as $inventarisId) {
+            $quantity = $request->kuantitas[$inventarisId] ?? 0;
+
+            if ($quantity > 0) {
+                $stockInfo = Inventaris::getStockInfo($inventarisId);
+
+                if (!$stockInfo || !$stockInfo['is_available']) {
+                    $errors[] = "'{$stockInfo['nama']}' sudah tidak tersedia";
+                    continue;
+                }
+
+                if ($stockInfo['tersedia'] < $quantity) {
+                    $errors[] = "'{$stockInfo['nama']}' stok tidak mencukupi. Tersedia: {$stockInfo['tersedia']}, diminta: {$quantity}";
+                    continue;
+                }
+
+                $validInventarisIds[] = $inventarisId;
+                $quantities[$inventarisId] = $quantity;
+            }
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('peminjaman.form')
+                ->with('error', implode('. ', $errors));
+        }
+
+        if (empty($validInventarisIds)) {
+            return redirect()->route('peminjaman.form')
+                ->with('error', 'Tidak ada barang yang dipilih dengan kuantitas valid');
+        }
+
+        try {
+            $selectedItems = Inventaris::whereIn('id', $validInventarisIds)->get();
+
+            $tanggal_peminjaman = $request->tanggal_peminjaman;
+            $tanggal_selesai = $request->tanggal_selesai;
+            $alasan = $request->alasan;
+
+            return view('pages.peminjaman.confirm', compact(
+                'selectedItems',
+                'quantities',
+                'tanggal_peminjaman',
+                'tanggal_selesai',
+                'alasan'
+            ));
+        } catch (\Exception $e) {
+            Log::error('Error in confirmPeminjaman: ' . $e->getMessage());
+
+            return redirect()->route('peminjaman.form')
+                ->with('error', 'Terjadi kesalahan saat memproses data. Silakan coba lagi.');
+        }
     }
 
     public function riwayatPeminjaman()
     {
         $peminjaman = Peminjaman::where('id_users', Auth::id())
             ->with('detailPeminjaman.inventaris')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         return view('pages.peminjaman.status', compact('peminjaman'));
@@ -55,80 +140,106 @@ class PeminjamanController extends Controller
         $request->validate([
             'id_inventaris' => 'required|array',
             'id_inventaris.*' => 'exists:inventaris,id',
-            'tanggal_peminjaman' => 'required|date',
+            'tanggal_peminjaman' => 'required|date|after_or_equal:today',
             'tanggal_selesai' => 'required|date|after:tanggal_peminjaman',
-            'alasan' => 'required|string',
+            'alasan' => 'required|string|min:10',
         ]);
 
-        $selectedItems = Inventaris::whereIn('id', $request->id_inventaris)->get();
-
-        // Pass the form data to the next page
-        $tanggal_peminjaman = $request->tanggal_peminjaman;
-        $tanggal_selesai = $request->tanggal_selesai;
-        $alasan = $request->alasan;
-
-        return view('pages.peminjaman.quantity', compact('selectedItems', 'tanggal_peminjaman', 'tanggal_selesai', 'alasan'));
-    }
-
-    public function confirmPeminjaman(Request $request)
-    {
-        $request->validate([
-            'id_inventaris' => 'required|array',
-            'id_inventaris.*' => 'exists:inventaris,id',
-            'kuantitas' => 'required|array',
-            'tanggal_peminjaman' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_peminjaman',
-            'alasan' => 'required|string',
+        // Simpan data ke session untuk backup
+        $request->session()->put('peminjaman_data', [
+            'id_inventaris' => $request->id_inventaris,
+            'tanggal_peminjaman' => $request->tanggal_peminjaman,
+            'tanggal_selesai' => $request->tanggal_selesai,
+            'alasan' => $request->alasan
         ]);
 
-        $validInventarisIds = [];
-        $quantities = [];
+        $selectedItems = collect();
+        $unavailableItems = [];
 
         foreach ($request->id_inventaris as $inventarisId) {
-            $quantity = $request->kuantitas[$inventarisId] ?? 0;
-            if ($quantity > 0) {
-                $validInventarisIds[] = $inventarisId;
-                $quantities[$inventarisId] = $quantity;
+            $stockInfo = Inventaris::getStockInfo($inventarisId);
+
+            if (!$stockInfo || !$stockInfo['is_available']) {
+                $unavailableItems[] = $stockInfo['nama'] ?? "Item ID {$inventarisId}";
+                continue;
             }
+
+            // PERBAIKAN: Buat object baru dengan data yang diperlukan tanpa mengubah model asli
+            $item = (object) [
+                'id' => $stockInfo['id'],
+                'nama' => $stockInfo['nama'],
+                'deskripsi' => Inventaris::find($inventarisId)->deskripsi ?? '',
+                'kuantitas' => $stockInfo['kuantitas'],
+                'tersedia' => $stockInfo['tersedia'],
+                'status' => $stockInfo['status'],
+                'total_dipinjam' => $stockInfo['total_dipinjam']
+            ];
+
+            $selectedItems->push($item);
         }
 
-        if (empty($validInventarisIds)) {
-            return redirect()->route('peminjaman.form')->with('error', 'Tidak ada barang yang dipilih');
+        if (!empty($unavailableItems)) {
+            return redirect()->route('peminjaman.form')
+                ->with('error', "Barang berikut tidak tersedia: " . implode(', ', $unavailableItems));
         }
 
-        $selectedItems = Inventaris::whereIn('id', $validInventarisIds)->get();
+        if ($selectedItems->isEmpty()) {
+            return redirect()->route('peminjaman.form')
+                ->with('error', "Tidak ada barang yang tersedia untuk dipinjam.");
+        }
 
         $tanggal_peminjaman = $request->tanggal_peminjaman;
         $tanggal_selesai = $request->tanggal_selesai;
         $alasan = $request->alasan;
 
-        return view('pages.peminjaman.confirm', compact(
+        return view('pages.peminjaman.quantity', compact(
             'selectedItems',
-            'quantities',
             'tanggal_peminjaman',
             'tanggal_selesai',
             'alasan'
         ));
     }
 
+    // PERBAIKAN: Method storePeminjaman dengan validasi dan penanganan yang lebih baik
     public function storePeminjaman(Request $request)
     {
         $request->validate([
             'id_inventaris' => 'required|array',
             'id_inventaris.*' => 'exists:inventaris,id',
             'kuantitas' => 'required|array',
-            'tanggal_peminjaman' => 'required|date',
+            'tanggal_peminjaman' => 'required|date|after_or_equal:today',
             'tanggal_selesai' => 'required|date|after:tanggal_peminjaman',
-            'alasan' => 'required|string',
+            'alasan' => 'required|string|min:10',
         ]);
 
-        // Filter out items with zero quantity
         $items = [];
+        $errors = [];
+
+        // Validasi dan kumpulkan item yang akan dipinjam
         foreach ($request->id_inventaris as $inventarisId) {
             $kuantitas = $request->kuantitas[$inventarisId] ?? 0;
+
             if ($kuantitas > 0) {
+                // Triple-check dengan data real-time sebelum menyimpan
+                $stockInfo = Inventaris::getStockInfo($inventarisId);
+
+                if (!$stockInfo['is_available']) {
+                    $errors[] = "'{$stockInfo['nama']}' sudah tidak tersedia";
+                    continue;
+                }
+
+                if ($stockInfo['tersedia'] < $kuantitas) {
+                    $errors[] = "'{$stockInfo['nama']}' stok tidak mencukupi. Tersedia: {$stockInfo['tersedia']}, diminta: {$kuantitas}";
+                    continue;
+                }
+
                 $items[$inventarisId] = $kuantitas;
             }
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('peminjaman.form')
+                ->with('error', implode('. ', $errors));
         }
 
         if (empty($items)) {
@@ -136,39 +247,31 @@ class PeminjamanController extends Controller
                 ->with('error', 'Tidak ada barang yang dipilih dengan kuantitas valid.');
         }
 
-        // Validate all items are available in the requested quantities
-        $inventarisItems = Inventaris::whereIn('id', array_keys($items))->get();
-        foreach ($inventarisItems as $item) {
-            $requestedQuantity = $items[$item->id];
-            $availableQuantity = $item->kuantitas - $item->total_dipinjam;
-
-            if ($availableQuantity < $requestedQuantity || $item->status != 'tersedia') {
-                return redirect()->route('peminjaman.form')
-                    ->with('error', "Barang '{$item->nama}' tidak tersedia dalam jumlah yang diminta.");
-            }
-        }
-
-        // Calculate loan duration
+        // Hitung jangka waktu
         $tanggalPinjam = Carbon::parse($request->tanggal_peminjaman);
         $tanggalSelesai = Carbon::parse($request->tanggal_selesai);
         $selisihHari = $tanggalPinjam->diffInDays($tanggalSelesai);
         $jangka = $selisihHari <= 14 ? 'pendek' : 'panjang';
 
-        // Begin transaction
         DB::beginTransaction();
-
         try {
-            // Create the main peminjaman record
+            // Final validation dengan lock untuk mencegah race condition
+            foreach ($items as $inventarisId => $kuantitas) {
+                $inventaris = Inventaris::lockForUpdate()->find($inventarisId);
+                $inventaris->validateForLoan($kuantitas);
+            }
+
+            // Buat peminjaman
             $peminjaman = Peminjaman::create([
                 'id_users' => Auth::id(),
                 'tanggal_peminjaman' => $request->tanggal_peminjaman,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'alasan' => $request->alasan,
                 'jangka' => $jangka,
-                'status' => 'diajukan',
+                'status' => 'diajukan', // Status awal selalu 'diajukan' dari user
             ]);
 
-            // Create detail records for each item
+            // Buat detail peminjaman
             foreach ($items as $inventarisId => $kuantitas) {
                 DetailPeminjaman::create([
                     'id_peminjaman' => $peminjaman->id,
@@ -179,22 +282,94 @@ class PeminjamanController extends Controller
 
             DB::commit();
 
+
             return redirect()->route('peminjaman')
-                ->with('success', 'Peminjaman berhasil diajukan!');
+                ->with('success', 'Peminjaman berhasil diajukan! Silakan tunggu persetujuan dari admin.');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return redirect()->route('peminjaman.form')
                 ->with('error', 'Terjadi kesalahan saat mengajukan peminjaman: ' . $e->getMessage());
         }
     }
 
+    // PERBAIKAN: Method checkAvailability dengan data real-time
+    public function checkAvailability(Request $request)
+    {
+        $inventarisIds = $request->input('ids', []);
+
+        if (empty($inventarisIds)) {
+            return response()->json(['error' => 'No items specified'], 400);
+        }
+
+        try {
+            $items = collect($inventarisIds)->map(function ($id) {
+                return Inventaris::getStockInfo($id);
+            })->filter();
+
+            return response()->json($items->values());
+        } catch (\Exception $e) {
+            Log::error('Error checking availability: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'Terjadi kesalahan saat mengecek ketersediaan'
+            ], 500);
+        }
+    }
+
+    public function showQuantityForm(Request $request)
+    {
+        if (!$request->session()->has('peminjaman_data')) {
+            return redirect()->route('peminjaman.form')
+                ->with('error', 'Silakan pilih barang terlebih dahulu.');
+        }
+
+        $data = $request->session()->get('peminjaman_data');
+
+        $selectedItems = collect();
+        $unavailableItems = [];
+
+        foreach ($data['id_inventaris'] as $inventarisId) {
+            $stockInfo = Inventaris::getStockInfo($inventarisId);
+
+            if (!$stockInfo || !$stockInfo['is_available']) {
+                $unavailableItems[] = $stockInfo['nama'] ?? "Item ID {$inventarisId}";
+                continue;
+            }
+
+            // PERBAIKAN: Sama seperti di atas, buat object baru
+            $item = (object) [
+                'id' => $stockInfo['id'],
+                'nama' => $stockInfo['nama'],
+                'deskripsi' => Inventaris::find($inventarisId)->deskripsi ?? '',
+                'kuantitas' => $stockInfo['kuantitas'],
+                'tersedia' => $stockInfo['tersedia'],
+                'status' => $stockInfo['status'],
+                'total_dipinjam' => $stockInfo['total_dipinjam']
+            ];
+
+            $selectedItems->push($item);
+        }
+
+        if (!empty($unavailableItems)) {
+            $request->session()->forget('peminjaman_data');
+            return redirect()->route('peminjaman.form')
+                ->with('error', "Barang berikut sudah tidak tersedia: " . implode(', ', $unavailableItems));
+        }
+
+        return view('pages.peminjaman.quantity', [
+            'selectedItems' => $selectedItems,
+            'tanggal_peminjaman' => $data['tanggal_peminjaman'],
+            'tanggal_selesai' => $data['tanggal_selesai'],
+            'alasan' => $data['alasan']
+        ]);
+    }
+
     public function show($id)
     {
-        // Check if the logged-in user owns this peminjaman record
         $peminjaman = Peminjaman::with('detailPeminjaman.inventaris')
             ->findOrFail($id);
 
-        // Check if the current user is the owner of this peminjaman
         if ($peminjaman->id_users !== Auth::id()) {
             return redirect()->route('peminjaman')
                 ->with('error', 'Anda tidak memiliki akses ke data peminjaman ini.');
@@ -207,150 +382,24 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::findOrFail($id);
 
-        // Check if the current user is the owner of this peminjaman
         if ($peminjaman->id_users !== Auth::id()) {
             return redirect()->route('peminjaman')
                 ->with('error', 'Anda tidak memiliki akses ke data peminjaman ini.');
         }
 
-        // Check if the peminjaman is approved
         if ($peminjaman->status !== 'disetujui') {
             return redirect()->route('peminjaman.show', $peminjaman->id)
                 ->with('error', 'Bukti peminjaman hanya tersedia untuk peminjaman yang disetujui.');
         }
 
-        // Check if bukti_path exists
         if (!$peminjaman->bukti_path || !Storage::disk('public')->exists($peminjaman->bukti_path)) {
             return redirect()->route('peminjaman.show', $peminjaman->id)
-                ->with('error', 'Bukti peminjaman tidak tersedia.');
+                ->with('error', 'Bukti peminjaman tidak tersedia. Silakan hubungi admin.');
         }
 
-        // Download the file
         return Storage::disk('public')->download(
             $peminjaman->bukti_path,
-            'Surat_Peminjaman_P00' . $peminjaman->id . '.docx'
+            'Surat_Peminjaman_PD-' . $peminjaman->id . '.docx'
         );
-    }
-
-    // Add this method to update inventory quantities when a loan is approved
-    public function updatePeminjamanStatus(Request $request, $id)
-    {
-        // Validasi status peminjaman yang valid
-        $request->validate([
-            'status' => 'required|in:diajukan,disetujui,dipinjam,dikembalikan,jatuh tenggat,ditolak',
-        ]);
-
-        $peminjaman = Peminjaman::with('detailPeminjaman.inventaris')->findOrFail($id);
-        $oldStatus = $peminjaman->status;
-        $newStatus = $request->status;
-
-        // Jika tidak ada perubahan status, kembalikan tanpa melakukan apapun
-        if ($oldStatus === $newStatus) {
-            return redirect()->back()->with('info', 'Status peminjaman tidak berubah.');
-        }
-
-        DB::beginTransaction();
-
-        try {
-            // Update status peminjaman
-            $peminjaman->status = $newStatus;
-            $peminjaman->save();
-
-            // Logika pembaruan inventaris berdasarkan transisi status
-            switch ($newStatus) {
-                case 'disetujui':
-                    // Hanya jika status sebelumnya adalah 'diajukan'
-                    if ($oldStatus === 'diajukan') {
-                        foreach ($peminjaman->detailPeminjaman as $detail) {
-                            $inventaris = $detail->inventaris;
-
-                            // Validasi ketersediaan barang
-                            $tersedia = $inventaris->kuantitas - $inventaris->total_dipinjam;
-                            if ($tersedia < $detail->kuantitas) {
-                                throw new \Exception("Barang '{$inventaris->nama}' tidak tersedia dalam jumlah yang cukup.");
-                            }
-
-                            // Update nilai total_dipinjam
-                            $inventaris->total_dipinjam += $detail->kuantitas;
-
-                            // Update status inventaris jika semua barang terpinjam
-                            if ($inventaris->kuantitas <= $inventaris->total_dipinjam) {
-                                $inventaris->status = 'tidak tersedia';
-                            }
-
-                            $inventaris->save();
-                        }
-                    }
-                    break;
-
-                case 'dipinjam':
-                    // Transisi dari 'disetujui' ke 'dipinjam' tidak perlu mengubah inventaris
-                    // karena barang sudah dianggap terpinjam pada tahap 'disetujui'
-                    break;
-
-                case 'dikembalikan':
-                    // Kembalikan barang ke inventaris jika status sebelumnya adalah 'dipinjam' atau 'disetujui'
-                    if ($oldStatus === 'dipinjam' || $oldStatus === 'disetujui' || $oldStatus === 'jatuh tenggat') {
-                        foreach ($peminjaman->detailPeminjaman as $detail) {
-                            $inventaris = $detail->inventaris;
-
-                            // Kurangi total_dipinjam
-                            $inventaris->total_dipinjam -= $detail->kuantitas;
-
-                            // Pastikan total_dipinjam tidak negatif
-                            if ($inventaris->total_dipinjam < 0) {
-                                $inventaris->total_dipinjam = 0;
-                            }
-
-                            // Update status inventaris kembali menjadi tersedia
-                            if ($inventaris->total_dipinjam < $inventaris->kuantitas) {
-                                $inventaris->status = 'tersedia';
-                            }
-
-                            $inventaris->save();
-                        }
-                    }
-                    break;
-
-                case 'jatuh tenggat':
-                    // Tidak perlu mengubah inventaris, karena barang masih dianggap terpinjam
-                    break;
-
-                case 'ditolak':
-                    // Jika peminjaman ditolak dan sebelumnya sudah 'disetujui',
-                    // kembalikan barang ke inventaris
-                    if ($oldStatus === 'disetujui') {
-                        foreach ($peminjaman->detailPeminjaman as $detail) {
-                            $inventaris = $detail->inventaris;
-
-                            // Kurangi total_dipinjam
-                            $inventaris->total_dipinjam -= $detail->kuantitas;
-
-                            // Pastikan total_dipinjam tidak negatif
-                            if ($inventaris->total_dipinjam < 0) {
-                                $inventaris->total_dipinjam = 0;
-                            }
-
-                            // Update status inventaris kembali menjadi tersedia
-                            if ($inventaris->total_dipinjam < $inventaris->kuantitas) {
-                                $inventaris->status = 'tersedia';
-                            }
-
-                            $inventaris->save();
-                        }
-                    }
-                    // Jika status sebelumnya adalah 'diajukan', tidak perlu mengubah inventaris
-                    break;
-
-                default:
-                    break;
-            }
-
-            DB::commit();
-            return redirect()->back()->with('success', 'Status peminjaman berhasil diperbarui menjadi ' . $newStatus);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui status: ' . $e->getMessage());
-        }
     }
 }

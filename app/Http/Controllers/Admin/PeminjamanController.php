@@ -63,7 +63,9 @@ class PeminjamanController extends Controller
     public function create()
     {
         $users = User::orderBy('name')->get();
-        $inventaris = Inventaris::where('status', 'tersedia')->where('kuantitas', '>', 0)->get();
+        $inventaris = Inventaris::where('status', 'tersedia')
+            ->whereRaw('kuantitas > total_dipinjam')
+            ->get();
 
         return view('admin.peminjaman.create', compact('users', 'inventaris'));
     }
@@ -85,8 +87,10 @@ class PeminjamanController extends Controller
             // Check item availability
             foreach ($validated['items'] as $item) {
                 $inventaris = Inventaris::find($item['id_inventaris']);
-                if ($inventaris->kuantitas < $item['kuantitas']) {
-                    throw new \Exception("Kuantitas {$inventaris->nama} tidak mencukupi");
+                $tersedia = $inventaris->kuantitas - $inventaris->total_dipinjam;
+
+                if ($tersedia < $item['kuantitas']) {
+                    throw new \Exception("Kuantitas tersedia untuk {$inventaris->nama} hanya {$tersedia}");
                 }
             }
 
@@ -94,7 +98,7 @@ class PeminjamanController extends Controller
             $startDate = Carbon::parse($validated['tanggal_peminjaman']);
             $endDate = Carbon::parse($validated['tanggal_selesai']);
             $daysDiff = $startDate->diffInDays($endDate);
-            $jangka = $daysDiff <= 7 ? 'pendek' : 'panjang';
+            $jangka = $daysDiff <= 14 ? 'pendek' : 'panjang';
 
             // Create peminjaman
             $peminjaman = Peminjaman::create([
@@ -117,7 +121,7 @@ class PeminjamanController extends Controller
             DB::commit();
 
             return redirect()->route('admin.peminjaman.index')
-                ->with('success', 'Peminjaman berhasil dibuat!');
+                ->with('success', 'Peminjaman berhasil dibuat dan surat otomatis di-generate!');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()
@@ -158,7 +162,7 @@ class PeminjamanController extends Controller
         $startDate = Carbon::parse($peminjaman->tanggal_peminjaman);
         $endDate = Carbon::parse($validated['tanggal_selesai']);
         $daysDiff = $startDate->diffInDays($endDate);
-        $validated['jangka'] = $daysDiff <= 7 ? 'pendek' : 'panjang';
+        $validated['jangka'] = $daysDiff <= 14 ? 'pendek' : 'panjang';
 
         $peminjaman->update($validated);
 
@@ -173,11 +177,23 @@ class PeminjamanController extends Controller
                 ->with('error', 'Hanya dapat menghapus peminjaman yang berstatus diajukan atau ditolak!');
         }
 
-        $peminjaman->detailPeminjaman()->delete();
-        $peminjaman->delete();
+        DB::beginTransaction();
+        try {
+            // Delete related detail records first
+            $peminjaman->detailPeminjaman()->delete();
 
-        return redirect()->route('admin.peminjaman.index')
-            ->with('success', 'Peminjaman berhasil dihapus!');
+            // Delete the main record
+            $peminjaman->delete();
+
+            DB::commit();
+
+            return redirect()->route('admin.peminjaman.index')
+                ->with('success', 'Peminjaman berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('admin.peminjaman.index')
+                ->with('error', 'Error saat menghapus: ' . $e->getMessage());
+        }
     }
 
     public function updateStatus(Request $request, Peminjaman $peminjaman)
@@ -213,13 +229,27 @@ class PeminjamanController extends Controller
             $validated['tanggal_pengembalian'] = $validated['tanggal_pengembalian'] ?? now();
         }
 
-        $peminjaman->update($validated);
+        try {
+            $peminjaman->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Status peminjaman berhasil diupdate',
-            'new_status' => $validated['status']
-        ]);
+            $message = 'Status peminjaman berhasil diupdate';
+
+            // Add specific messages for certain status changes
+            if ($validated['status'] === 'disetujui' && $oldStatus === 'diajukan') {
+                $message .= '. Surat peminjaman otomatis di-generate.';
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'new_status' => $validated['status']
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function exportPdf(Peminjaman $peminjaman)
@@ -266,6 +296,26 @@ class PeminjamanController extends Controller
         return response()->json([
             'success' => true,
             'message' => $overduePeminjaman->count() . ' peminjaman diupdate ke status jatuh tenggat'
+        ]);
+    }
+
+    /**
+     * Get available quantity for specific inventaris (AJAX endpoint)
+     */
+    public function getAvailableQuantity($inventarisId)
+    {
+        $inventaris = Inventaris::find($inventarisId);
+
+        if (!$inventaris) {
+            return response()->json(['error' => 'Inventaris tidak ditemukan'], 404);
+        }
+
+        $available = $inventaris->kuantitas - $inventaris->total_dipinjam;
+
+        return response()->json([
+            'available' => $available,
+            'total' => $inventaris->kuantitas,
+            'borrowed' => $inventaris->total_dipinjam
         ]);
     }
 }

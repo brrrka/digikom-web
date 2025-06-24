@@ -37,8 +37,13 @@
                         </a>
                         <a href="{{ route('digikom.index') }}"
                             class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'font-semibold text-gray-900' : '' }}">
+                            Artikel
+                        </a>
+                        <a href="{{ route('digikom.index') }}"
+                            class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'font-semibold text-gray-900' : '' }}">
                             Profil
                         </a>
+
                     </div>
                 </div>
 

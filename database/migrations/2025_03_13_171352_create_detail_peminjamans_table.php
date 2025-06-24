@@ -15,8 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_peminjaman')->constrained('peminjamans')->onDelete('cascade');
             $table->foreignId('id_inventaris')->constrained('inventaris')->onDelete('cascade');
-            $table->integer('kuantitas');
+            $table->integer('kuantitas')->default(1);
             $table->timestamps();
+
+            // Add indexes for better performance
+            $table->index(['id_inventaris', 'id_peminjaman'], 'idx_detail_inventaris_peminjaman');
+            $table->index('id_peminjaman', 'idx_detail_peminjaman');
+            $table->index('id_inventaris', 'idx_detail_inventaris');
+
+            // Add unique constraint to prevent duplicate entries
+            $table->unique(['id_peminjaman', 'id_inventaris'], 'unique_peminjaman_inventaris');
         });
     }
 
@@ -25,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_peminjamans');
+        Schema::dropIfExists('detail_peminjaman');
     }
 };

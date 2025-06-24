@@ -1,5 +1,5 @@
 <?php
-// routes/web.php - Tambahkan di bagian akhir file
+// routes/web.php - Perbaikan untuk peminjaman routes
 
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AsistenController;
@@ -51,19 +51,22 @@ Route::prefix('artikel')->group(function () {
 
 // Route yang memerlukan autentikasi dan verifikasi
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route Peminjaman
+    // Route Peminjaman - PERBAIKAN: Urutan routes yang benar
     Route::prefix('peminjaman')->group(function () {
         Route::get('/', [PeminjamanController::class, 'index'])->name('peminjaman');
         Route::get('/start', [PeminjamanController::class, 'startPinjam'])->name('peminjaman.start');
-        Route::get('/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
         Route::get('/form', [PeminjamanController::class, 'formPinjam'])->name('peminjaman.form');
-        Route::get('/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
         Route::post('/quantity', [PeminjamanController::class, 'quantitySelection'])->name('peminjaman.quantity');
+        Route::get('/quantity', [PeminjamanController::class, 'showQuantityForm'])->name('peminjaman.quantity.show');
         Route::post('/confirm', [PeminjamanController::class, 'confirmPeminjaman'])->name('peminjaman.confirm');
-        Route::post('/', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
+        Route::post('/store', [PeminjamanController::class, 'storePeminjaman'])->name('peminjaman.store');
+        Route::get('/status', [PeminjamanController::class, 'riwayatPeminjaman'])->name('peminjaman.status');
         Route::get('/create', [PeminjamanController::class, 'createPeminjaman'])->name('peminjaman.create');
         Route::get('/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
-        Route::get('/peminjaman/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
+        Route::get('/{id}/download', [PeminjamanController::class, 'download'])->name('peminjaman.download');
+
+        // PERBAIKAN: Route untuk AJAX check availability
+        Route::post('/check-availability', [PeminjamanController::class, 'checkAvailability'])->name('peminjaman.check-availability');
     });
 });
 

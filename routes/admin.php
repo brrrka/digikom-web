@@ -26,11 +26,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('inventaris', InventarisController::class);
         Route::post('inventaris/{inventaris}/upload', [InventarisController::class, 'uploadImage'])->name('inventaris.upload');
 
+        // PERBAIKAN: Tambahkan route untuk bulk operations dan recalculate
+        Route::post('inventaris/bulk-status', [InventarisController::class, 'bulkUpdateStatus'])->name('inventaris.bulk-status');
+        Route::post('inventaris/recalculate-all', [InventarisController::class, 'recalculateAll'])->name('inventaris.recalculate-all');
+        Route::get('inventaris/{inventaris}/stock', [InventarisController::class, 'getStock'])->name('inventaris.stock');
+
         // Peminjaman Management
         Route::resource('peminjaman', PeminjamanController::class);
         Route::patch('peminjaman/{peminjaman}/status', [PeminjamanController::class, 'updateStatus'])->name('peminjaman.status');
         Route::get('peminjaman/{peminjaman}/export', [PeminjamanController::class, 'exportPdf'])->name('peminjaman.export');
         Route::post('peminjaman/check-overdue', [PeminjamanController::class, 'checkOverdue'])->name('peminjaman.check-overdue');
+
+        // PERBAIKAN: Tambahkan route untuk mendapatkan stok inventaris real-time
+        Route::get('peminjaman/inventaris/{inventaris}/available', [PeminjamanController::class, 'getAvailableQuantity'])->name('peminjaman.available-quantity');
 
         // User Management
         Route::resource('users', UserController::class);
