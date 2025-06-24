@@ -24,16 +24,19 @@
         <img src="{{ asset('images/Ellipse8-' . $assetsColor . '.png') }}"
             class="absolute top-32 right-16 md:right-48 w-28 md:w-40" alt="">
 
-        <div class="container absolute px-4 md:px-12 mx-auto flex items-center mb-4">
-            <a class="flex-none text-dark-green" href="{{ route('praktikum.index') }}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                </svg>
-            </a>
-            <h1 class="text-lg md:text-2xl flex-1 font-bold text-center text-dark-green tracking-wide">
-                {{ $praktikum->name }}
-            </h1>
+        <div class="container mx-auto px-4 md:px-12 mb-4 relative">
+            <div class="flex items-center">
+                <a class="flex-none text-dark-green absolute left-4 md:left-12 z-10"
+                    href="{{ route('praktikum.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                    </svg>
+                </a>
+                <h1 class="text-lg md:text-2xl font-bold text-center text-dark-green tracking-wide w-full">
+                    {{ $praktikum->name }}
+                </h1>
+            </div>
         </div>
 
         <div

@@ -11,57 +11,62 @@
         </div>
 
         <div class="mt-12 relative">
-            <div class="mx-auto max-w-2xl">
-                <div class="bg-white rounded-2xl p-12 border-2 border-black shadow-sm">
-                    <div class="mb-6">
-                        <span class="text-lg font-bold text-green-digikom">ID Peminjaman:</span>
-                        <span class="text-lg">PD-{{ $peminjaman->id }}</span>
-                    </div>
+            <div class="mx-auto max-w-2xl relative">
+                <!-- Pindahkan header ke dalam container yang sama -->
+                <div class="relative">
+                    <div class="absolute -top-3 left-8 bg-white px-2 font-bold">Detail Peminjaman</div>
 
-                    <div class="flex flex-row justify-between mb-8">
-                        <div>
-                            <span class="text-md font-semibold">Tanggal pinjam:</span>
-                            <span>{{ \Carbon\Carbon::parse($peminjaman->tanggal_peminjaman)->format('d/m/Y') }}</span>
+                    <div class="bg-white rounded-2xl p-12 border-2 border-black shadow-sm">
+                        <div class="mb-6">
+                            <span class="text-lg font-bold text-green-digikom">ID Peminjaman:</span>
+                            <span class="text-lg">PD-{{ $peminjaman->id }}</span>
                         </div>
-                        <div>
-                            <span class="text-md font-semibold">Tanggal selesai:</span>
-                            <span>{{ \Carbon\Carbon::parse($peminjaman->tanggal_selesai)->format('d/m/Y') }}</span>
-                        </div>
-                    </div>
 
-                    <div class="mb-6">
-                        <span class="text-md font-semibold">Status:</span>
-                        <span
-                            class="px-3 py-1 ml-2 rounded-full
-                            {{ $peminjaman->status === 'disetujui'
-                                ? 'bg-[#D7EEB9] text-green-800'
-                                : ($peminjaman->status === 'ditolak'
-                                    ? 'bg-red-400 text-white'
-                                    : 'bg-[#F1E0DF] text-[#B16D67]') }}">
-                            {{ ucfirst($peminjaman->status) }}
-                        </span>
-                    </div>
-
-                    <div class="bg-gray-200 rounded-lg p-4 my-4">
-                        @foreach ($peminjaman->detailPeminjaman as $detailPeminjaman)
-                            <div class="flex justify-between py-2">
-                                <div>{{ $peminjaman->detailPeminjaman[$loop->index]->inventaris->nama }}</div>
-                                <div>{{ $peminjaman->detailPeminjaman[$loop->index]->kuantitas }}</div>
+                        <div class="flex flex-row justify-between mb-8">
+                            <div>
+                                <span class="text-md font-semibold">Tanggal pinjam:</span>
+                                <span>{{ \Carbon\Carbon::parse($peminjaman->tanggal_peminjaman)->format('d/m/Y') }}</span>
                             </div>
-                        @endforeach
-                    </div>
-
-                    <div class="mt-6">
-                        <span class="text-md font-semibold">Alasan pinjam:</span>
-                        <p class="mt-2 p-3 bg-gray-100 rounded-lg">{{ $peminjaman->alasan }}</p>
-                    </div>
-
-                    @if ($peminjaman->catatan)
-                        <div class="mt-6">
-                            <span class="text-md font-semibold">Catatan Admin:</span>
-                            <p class="mt-2 p-3 bg-gray-100 rounded-lg">{{ $peminjaman->catatan }}</p>
+                            <div>
+                                <span class="text-md font-semibold">Tanggal selesai:</span>
+                                <span>{{ \Carbon\Carbon::parse($peminjaman->tanggal_selesai)->format('d/m/Y') }}</span>
+                            </div>
                         </div>
-                    @endif
+
+                        <div class="mb-6">
+                            <span class="text-md font-semibold">Status:</span>
+                            <span
+                                class="px-3 py-1 ml-2 rounded-full
+                                {{ $peminjaman->status === 'disetujui'
+                                    ? 'bg-[#D7EEB9] text-green-800'
+                                    : ($peminjaman->status === 'ditolak'
+                                        ? 'bg-red-400 text-white'
+                                        : 'bg-[#F1E0DF] text-[#B16D67]') }}">
+                                {{ ucfirst($peminjaman->status) }}
+                            </span>
+                        </div>
+
+                        <div class="bg-gray-200 rounded-lg p-4 my-4">
+                            @foreach ($peminjaman->detailPeminjaman as $detailPeminjaman)
+                                <div class="flex justify-between py-2">
+                                    <div>{{ $peminjaman->detailPeminjaman[$loop->index]->inventaris->nama }}</div>
+                                    <div>{{ $peminjaman->detailPeminjaman[$loop->index]->kuantitas }}</div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="mt-6">
+                            <span class="text-md font-semibold">Alasan pinjam:</span>
+                            <p class="mt-2 p-3 bg-gray-100 rounded-lg">{{ $peminjaman->alasan }}</p>
+                        </div>
+
+                        @if ($peminjaman->catatan)
+                            <div class="mt-6">
+                                <span class="text-md font-semibold">Catatan Admin:</span>
+                                <p class="mt-2 p-3 bg-gray-100 rounded-lg">{{ $peminjaman->catatan }}</p>
+                            </div>
+                        @endif
+                    </div>
                 </div>
 
                 @if ($peminjaman->status === 'disetujui')
