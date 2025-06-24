@@ -16,6 +16,9 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
+Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{identifier}', [ArtikelController::class, 'show'])->name('artikel.show');
+
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/')->with('success', 'Email berhasil diverifikasi!');
@@ -43,12 +46,6 @@ Route::prefix('praktikum')->group(function () {
 });
 
 Route::get('/moduls/download/{id}', [ModulController::class, 'downloadModul'])->name('moduls.download');
-
-Route::prefix('artikel')->group(function () {
-    Route::get('/', [ArtikelController::class, 'getArtikels'])->name('artikel.index');
-    Route::get('/{id}', [ArtikelController::class, 'showArtikels'])->name('artikel.show');
-});
-
 // Route yang memerlukan autentikasi dan verifikasi
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route Peminjaman - PERBAIKAN: Urutan routes yang benar

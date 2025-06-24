@@ -35,8 +35,8 @@
                             class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman') || request()->routeIs('peminjaman.*') ? 'font-semibold text-gray-900' : '' }}">
                             Peminjaman
                         </a>
-                        <a href="{{ route('digikom.index') }}"
-                            class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'font-semibold text-gray-900' : '' }}">
+                        <a href="{{ route('artikel.index') }}"
+                            class="hover:text-gray-900 px-3 py-2 rounded-md hover:font-medium transition-all duration-200 {{ request()->routeIs('artikel.*') ? 'font-semibold text-gray-900' : '' }}">
                             Artikel
                         </a>
                         <a href="{{ route('digikom.index') }}"
@@ -114,6 +114,10 @@
             <a href="{{ route('peminjaman') }}"
                 class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('peminjaman') || request()->routeIs('peminjaman.*') ? 'text-white bg-primary' : '' }}">
                 Peminjaman
+            </a>
+            <a href="{{ route('artikel.index') }}"
+                class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('artikel.*') ? 'text-white bg-primary' : '' }}">
+                Artikel
             </a>
             <a href="{{ route('digikom.index') }}"
                 class="block text-primary px-3 py-2 rounded-full md:rounded-xl hover:font-medium transition-all duration-200 {{ request()->routeIs('digikom.*') ? 'text-white bg-primary' : '' }}">

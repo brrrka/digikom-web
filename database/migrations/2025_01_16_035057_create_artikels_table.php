@@ -15,11 +15,18 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_users');
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('content');
             $table->string('image')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->string('tags')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
+
             $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
+            $table->index(['status', 'published_at']);
+            $table->index('created_at');
         });
     }
 

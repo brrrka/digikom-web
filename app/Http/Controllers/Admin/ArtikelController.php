@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Admin/ArtikelController.php
 
 namespace App\Http\Controllers\Admin;
 
@@ -20,7 +19,8 @@ class ArtikelController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('content', 'like', '%' . $request->search . '%');
+                    ->orWhere('content', 'like', '%' . $request->search . '%')
+                    ->orWhere('tags', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -29,9 +29,9 @@ class ArtikelController extends Controller
             $query->where('status', $request->status);
         }
 
-        // Filter by author
+        // Filter by author - PERBAIKAN: gunakan id_users bukan user_id
         if ($request->filled('user_id')) {
-            $query->where('user_id', $request->user_id);
+            $query->where('id_users', $request->user_id);
         }
 
         // Filter by date range
@@ -66,7 +66,7 @@ class ArtikelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'id_users' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -75,7 +75,7 @@ class ArtikelController extends Controller
             'tags' => 'nullable|string',
         ]);
 
-        // Generate slug
+        // Generate slug otomatis melalui model
         $validated['slug'] = $this->generateUniqueSlug($validated['title']);
 
         // Handle image upload
@@ -109,7 +109,7 @@ class ArtikelController extends Controller
     public function update(Request $request, Artikel $artikel)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'id_users' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -161,7 +161,6 @@ class ArtikelController extends Controller
     public function toggleStatus(Artikel $artikel)
     {
         $newStatus = $artikel->status === 'published' ? 'draft' : 'published';
-
         $updateData = ['status' => $newStatus];
 
         // Set published_at when publishing
@@ -185,25 +184,25 @@ class ArtikelController extends Controller
         $validated = $request->validate([
             'action' => 'required|in:delete,publish,draft,change_author',
             'artikel_ids' => 'required|array',
-            'artikel_ids.*' => 'exists:artikel,id',
-            'user_id' => 'required_if:action,change_author|exists:users,id',
+            'artikel_ids.*' => 'exists:artikels,id', // PERBAIKAN: artikels bukan artikel
+            'id_users' => 'required_if:action,change_author|exists:users,id', // PERBAIKAN: id_users bukan user_id
         ]);
 
-        $artikel = Artikel::whereIn('id', $validated['artikel_ids']);
+        $artikels = Artikel::whereIn('id', $validated['artikel_ids']);
 
         switch ($validated['action']) {
             case 'delete':
-                foreach ($artikel->get() as $item) {
+                foreach ($artikels->get() as $item) {
                     if ($item->image) {
                         Storage::disk('public')->delete($item->image);
                     }
                 }
-                $artikel->delete();
+                $artikels->delete();
                 $message = 'Artikel berhasil dihapus';
                 break;
 
             case 'publish':
-                $artikel->update([
+                $artikels->update([
                     'status' => 'published',
                     'published_at' => now()
                 ]);
@@ -211,7 +210,7 @@ class ArtikelController extends Controller
                 break;
 
             case 'draft':
-                $artikel->update([
+                $artikels->update([
                     'status' => 'draft',
                     'published_at' => null
                 ]);
@@ -219,7 +218,7 @@ class ArtikelController extends Controller
                 break;
 
             case 'change_author':
-                $artikel->update(['user_id' => $validated['user_id']]);
+                $artikels->update(['id_users' => $validated['id_users']]); // PERBAIKAN: id_users
                 $message = 'Author artikel berhasil diupdate';
                 break;
         }
@@ -280,15 +279,12 @@ class ArtikelController extends Controller
 
         while (true) {
             $query = Artikel::where('slug', $slug);
-
             if ($ignoreId) {
                 $query->where('id', '!=', $ignoreId);
             }
-
             if (!$query->exists()) {
                 break;
             }
-
             $slug = $originalSlug . '-' . $counter;
             $counter++;
         }

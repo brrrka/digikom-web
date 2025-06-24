@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PraktikumSeeder::class,
             ModulSeeder::class,
-            ArtikelSeeder::class,
         ]);
     }
 }

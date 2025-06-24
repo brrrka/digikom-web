@@ -50,6 +50,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Artikel Management
         Route::resource('artikel', ArtikelController::class);
 
+        // TAMBAHAN: Route khusus untuk artikel
+        Route::patch('artikel/{artikel}/toggle-status', [ArtikelController::class, 'toggleStatus'])->name('artikel.toggle-status');
+        Route::post('artikel/{artikel}/duplicate', [ArtikelController::class, 'duplicate'])->name('artikel.duplicate');
+        Route::post('artikel/bulk-action', [ArtikelController::class, 'bulkAction'])->name('artikel.bulk-action');
+        Route::post('artikel/upload-image', [ArtikelController::class, 'uploadImage'])->name('artikel.upload-image');
+        Route::get('artikel/{artikel}/preview', [ArtikelController::class, 'preview'])->name('artikel.preview');
+
         // Export routes
         Route::get('export/all-data', [DashboardController::class, 'exportAllData'])->name('export.all');
         Route::get('export/peminjaman', [PeminjamanController::class, 'exportAll'])->name('export.peminjaman');
