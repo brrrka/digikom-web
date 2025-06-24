@@ -59,7 +59,14 @@ class ArtikelController extends Controller
 
     public function create()
     {
-        $users = User::orderBy('name')->get();
+        // ✅ Hanya ambil user yang admin
+        $users = User::whereHas('role', function ($query) {
+            $query->where('roles', 'superadmin');
+        })
+            ->orWhere('id_roles', 1)
+            ->orderBy('name')
+            ->get();
+
         return view('admin.artikel.create', compact('users'));
     }
 
@@ -102,7 +109,14 @@ class ArtikelController extends Controller
 
     public function edit(Artikel $artikel)
     {
-        $users = User::orderBy('name')->get();
+        // ✅ Hanya ambil user yang admin
+        $users = User::whereHas('role', function ($query) {
+            $query->where('roles', 'superadmin');
+        })
+            ->orWhere('id_roles', 1)
+            ->orderBy('name')
+            ->get();
+
         return view('admin.artikel.edit', compact('artikel', 'users'));
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Modul;
 use App\Models\Praktikum;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -35,7 +36,15 @@ class ModulController extends Controller
     public function create()
     {
         $praktikums = Praktikum::orderBy('name')->get();
-        return view('admin.moduls.create', compact('praktikums'));
+
+        $users = User::whereHas('role', function ($query) {
+            $query->where('roles', 'superadmin');
+        })
+            ->orWhere('id_roles', 1)
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.moduls.create', compact('praktikums', 'users'));
     }
 
     public function store(Request $request)

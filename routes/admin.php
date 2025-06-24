@@ -22,22 +22,35 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('moduls/{modul}/upload', [ModulController::class, 'uploadFile'])->name('moduls.upload');
         Route::delete('moduls/file/{id}', [ModulController::class, 'deleteFile'])->name('moduls.file.delete');
 
-        // Inventaris Management
-        Route::resource('inventaris', InventarisController::class);
-        Route::post('inventaris/{inventaris}/upload', [InventarisController::class, 'uploadImage'])->name('inventaris.upload');
+        // PERBAIKAN: Inventaris routes - specific routes HARUS di atas resource routes
+        Route::group(['prefix' => 'inventaris', 'as' => 'inventaris.'], function () {
+            // Export routes - HARUS di atas yang lain
+            Route::get('export', [InventarisController::class, 'export'])->name('export');
+            Route::get('export-selected', [InventarisController::class, 'exportSelected'])->name('export-selected');
+            Route::get('download-template', [InventarisController::class, 'downloadTemplate'])->name('download-template');
 
-        // PERBAIKAN: Tambahkan route untuk bulk operations dan recalculate
-        Route::post('inventaris/bulk-status', [InventarisController::class, 'bulkUpdateStatus'])->name('inventaris.bulk-status');
-        Route::post('inventaris/recalculate-all', [InventarisController::class, 'recalculateAll'])->name('inventaris.recalculate-all');
-        Route::get('inventaris/{inventaris}/stock', [InventarisController::class, 'getStock'])->name('inventaris.stock');
+            // Import routes
+            Route::get('import', [InventarisController::class, 'showImportForm'])->name('import-form');
+            Route::post('import', [InventarisController::class, 'import'])->name('import');
+
+            // AJAX/API routes
+            Route::post('bulk-export', [InventarisController::class, 'bulkExport'])->name('bulk-export');
+            Route::post('bulk-update-status', [InventarisController::class, 'bulkUpdateStatus'])->name('bulk-update-status');
+            Route::post('recalculate-all', [InventarisController::class, 'recalculateAll'])->name('recalculate-all');
+
+            // Individual item routes dengan parameter
+            Route::post('{inventaris}/upload-image', [InventarisController::class, 'uploadImage'])->name('upload-image');
+            Route::get('{inventaris}/stock', [InventarisController::class, 'getStock'])->name('get-stock');
+        });
+
+        // Inventaris Resource routes - HARUS setelah specific routes
+        Route::resource('inventaris', InventarisController::class);
 
         // Peminjaman Management
         Route::resource('peminjaman', PeminjamanController::class);
         Route::patch('peminjaman/{peminjaman}/status', [PeminjamanController::class, 'updateStatus'])->name('peminjaman.status');
         Route::get('peminjaman/{peminjaman}/export', [PeminjamanController::class, 'exportPdf'])->name('peminjaman.export');
         Route::post('peminjaman/check-overdue', [PeminjamanController::class, 'checkOverdue'])->name('peminjaman.check-overdue');
-
-        // PERBAIKAN: Tambahkan route untuk mendapatkan stok inventaris real-time
         Route::get('peminjaman/inventaris/{inventaris}/available', [PeminjamanController::class, 'getAvailableQuantity'])->name('peminjaman.available-quantity');
 
         // User Management
@@ -49,15 +62,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Artikel Management
         Route::resource('artikel', ArtikelController::class);
-
-        // TAMBAHAN: Route khusus untuk artikel
         Route::patch('artikel/{artikel}/toggle-status', [ArtikelController::class, 'toggleStatus'])->name('artikel.toggle-status');
         Route::post('artikel/{artikel}/duplicate', [ArtikelController::class, 'duplicate'])->name('artikel.duplicate');
         Route::post('artikel/bulk-action', [ArtikelController::class, 'bulkAction'])->name('artikel.bulk-action');
         Route::post('artikel/upload-image', [ArtikelController::class, 'uploadImage'])->name('artikel.upload-image');
         Route::get('artikel/{artikel}/preview', [ArtikelController::class, 'preview'])->name('artikel.preview');
 
-        // Export routes
+        // Export routes - Global
         Route::get('export/all-data', [DashboardController::class, 'exportAllData'])->name('export.all');
         Route::get('export/peminjaman', [PeminjamanController::class, 'exportAll'])->name('export.peminjaman');
     });

@@ -118,7 +118,6 @@ class PeminjamanController extends Controller
                 'alasan'
             ));
         } catch (\Exception $e) {
-            Log::error('Error in confirmPeminjaman: ' . $e->getMessage());
 
             return redirect()->route('peminjaman.form')
                 ->with('error', 'Terjadi kesalahan saat memproses data. Silakan coba lagi.');
@@ -309,7 +308,6 @@ class PeminjamanController extends Controller
 
             return response()->json($items->values());
         } catch (\Exception $e) {
-            Log::error('Error checking availability: ' . $e->getMessage());
 
             return response()->json([
                 'error' => 'Terjadi kesalahan saat mengecek ketersediaan'

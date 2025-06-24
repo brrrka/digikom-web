@@ -63,23 +63,6 @@
                 <input type="hidden" name="alasan" value="{{ $alasan }}">
 
                 <div class="mx-auto max-w-2xl relative">
-                    @if ($tanggal_peminjaman && $tanggal_selesai && $alasan)
-                        <!-- Header card with loan details -->
-                        <div class="bg-blue-50 rounded-2xl p-4 border border-blue-200 mb-6">
-                            <h3 class="font-semibold text-blue-800 mb-2">Detail Peminjaman</h3>
-                            <div class="text-sm text-blue-700 space-y-1">
-                                <div><strong>Tanggal Pinjam:</strong>
-                                    {{ \Carbon\Carbon::parse($tanggal_peminjaman)->format('d M Y') }}</div>
-                                <div><strong>Tanggal Selesai:</strong>
-                                    {{ \Carbon\Carbon::parse($tanggal_selesai)->format('d M Y') }}</div>
-                                <div><strong>Durasi:</strong>
-                                    {{ \Carbon\Carbon::parse($tanggal_peminjaman)->diffInDays(\Carbon\Carbon::parse($tanggal_selesai)) }}
-                                    hari</div>
-                                <div><strong>Alasan:</strong> {{ $alasan }}</div>
-                            </div>
-                        </div>
-                    @endif
-
                     <div class="absolute -top-3 left-8 bg-white px-2 font-bold">Barang yang akan dipinjam</div>
 
                     <div class="bg-white rounded-2xl p-4 border-2 border-black shadow-sm divide-y">
@@ -107,7 +90,7 @@
                                         @endif
                                     </div>
                                     @if ($item->deskripsi)
-                                        <div class="text-xs text-gray-500 mt-1">{{ Str::limit($item->deskripsi, 80) }}
+                                        <div class="text-xs text-gray-500 mt-1">{{ Str::limit($item->deskripsi, 60) }}
                                         </div>
                                     @endif
                                 </div>
@@ -115,7 +98,7 @@
                                     <button type="button"
                                         class="decrease-btn py-2 px-3 text-gray-700 hover:bg-gray-100 rounded-l-lg border border-gray-300 transition-colors duration-200"
                                         data-id="{{ $item->id }}">−</button>
-                                    <div class="w-24 text-center border-t border-b border-gray-300 py-2 bg-gray-50">
+                                    <div class="w-24 text-center py-2">
                                         <span id="quantity-text-{{ $item->id }}"
                                             class="font-semibold text-lg">0</span>
                                         <div class="text-xs text-gray-500">max <span
@@ -554,7 +537,7 @@
                             // Submit anyway if error checking
                             if (confirm(
                                     `Konfirmasi peminjaman ${totalQuantity} unit barang? (Validasi stok tidak dapat dilakukan)`
-                                    )) {
+                                )) {
                                 this.submit();
                             }
                         }).finally(() => {
