@@ -156,7 +156,6 @@
 
         <!-- Header with logo -->
         <div class="email-header">
-            <img src="https://i.postimg.cc/Hnc0wWY6/digi.png" alt="Logo DIGIKOM" class="logo">
 
             <!-- Main content -->
             <div class="email-body">
