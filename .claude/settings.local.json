@@ -5,7 +5,9 @@
       "Bash(composer validate:*)",
       "Bash(npm run build:*)",
       "Bash(find:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(composer update:*)",
+      "Bash(composer:*)"
     ],
     "deny": [],
     "ask": []
