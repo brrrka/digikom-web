@@ -12,23 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('artikels', function (Blueprint $table) {
-            $table->index(['status', 'published_at']);
-            $table->index('created_at');
+            // Skip status+published_at index - already exists in create_artikels_table
+            // Skip created_at index - already exists in create_artikels_table
         });
 
         Schema::table('inventaris', function (Blueprint $table) {
-            $table->index('kuantitas');
-            $table->index('created_at');
+            // Skip kuantitas index - already covered by composite index in create_inventaris_table
+            // Skip created_at index - appears to already exist
         });
 
-        Schema::table('peminjamen', function (Blueprint $table) {
-            $table->index(['user_id', 'status']);
-            $table->index('created_at');
+        Schema::table('peminjamans', function (Blueprint $table) {
+            // Skip id_users + status index - already exists as 'idx_peminjaman_user_status'
+            // Skip created_at index - appears to already exist
         });
 
-        Schema::table('detail_peminjamen', function (Blueprint $table) {
-            $table->index('peminjaman_id');
-            $table->index('inventaris_id');
+        Schema::table('detail_peminjaman', function (Blueprint $table) {
+            // Skip indexes - already exist as 'idx_detail_peminjaman' and 'idx_detail_inventaris'
         });
     }
 
@@ -38,23 +37,19 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('artikels', function (Blueprint $table) {
-            $table->dropIndex(['status', 'published_at']);
-            $table->dropIndex(['created_at']);
+            // No indexes to drop - they were created in create_artikels_table
         });
 
         Schema::table('inventaris', function (Blueprint $table) {
-            $table->dropIndex(['kuantitas']);
-            $table->dropIndex(['created_at']);
+            // No indexes to drop - they were created elsewhere
         });
 
-        Schema::table('peminjamen', function (Blueprint $table) {
-            $table->dropIndex(['user_id', 'status']);
-            $table->dropIndex(['created_at']);
+        Schema::table('peminjamans', function (Blueprint $table) {
+            // No indexes to drop - they were created elsewhere
         });
 
-        Schema::table('detail_peminjamen', function (Blueprint $table) {
-            $table->dropIndex(['peminjaman_id']);
-            $table->dropIndex(['inventaris_id']);
+        Schema::table('detail_peminjaman', function (Blueprint $table) {
+            // No indexes to drop - they were created in create_detail_peminjamans_table
         });
     }
 };
