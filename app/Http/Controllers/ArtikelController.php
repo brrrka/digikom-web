@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArtikelController extends Controller
 {
@@ -95,7 +96,7 @@ class ArtikelController extends Controller
                 'title' => $artikel->title,
                 'slug' => $artikel->slug,
                 'excerpt' => $this->getExcerpt($artikel->content),
-                'image' => $artikel->image ? asset('storage/' . $artikel->image) : null,
+                'image' => $artikel->image ? Storage::url($artikel->image) : null,
                 'author' => $artikel->user->name ?? 'Unknown',
                 'published_at' => $artikel->published_at->format('Y-m-d H:i:s'),
                 'published_at_human' => $artikel->published_at->diffForHumans(),
@@ -132,7 +133,7 @@ class ArtikelController extends Controller
             'title' => $artikel->title,
             'slug' => $artikel->slug,
             'content' => $artikel->content,
-            'image' => $artikel->image ? asset('storage/' . $artikel->image) : null,
+            'image' => $artikel->image ? Storage::url($artikel->image) : null,
             'author' => [
                 'id' => $artikel->user->id ?? null,
                 'name' => $artikel->user->name ?? 'Unknown',
@@ -202,7 +203,7 @@ class ArtikelController extends Controller
                 'title' => $artikel->title,
                 'slug' => $artikel->slug,
                 'excerpt' => $this->getExcerpt($artikel->content),
-                'image' => $artikel->image ? asset('storage/' . $artikel->image) : null,
+                'image' => $artikel->image ? Storage::url($artikel->image) : null,
                 'author' => $artikel->user->name ?? 'Unknown',
                 'published_at' => $artikel->published_at->format('Y-m-d H:i:s'),
                 'published_at_human' => $artikel->published_at->diffForHumans(),
@@ -253,7 +254,7 @@ class ArtikelController extends Controller
                 'title' => $artikel->title,
                 'slug' => $artikel->slug,
                 'excerpt' => $this->getExcerpt($artikel->content),
-                'image' => $artikel->image ? asset('storage/' . $artikel->image) : null,
+                'image' => $artikel->image ? Storage::url($artikel->image) : null,
                 'author' => $artikel->user->name ?? 'Unknown',
                 'published_at' => $artikel->published_at->format('Y-m-d H:i:s'),
                 'published_at_human' => $artikel->published_at->diffForHumans(),

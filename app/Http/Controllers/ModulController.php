@@ -24,7 +24,7 @@ class ModulController extends Controller
     {
         $modul = Modul::findOrFail($id);
 
-        $fullPath = public_path('storage/' . $modul->file_path);
+        $fullPath = public_path('' . $modul->file_path);
 
         if (file_exists($fullPath)) {
             return response()->download($fullPath, $modul->title . '.pdf');

@@ -65,7 +65,7 @@
                         </div>
 
                         <div class="z-10 flex flex-col items-center">
-                            <img src="{{ asset('storage/' . $praktikum->image) }}" alt="" class="mb-4">
+                            <img src="{{ Storage::url($praktikum->image) }}" alt="" class="mb-4">
                             <p class="text-center text-pretty font-bold text-base text-sm">{{ $praktikum->name }}</p>
                         </div>
                     </a>
