@@ -1,4 +1,7 @@
+<?php
 @php
+    use Illuminate\Support\Facades\Storage;
+
     $bgColor = match ($praktikum->name) {
         'Praktikum Logika Digital' => 'from-[#FFFEDB]',
         'Organisasi dan Arsitektur Komputer 1' => 'from-[#FFECEB]',
@@ -50,9 +53,9 @@
 
                     <div
                         class="w-full bg-white p-4 rounded-2xl shadow-lg hidden group-hover:block transition-all duration-300 ease-in-out z-10">
-                        <a href="{{ $modul->file_path ? route('moduls.download', $modul->id) : '#' }}"
+                        <a href="{{ $modul->file_path ? Storage::url($modul->file_path) : '#' }}"
                             class="download-btn flex justify-center items-center text-white h-10 w-full bg-gradient-to-r from-gray-950 to-dark-green text-sm rounded-lg mb-4 hover:bg-gray-100"
-                            data-file="{{ $modul->file_path }}">
+                            data-file="{{ $modul->file_path ? Storage::url($modul->file_path) : '' }}">
                             Download Modul
                         </a>
                         <a href="{{ $modul->link_video ? $modul->link_video : '#' }}" target="_blank"

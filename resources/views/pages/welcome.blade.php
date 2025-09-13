@@ -46,7 +46,7 @@
                     </p>
                 </div>
 
-                <a href="https://www.youtube.com/watch?v=vU7pd9IUsmo&t=26s&ab_channel=DigikomTeknikKomputerUnand"
+                <a href="https://youtu.be/sjkxwIwSCKg?si=Z7rrFprCIWapFeOW"
                     target="_blank"
                     class=" absolute bottom-12 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-48 lg:bottom-40 rounded-full bg-primary px-8 py-2 text-black font-semibold">
                     Learn More
