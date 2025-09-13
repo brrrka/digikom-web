@@ -1,6 +1,5 @@
 <?php
 @php
-    use Illuminate\Support\Facades\Storage;
 
     $bgColor = match ($praktikum->name) {
         'Praktikum Logika Digital' => 'from-[#FFFEDB]',
