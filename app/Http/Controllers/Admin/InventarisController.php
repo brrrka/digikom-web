@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\InventarisExport;
 use App\Imports\InventarisImport;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class InventarisController extends Controller
 {
@@ -497,37 +498,63 @@ class InventarisController extends Controller
         try {
             Log::info('Download template started', ['user_id' => auth()->id()]);
 
+            // Use same headers as export for consistency
             $headers = [
-                ['nama_inventaris', 'kuantitas', 'status', 'deskripsi'],
-                ['Mikroskop Digital', '5', 'tersedia', 'Mikroskop digital untuk lab biologi'],
-                ['Pipet Mikro', '20', 'tersedia', 'Pipet mikro 10-100µL'],
-                ['Tabung Reaksi', '50', 'tidak tersedia', 'Tabung reaksi borosilikat 15ml'],
-                ['Beaker Glass 250ml', '30', 'tersedia', 'Gelas beaker borosilikat'],
-                ['pH Meter Digital', '3', 'tersedia', 'Alat ukur pH digital'],
+                ['ID', 'Nama Inventaris', 'Kuantitas', 'Status', 'Deskripsi', 'Total Dipinjam', 'Tersedia', 'Tanggal Dibuat', 'Terakhir Diupdate'],
+                ['', 'Mikroskop Digital', '5', 'tersedia', 'Mikroskop digital untuk lab biologi', '', '', '', ''],
+                ['', 'Pipet Mikro', '20', 'tersedia', 'Pipet mikro 10-100µL', '', '', '', ''],
+                ['', 'Tabung Reaksi', '50', 'tidak tersedia', 'Tabung reaksi borosilikat 15ml', '', '', '', ''],
+                ['', 'Beaker Glass 250ml', '30', 'tersedia', 'Gelas beaker borosilikat', '', '', '', ''],
+                ['', 'pH Meter Digital', '3', 'tersedia', 'Alat ukur pH digital', '', '', '', ''],
             ];
 
-            $filename = 'template_import_inventaris_' . now()->format('Y-m-d') . '.csv';
+            $filename = 'template_import_inventaris_' . now()->format('Y-m-d') . '.xlsx';
 
-            $callback = function () use ($headers) {
-                $file = fopen('php://output', 'w');
+            // Create Excel file using the same export class structure
+            $export = new class($headers) implements \Maatwebsite\Excel\Concerns\FromArray, \Maatwebsite\Excel\Concerns\WithHeadings, \Maatwebsite\Excel\Concerns\WithStyles, \Maatwebsite\Excel\Concerns\WithColumnWidths {
+                private $data;
 
-                // Add UTF-8 BOM for proper Excel encoding
-                fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
-
-                foreach ($headers as $row) {
-                    fputcsv($file, $row);
+                public function __construct($data) {
+                    $this->data = $data;
                 }
 
-                fclose($file);
+                public function array(): array {
+                    return array_slice($this->data, 1); // Skip header row
+                }
+
+                public function headings(): array {
+                    return $this->data[0]; // First row as heading
+                }
+
+                public function columnWidths(): array {
+                    return [
+                        'A' => 8,   // ID
+                        'B' => 25,  // Nama
+                        'C' => 12,  // Kuantitas
+                        'D' => 15,  // Status
+                        'E' => 30,  // Deskripsi
+                        'F' => 15,  // Total Dipinjam
+                        'G' => 12,  // Tersedia
+                        'H' => 18,  // Created
+                        'I' => 18,  // Updated
+                    ];
+                }
+
+                public function styles(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet) {
+                    return [
+                        1 => [
+                            'font' => ['bold' => true],
+                            'fill' => [
+                                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                'startColor' => ['rgb' => '4F46E5']
+                            ],
+                            'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true],
+                        ],
+                    ];
+                }
             };
 
-            $responseHeaders = [
-                'Content-Type' => 'text/csv; charset=UTF-8',
-                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-                'Cache-Control' => 'max-age=0',
-            ];
-
-            return response()->stream($callback, 200, $responseHeaders);
+            return Excel::download($export, $filename);
         } catch (\Exception $e) {
             Log::error('Download template failed', [
                 'error' => $e->getMessage()

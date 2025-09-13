@@ -118,17 +118,6 @@
                         Actions</div>
                     <ul role="list" class="space-y-1">
                         <li>
-                            <a href="{{ route('admin.export.all') }}"
-                                class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium text-gray-600 hover:text-primary-700 hover:bg-primary-50">
-                                <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 9.75v6.75m0 0l-3-3m3 3l3-3m-8.25 6a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                                </svg>
-                                Export Data
-                            </a>
-                        </li>
-                        <li>
                             <button onclick="checkOverdue()"
                                 class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium text-gray-600 hover:text-orange-700 hover:bg-orange-50 w-full text-left">
                                 <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

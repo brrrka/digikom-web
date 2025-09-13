@@ -2,7 +2,28 @@
     <!-- CSRF Token for AJAX requests -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <div class="min-h-screen flex flex-col px-4 md:px-48">
+
+        @if($errors->any())
+            <div class="mt-20 mb-4 max-w-96 mx-auto">
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex">
+                        <svg class="h-5 w-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div>
+                            <h3 class="text-sm font-medium text-red-800 mb-2">Terdapat kesalahan pada form:</h3>
+                            <ul class="text-sm text-red-700 list-disc list-inside">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="flex justify-center mt-32 relative">
             <a class="absolute left-0 flex-none text-black" href="{{ route('peminjaman') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -32,8 +53,9 @@
                     class="absolute bottom-9 left-8 bg-white text-sm font-regular px-1">Tanggal
                     pinjam</label>
                 <input type="date" id="tanggal_peminjaman" name="tanggal_peminjaman"
-                    class="rounded-3xl px-4 py-3 text-sm focus:border-dark-green focus:ring-dark-green w-full"
-                    min="{{ date('Y-m-d') }}" required>
+                    class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green w-full"
+                    min="{{ date('Y-m-d') }}" value="{{ old('tanggal_peminjaman') }}" required>
+                <div id="error-tanggal_peminjaman" class="hidden text-red-500 text-xs mt-1 ml-4"></div>
             </div>
 
             <div class="flex flex-col w-full max-w-96 relative mt-8">
@@ -41,7 +63,8 @@
                     selesai</label>
                 <input type="date" id="tanggal_selesai" name="tanggal_selesai"
                     class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green w-full"
-                    required>
+                    value="{{ old('tanggal_selesai') }}" required>
+                <div id="error-tanggal_selesai" class="hidden text-red-500 text-xs mt-1 ml-4"></div>
             </div>
 
             <div class="flex flex-col w-full max-w-96 relative mt-8">
@@ -49,7 +72,8 @@
                     Peminjaman</label>
                 <input type="text" id="alasan" name="alasan"
                     class="rounded-3xl px-4 py-3 text-sm border focus:border-dark-green focus:ring-dark-green w-full"
-                    placeholder="Sertakan alasan yang jelas" minlength="10" required>
+                    placeholder="Sertakan alasan yang jelas" minlength="10" value="{{ old('alasan') }}" required>
+                <div id="error-alasan" class="hidden text-red-500 text-xs mt-1 ml-4"></div>
             </div>
 
             <div class="flex flex-col w-full max-w-96 relative mt-8">
@@ -92,6 +116,7 @@
             <div id="selected-items" class="flex flex-wrap w-full max-w-96 gap-2 mt-2">
                 <!-- Selected items will be displayed here -->
             </div>
+            <div id="error-barang" class="hidden text-red-500 text-xs mt-1 ml-4 w-full max-w-96"></div>
 
             <!-- Stock refresh button -->
             <div class="flex justify-center w-full max-w-96 mt-4">
@@ -125,8 +150,118 @@
             let selectedItems = [];
             let stockCheckTimeout;
 
+            // Form persistence functions
+            function saveFormState() {
+                const formState = {
+                    tanggal_peminjaman: document.getElementById('tanggal_peminjaman').value,
+                    tanggal_selesai: document.getElementById('tanggal_selesai').value,
+                    alasan: document.getElementById('alasan').value,
+                    selectedItems: selectedItems.map(id => ({
+                        id: id,
+                        nama: document.querySelector(`button[data-id="${id}"]`)?.closest('.flex').querySelector('span').textContent || ''
+                    }))
+                };
+                localStorage.setItem('peminjaman_form_state', JSON.stringify(formState));
+            }
+
+            function loadFormState() {
+                const savedState = localStorage.getItem('peminjaman_form_state');
+                if (savedState) {
+                    try {
+                        const formState = JSON.parse(savedState);
+
+                        // Restore form fields
+                        if (formState.tanggal_peminjaman) {
+                            document.getElementById('tanggal_peminjaman').value = formState.tanggal_peminjaman;
+                        }
+                        if (formState.tanggal_selesai) {
+                            document.getElementById('tanggal_selesai').value = formState.tanggal_selesai;
+                        }
+                        if (formState.alasan) {
+                            document.getElementById('alasan').value = formState.alasan;
+                        }
+
+                        // Restore selected items
+                        if (formState.selectedItems && formState.selectedItems.length > 0) {
+                            formState.selectedItems.forEach(item => {
+                                // Check if item is still available in the dropdown
+                                const option = document.querySelector(`.item-option[data-id="${item.id}"]`);
+                                if (option && !selectedItems.includes(item.id)) {
+                                    selectedItems.push(item.id);
+                                    addSelectedItem(item.id, item.nama);
+                                }
+                            });
+                        }
+
+                        updateSubmitButton();
+                    } catch (e) {
+                        console.error('Error loading form state:', e);
+                        localStorage.removeItem('peminjaman_form_state');
+                    }
+                }
+            }
+
+            function clearFormState() {
+                localStorage.removeItem('peminjaman_form_state');
+            }
+
             // Initialize form state
             submitBtn.disabled = true;
+
+            // Handle server validation errors display
+            @if($errors->any())
+                // Highlight fields with server errors
+                @foreach($errors->keys() as $field)
+                    @if($field === 'id_inventaris')
+                        clearFieldError('barang');
+                        const barangSearch = document.getElementById('barang_search');
+                        if (barangSearch) {
+                            barangSearch.classList.add('border-red-500', 'ring-red-500');
+                        }
+                        const errorBag = document.getElementById('error-barang');
+                        if (errorBag) {
+                            errorBag.textContent = '{{ $errors->first('id_inventaris') }}';
+                            errorBag.classList.remove('hidden');
+                        }
+                    @else
+                        const input{{ ucfirst(str_replace('_', '', $field)) }} = document.getElementById('{{ $field }}');
+                        if (input{{ ucfirst(str_replace('_', '', $field)) }}) {
+                            input{{ ucfirst(str_replace('_', '', $field)) }}.classList.add('border-red-500', 'ring-red-500');
+                        }
+                        const error{{ ucfirst(str_replace('_', '', $field)) }} = document.getElementById('error-{{ $field }}');
+                        if (error{{ ucfirst(str_replace('_', '', $field)) }}) {
+                            error{{ ucfirst(str_replace('_', '', $field)) }}.textContent = '{{ $errors->first($field) }}';
+                            error{{ ucfirst(str_replace('_', '', $field)) }}.classList.remove('hidden');
+                        }
+                    @endif
+                @endforeach
+            @else
+                // Load saved form state if no server validation errors
+                loadFormState();
+            @endif
+
+            // Add event listeners to clear errors and save state when user starts typing/changing values
+            document.getElementById('tanggal_peminjaman').addEventListener('change', function() {
+                clearFieldError('tanggal_peminjaman');
+                saveFormState();
+            });
+
+            document.getElementById('tanggal_selesai').addEventListener('change', function() {
+                clearFieldError('tanggal_selesai');
+                saveFormState();
+            });
+
+            document.getElementById('alasan').addEventListener('input', function() {
+                clearFieldError('alasan');
+                // Debounce save to avoid too many saves
+                clearTimeout(stockCheckTimeout);
+                stockCheckTimeout = setTimeout(saveFormState, 500);
+            });
+
+            // Clear barang error when items are selected/deselected
+            function clearBarangError() {
+                clearFieldError('barang');
+            }
 
             // Set minimum date for tanggal_selesai based on tanggal_peminjaman
             document.getElementById('tanggal_peminjaman').addEventListener('change', function() {
@@ -170,6 +305,8 @@
                         addSelectedItem(itemId, itemNama);
                         selectedItems.push(itemId);
                         updateSubmitButton();
+                        clearBarangError(); // Clear barang error when item is selected
+                        saveFormState(); // Save state when item is selected
                     }
 
                     barangSearch.value = '';
@@ -203,6 +340,12 @@
                     selectedItems = selectedItems.filter(id => id !== itemId);
                     tag.remove();
                     updateSubmitButton();
+
+                    // Clear error if there are still selected items, otherwise keep it for validation
+                    if (selectedItems.length > 0) {
+                        clearBarangError();
+                    }
+                    saveFormState(); // Save state when item is removed
                 });
 
                 selectedItemsContainer.appendChild(tag);
@@ -285,63 +428,169 @@
                 }
             }
 
-            // Show notification
-            function showNotification(message, type = 'info') {
-                let notification = document.getElementById('stock-notification');
-                if (!notification) {
-                    notification = document.createElement('div');
-                    notification.id = 'stock-notification';
-                    document.body.appendChild(notification);
+            // Use global notification system (loaded via notifications.js)
+            function showNotification(message, type = 'info', duration = 5000) {
+                return window.notifications.show(message, type, duration);
+            }
+
+            // Form validation functions
+            function validateForm() {
+                let isValid = true;
+                const errors = {};
+
+                // Clear previous errors
+                clearFieldErrors();
+
+                // Validate tanggal_peminjaman
+                const tanggalPeminjaman = document.getElementById('tanggal_peminjaman').value;
+                if (!tanggalPeminjaman) {
+                    errors.tanggal_peminjaman = 'Tanggal peminjaman wajib diisi';
+                    isValid = false;
+                } else {
+                    const today = new Date().toISOString().split('T')[0];
+                    if (tanggalPeminjaman < today) {
+                        errors.tanggal_peminjaman = 'Tanggal peminjaman tidak boleh kurang dari hari ini';
+                        isValid = false;
+                    }
                 }
 
-                const typeClasses = {
-                    'info': 'bg-blue-100 border-blue-400 text-blue-800',
-                    'warning': 'bg-yellow-100 border-yellow-400 text-yellow-800',
-                    'error': 'bg-red-100 border-red-400 text-red-800',
-                    'success': 'bg-green-100 border-green-400 text-green-800'
-                };
+                // Validate tanggal_selesai
+                const tanggalSelesai = document.getElementById('tanggal_selesai').value;
+                if (!tanggalSelesai) {
+                    errors.tanggal_selesai = 'Tanggal selesai wajib diisi';
+                    isValid = false;
+                } else if (tanggalPeminjaman && tanggalSelesai <= tanggalPeminjaman) {
+                    errors.tanggal_selesai = 'Tanggal selesai harus setelah tanggal peminjaman';
+                    isValid = false;
+                }
 
-                notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm border-l-4 ${typeClasses[type] || typeClasses['info']}`;
-                notification.innerHTML = `
-                    <div class="flex items-start">
-                        <div class="ml-3 w-0 flex-1">
-                            <p class="text-sm font-medium">${message}</p>
-                        </div>
-                        <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-gray-400 hover:text-gray-600">
-                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                    </div>
-                `;
+                // Validate alasan
+                const alasan = document.getElementById('alasan').value.trim();
+                if (!alasan) {
+                    errors.alasan = 'Alasan peminjaman wajib diisi';
+                    isValid = false;
+                } else if (alasan.length < 10) {
+                    errors.alasan = 'Alasan peminjaman minimal 10 karakter';
+                    isValid = false;
+                }
 
-                setTimeout(() => {
-                    if (notification && notification.parentElement) {
-                        notification.remove();
+                // Validate selected items
+                if (selectedItems.length === 0) {
+                    errors.barang = 'Pilih minimal satu barang yang akan dipinjam';
+                    isValid = false;
+                }
+
+                // Display errors
+                if (!isValid) {
+                    displayFieldErrors(errors);
+                    // Also show SweetAlert for first error
+                    const firstError = Object.values(errors)[0];
+                    window.swalError(firstError, {
+                        title: 'Form Tidak Valid'
+                    });
+                }
+
+                return isValid;
+            }
+
+            function clearFieldErrors() {
+                // Remove error classes
+                document.querySelectorAll('input').forEach(input => {
+                    input.classList.remove('border-red-500', 'ring-red-500');
+                    input.classList.add('border-gray-300');
+                });
+
+                // Hide error messages
+                document.querySelectorAll('[id^="error-"]').forEach(errorDiv => {
+                    errorDiv.classList.add('hidden');
+                    errorDiv.textContent = '';
+                });
+            }
+
+            function displayFieldErrors(errors) {
+                Object.keys(errors).forEach(field => {
+                    // Highlight input field (except for 'barang' which is a special case)
+                    if (field !== 'barang') {
+                        const input = document.getElementById(field);
+                        if (input) {
+                            input.classList.remove('border-gray-300');
+                            input.classList.add('border-red-500', 'ring-red-500');
+                        }
+                    } else {
+                        // Highlight the search input for barang selection
+                        const barangSearch = document.getElementById('barang_search');
+                        if (barangSearch) {
+                            barangSearch.classList.remove('border-gray-300');
+                            barangSearch.classList.add('border-red-500', 'ring-red-500');
+                        }
                     }
-                }, 5000);
+
+                    // Show error message
+                    const errorDiv = document.getElementById(`error-${field}`);
+                    if (errorDiv) {
+                        errorDiv.textContent = errors[field];
+                        errorDiv.classList.remove('hidden');
+                    }
+                });
+
+                // Show general notification
+                const errorMessages = Object.values(errors);
+                showNotification(`Form tidak valid: ${errorMessages[0]}`, 'error', 6000);
+            }
+
+            function clearFieldError(fieldId) {
+                if (fieldId === 'barang') {
+                    // Clear barang search input error
+                    const barangSearch = document.getElementById('barang_search');
+                    if (barangSearch) {
+                        barangSearch.classList.remove('border-red-500', 'ring-red-500');
+                        barangSearch.classList.add('border-gray-300');
+                    }
+                } else {
+                    const input = document.getElementById(fieldId);
+                    if (input) {
+                        input.classList.remove('border-red-500', 'ring-red-500');
+                        input.classList.add('border-gray-300');
+                    }
+                }
+
+                const errorDiv = document.getElementById(`error-${fieldId}`);
+                if (errorDiv) {
+                    errorDiv.classList.add('hidden');
+                    errorDiv.textContent = '';
+                }
             }
 
             // Refresh stock button
             refreshBtn.addEventListener('click', function() {
+                const originalContent = this.innerHTML;
                 this.disabled = true;
-                this.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-1"></div>Memuat...';
+                this.classList.add('opacity-75');
+                this.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                        <span>Memperbarui...</span>
+                    </div>
+                `;
 
                 const allIds = Array.from(document.querySelectorAll('.item-option')).map(option => option.getAttribute('data-id'));
 
                 checkStockAvailability(allIds).then(stockData => {
-                    updateStockDisplay(stockData);
-                    showNotification('Stok berhasil diperbarui', 'success');
+                    if (stockData && stockData.length > 0) {
+                        updateStockDisplay(stockData);
+                        showNotification('Stok berhasil diperbarui!', 'success', 3000);
+                    } else {
+                        showNotification('Tidak ada data stok yang ditemukan', 'warning', 3000);
+                    }
                 }).catch(error => {
-                    showNotification('Gagal memperbarui stok', 'error');
+                    console.error('Error refreshing stock:', error);
+                    showNotification('Gagal memperbarui stok. Silakan coba lagi.', 'error', 4000);
                 }).finally(() => {
-                    this.disabled = false;
-                    this.innerHTML = `
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        Refresh Stok
-                    `;
+                    setTimeout(() => {
+                        this.disabled = false;
+                        this.classList.remove('opacity-75');
+                        this.innerHTML = originalContent;
+                    }, 500); // Small delay to prevent rapid clicking
                 });
             });
 
@@ -364,8 +613,8 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                if (selectedItems.length === 0) {
-                    showNotification('Pilih minimal satu barang yang akan dipinjam', 'error');
+                // Client-side validation first
+                if (!validateForm()) {
                     return;
                 }
 
@@ -379,15 +628,22 @@
 
                     if (unavailableItems.length > 0) {
                         const itemNames = unavailableItems.map(item => item.nama).join(', ');
-                        showNotification(`Barang berikut sudah tidak tersedia: ${itemNames}. Silakan refresh halaman.`, 'error');
+                        window.swalError(
+                            `Barang berikut sudah tidak tersedia:\n\n${itemNames}\n\nSilakan refresh halaman untuk memperbarui data.`,
+                            {
+                                title: 'Stok Tidak Tersedia'
+                            }
+                        );
                         return;
                     }
 
-                    // All available, submit form
+                    // All available, clear form state and submit form
+                    clearFormState();
                     this.submit();
                 }).catch(error => {
                     console.error('Error checking stock before submit:', error);
-                    // Submit anyway if error
+                    // Submit anyway if error, but clear form state first
+                    clearFormState();
                     this.submit();
                 }).finally(() => {
                     loadingIndicator.classList.add('hidden');

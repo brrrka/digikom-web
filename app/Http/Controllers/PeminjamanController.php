@@ -27,25 +27,27 @@ class PeminjamanController extends Controller
     public function formPinjam()
     {
         try {
-            $inventarisItems = Inventaris::all();
-            $inventaris = collect();
+            $inventaris = Inventaris::select('id', 'nama', 'deskripsi', 'images', 'kuantitas')
+                ->where('kuantitas', '>', 0)
+                ->get()
+                ->map(function ($item) {
+                    $stockInfo = Inventaris::getStockInfo($item->id);
 
-            foreach ($inventarisItems as $item) {
-                $stockInfo = Inventaris::getStockInfo($item->id);
-
-                if ($stockInfo && $stockInfo['is_available']) {
-                    $inventaris->push([
-                        'id' => $stockInfo['id'],
-                        'nama' => $stockInfo['nama'],
-                        'deskripsi' => $item->deskripsi,
-                        'image' => $item->images,
-                        'kuantitas' => $stockInfo['kuantitas'],
-                        'tersedia' => $stockInfo['tersedia'],
-                        'status' => $stockInfo['status'],
-                        'is_available' => $stockInfo['is_available'],
-                    ]);
-                }
-            }
+                    if ($stockInfo && $stockInfo['is_available']) {
+                        return [
+                            'id' => $item->id,
+                            'nama' => $item->nama,
+                            'deskripsi' => $item->deskripsi,
+                            'image' => $item->images,
+                            'kuantitas' => $item->kuantitas,
+                            'tersedia' => $stockInfo['tersedia'],
+                            'status' => $stockInfo['status'],
+                            'is_available' => true,
+                        ];
+                    }
+                    return null;
+                })
+                ->filter();
 
 
             return view('pages.peminjaman.form', compact('inventaris'));

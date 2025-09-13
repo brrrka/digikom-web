@@ -7,27 +7,10 @@ use App\Http\Controllers\ModulController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PraktikumController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-// Route untuk verifikasi email
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
 
 Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{identifier}', [ArtikelController::class, 'show'])->name('artikel.show');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/')->with('success', 'Email berhasil diverifikasi!');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Link verifikasi telah dikirim!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // Route publik (tidak memerlukan autentikasi)
 Route::get('/', function () {

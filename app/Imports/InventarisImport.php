@@ -40,8 +40,13 @@ class InventarisImport implements
     public function model(array $row)
     {
         try {
-            // Clean and validate data
-            $nama = $this->cleanString($row['nama_inventaris'] ?? $row['nama'] ?? '');
+            // Clean and validate data - support both export format and import template format
+            $nama = $this->cleanString(
+                $row['nama_inventaris'] ??
+                $row['nama inventaris'] ??  // Export format
+                $row['nama'] ??
+                ''
+            );
             $kuantitas = $this->cleanNumber($row['kuantitas'] ?? 0);
             $status = $this->cleanStatus($row['status'] ?? 'tersedia');
             $deskripsi = $this->cleanString($row['deskripsi'] ?? '');
@@ -56,12 +61,16 @@ class InventarisImport implements
             $existingInventaris = Inventaris::where('nama', $nama)->first();
 
             if ($existingInventaris) {
-                // Update existing
+                // Update existing - but keep total_dipinjam intact
                 $existingInventaris->update([
                     'kuantitas' => $kuantitas,
                     'status' => $status,
                     'deskripsi' => $deskripsi,
                 ]);
+
+                // Recalculate to ensure consistency
+                $existingInventaris->recalculateTotalDipinjam();
+
                 $this->importResults['updated']++;
                 return null; // Don't create new model
             } else {
@@ -86,10 +95,11 @@ class InventarisImport implements
     public function rules(): array
     {
         return [
-            'nama_inventaris' => ['required', 'string', 'max:255'],
-            'nama' => ['required_without:nama_inventaris', 'string', 'max:255'],
+            'nama_inventaris' => ['required_without_all:nama,nama inventaris', 'nullable', 'string', 'max:255'],
+            'nama inventaris' => ['required_without_all:nama,nama_inventaris', 'nullable', 'string', 'max:255'], // Export format
+            'nama' => ['required_without_all:nama_inventaris,nama inventaris', 'nullable', 'string', 'max:255'],
             'kuantitas' => ['required', 'integer', 'min:0'],
-            'status' => ['required', 'in:tersedia,tidak tersedia,Tersedia,Tidak Tersedia'],
+            'status' => ['required', 'in:tersedia,tidak tersedia,Tersedia,Tidak Tersedia,available,unavailable'],
             'deskripsi' => ['nullable', 'string']
         ];
     }

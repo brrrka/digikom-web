@@ -4,6 +4,7 @@
 @section('title', 'Inventaris')
 @section('page-title', 'Management Inventaris')
 
+
 @section('content')
     <div class="space-y-6">
         <!-- Header with Stats -->
@@ -510,7 +511,7 @@
         // Export selected items
         function exportSelected() {
             if (selectedItems.size === 0) {
-                alert('Pilih minimal satu item untuk di-export.');
+                window.notifications.warning('Pilih minimal satu item untuk di-export.');
                 return;
             }
 
@@ -540,13 +541,22 @@
         }
 
         // Bulk update status
-        function bulkUpdateStatus(status) {
+        async function bulkUpdateStatus(status) {
             if (selectedItems.size === 0) {
-                alert('Pilih minimal satu item untuk diupdate.');
+                window.notifications.warning('Pilih minimal satu item untuk diupdate.');
                 return;
             }
 
-            if (!confirm(`Apakah Anda yakin ingin mengubah status ${selectedItems.size} item menjadi "${status}"?`)) {
+            const confirmed = await window.notifications.confirm(
+                `Apakah Anda yakin ingin mengubah status ${selectedItems.size} item menjadi "${status}"?`,
+                {
+                    title: 'Konfirmasi Update Status',
+                    confirmText: 'Ya, Update',
+                    cancelText: 'Batal'
+                }
+            );
+
+            if (!confirmed) {
                 return;
             }
 
@@ -564,14 +574,15 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        location.reload();
+                        window.notifications.success(data.message || 'Status berhasil diupdate!');
+                        setTimeout(() => location.reload(), 1000);
                     } else {
-                        alert('Error: ' + data.message);
+                        window.notifications.error('Error: ' + data.message);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Terjadi kesalahan saat mengupdate status.');
+                    window.notifications.error('Terjadi kesalahan saat mengupdate status.');
                 });
         }
 
@@ -585,10 +596,18 @@
         }
 
         // Recalculate all
-        function recalculateAll() {
-            if (!confirm(
-                    'Apakah Anda yakin ingin merecalculate semua data inventaris? Proses ini akan memperbarui jumlah dipinjam berdasarkan data peminjaman aktual.'
-                    )) {
+        async function recalculateAll() {
+            const confirmed = await window.notifications.confirm(
+                'Apakah Anda yakin ingin merecalculate semua data inventaris? Proses ini akan memperbarui jumlah dipinjam berdasarkan data peminjaman aktual.',
+                {
+                    title: 'Konfirmasi Recalculate',
+                    confirmText: 'Ya, Recalculate',
+                    cancelText: 'Batal',
+                    type: 'warning'
+                }
+            );
+
+            if (!confirmed) {
                 return;
             }
 
@@ -612,7 +631,7 @@
             const deleteForms = document.querySelectorAll('form[onsubmit*="confirm"]');
 
             deleteForms.forEach(form => {
-                form.addEventListener('submit', function(e) {
+                form.addEventListener('submit', async function(e) {
                     e.preventDefault();
 
                     const itemName = this.action.includes('inventaris') ?
@@ -620,12 +639,18 @@
                         .textContent.trim() :
                         'item ini';
 
-                    // Create custom modal-like confirmation
-                    const result = confirm(
-                        `⚠️ PERINGATAN HAPUS INVENTARIS\n\nAnda akan menghapus: "${itemName}"\n\n• Tindakan ini tidak dapat dibatalkan\n• Data akan hilang permanen\n• Pastikan tidak ada peminjaman aktif\n\nApakah Anda yakin ingin melanjutkan?`
+                    // Enhanced confirmation with modal
+                    const confirmed = await window.notifications.confirm(
+                        `Anda akan menghapus: "${itemName}"\n\n• Tindakan ini tidak dapat dibatalkan\n• Data akan hilang permanen\n• Pastikan tidak ada peminjaman aktif`,
+                        {
+                            title: '⚠️ Peringatan Hapus Inventaris',
+                            confirmText: 'Ya, Hapus',
+                            cancelText: 'Batal',
+                            type: 'danger'
+                        }
                     );
 
-                    if (result) {
+                    if (confirmed) {
                         // Show loading state
                         const submitBtn = this.querySelector('button[type="submit"]');
                         const originalText = submitBtn.innerHTML;

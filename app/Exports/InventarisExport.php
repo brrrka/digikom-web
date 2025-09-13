@@ -40,7 +40,7 @@ class InventarisExport implements
     public function collection()
     {
         try {
-            $query = Inventaris::query();
+            $query = Inventaris::with(['detailPeminjaman.peminjaman']);
 
             // Handle selected IDs export
             if (!empty($this->filters['selected_ids'])) {
@@ -61,6 +61,11 @@ class InventarisExport implements
             }
 
             $inventaris = $query->orderBy('nama')->get();
+
+            // Ensure all items have accurate total_dipinjam
+            $inventaris->each(function ($item) {
+                $item->recalculateTotalDipinjam();
+            });
 
             Log::info('Export inventaris', [
                 'count' => $inventaris->count(),

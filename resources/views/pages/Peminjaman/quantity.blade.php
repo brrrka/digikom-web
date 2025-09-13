@@ -2,6 +2,7 @@
     <!-- CSRF Token for AJAX requests -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     @php
         // Fallback untuk variabel yang mungkin tidak ada
         $tanggal_peminjaman = $tanggal_peminjaman ?? (old('tanggal_peminjaman') ?? '');
@@ -287,9 +288,9 @@
                         } else {
                             const itemRow = this.closest('.item-row');
                             const itemName = itemRow.querySelector('.font-medium').textContent;
-                            showNotification(
-                                `Stok ${itemName} hanya tersedia ${availableQuantity} unit`,
-                                'warning');
+                            window.notifications.warning(
+                                `Stok ${itemName} hanya tersedia ${availableQuantity} unit`
+                            );
                         }
                     });
                 });
@@ -368,9 +369,9 @@
                                 document.getElementById(`quantity-${item.id}`).value = item.tersedia;
                                 document.getElementById(`quantity-text-${item.id}`).textContent = item.tersedia;
 
-                                showNotification(
-                                    `Jumlah ${item.nama} disesuaikan dengan stok tersedia (${item.tersedia} unit)`,
-                                    'warning');
+                                window.notifications.warning(
+                                    `Jumlah ${item.nama} disesuaikan dengan stok tersedia (${item.tersedia} unit)`
+                                );
                             }
 
                             // Show warning if item is no longer available
@@ -379,7 +380,7 @@
                                 document.getElementById(`quantity-${item.id}`).value = 0;
                                 document.getElementById(`quantity-text-${item.id}`).textContent = 0;
 
-                                showNotification(`${item.nama} sudah tidak tersedia`, 'error');
+                                window.notifications.error(`${item.nama} sudah tidak tersedia`);
                             }
                         }
                     });
@@ -387,43 +388,7 @@
                     updateUI();
                 }
 
-                // Show notification
-                function showNotification(message, type = 'info') {
-                    let notification = document.getElementById('stock-notification');
-                    if (!notification) {
-                        notification = document.createElement('div');
-                        notification.id = 'stock-notification';
-                        document.body.appendChild(notification);
-                    }
-
-                    const typeClasses = {
-                        'info': 'bg-blue-100 border-blue-400 text-blue-800',
-                        'warning': 'bg-yellow-100 border-yellow-400 text-yellow-800',
-                        'error': 'bg-red-100 border-red-400 text-red-800',
-                        'success': 'bg-green-100 border-green-400 text-green-800'
-                    };
-
-                    notification.className =
-                        `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm border-l-4 ${typeClasses[type] || typeClasses['info']}`;
-                    notification.innerHTML = `
-                        <div class="flex items-start">
-                            <div class="ml-3 w-0 flex-1">
-                                <p class="text-sm font-medium">${message}</p>
-                            </div>
-                            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-gray-400 hover:text-gray-600">
-                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                </svg>
-                            </button>
-                        </div>
-                    `;
-
-                    setTimeout(() => {
-                        if (notification && notification.parentElement) {
-                            notification.remove();
-                        }
-                    }, 5000);
-                }
+                // Use global notification system (loaded via notifications.js)
 
                 // Refresh stock button
                 if (refreshBtn) {
@@ -435,9 +400,9 @@
 
                         checkStockAvailability().then(stockData => {
                             updateStockDisplay(stockData);
-                            showNotification('Stok berhasil diperbarui', 'success');
+                            window.notifications.success('Stok berhasil diperbarui!');
                         }).catch(error => {
-                            showNotification('Gagal memperbarui stok', 'error');
+                            window.notifications.error('Gagal memperbarui stok');
                         }).finally(() => {
                             this.disabled = false;
                             this.innerHTML = originalHTML;
@@ -481,13 +446,16 @@
                         });
 
                         if (!hasSelection) {
-                            showNotification('Pilih minimal satu barang dengan jumlah lebih dari 0', 'error');
+                            window.swalError('Pilih minimal satu barang dengan jumlah lebih dari 0', {
+                                title: 'Validasi Gagal'
+                            });
                             return;
                         }
 
                         if (exceedsStock) {
-                            showNotification('Jumlah yang diminta melebihi stok tersedia:\n' + errorMessage,
-                                'error');
+                            window.swalError(`Jumlah yang diminta melebihi stok tersedia:\n\n${errorMessage}`, {
+                                title: 'Stok Tidak Mencukupi'
+                            });
                             return;
                         }
 
@@ -523,23 +491,38 @@
                             });
 
                             if (!finalValid) {
-                                showNotification('Validasi stok gagal:\n' + finalError +
-                                    '\nSilakan sesuaikan jumlah peminjaman.', 'error');
+                                window.swalError(`Validasi stok gagal:\n\n${finalError}\nSilakan sesuaikan jumlah peminjaman.`, {
+                                    title: 'Validasi Stok Gagal'
+                                });
                                 return;
                             }
 
                             // All validations passed, submit form
-                            if (confirm(`Konfirmasi peminjaman ${totalQuantity} unit barang?`)) {
-                                this.submit();
-                            }
+                            window.swalConfirm(`Apakah Anda yakin ingin meminjam ${totalQuantity} unit barang?`, {
+                                title: 'Konfirmasi Peminjaman',
+                                confirmText: 'Ya, Pinjam',
+                                cancelText: 'Batal'
+                            }).then(confirmed => {
+                                if (confirmed) {
+                                    this.submit();
+                                }
+                            });
                         }).catch(error => {
                             console.error('Error during final validation:', error);
                             // Submit anyway if error checking
-                            if (confirm(
-                                    `Konfirmasi peminjaman ${totalQuantity} unit barang? (Validasi stok tidak dapat dilakukan)`
-                                )) {
-                                this.submit();
-                            }
+                            window.swalConfirm(
+                                `Apakah Anda yakin ingin meminjam ${totalQuantity} unit barang?\n\n⚠️ Validasi stok tidak dapat dilakukan`,
+                                {
+                                    title: 'Konfirmasi Peminjaman',
+                                    confirmText: 'Ya, Tetap Pinjam',
+                                    cancelText: 'Batal',
+                                    type: 'warning'
+                                }
+                            ).then(confirmed => {
+                                if (confirmed) {
+                                    this.submit();
+                                }
+                            });
                         }).finally(() => {
                             loadingIndicator.classList.add('hidden');
                             submitButton.disabled = totalQuantity === 0;

@@ -12,4 +12,18 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        minify: 'esbuild',
+        cssMinify: true,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['alpinejs'],
+                }
+            }
+        }
+    },
+    optimizeDeps: {
+        include: ['alpinejs'],
+    },
 });

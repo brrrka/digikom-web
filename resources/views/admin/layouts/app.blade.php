@@ -355,6 +355,10 @@
         }, 300000);
     </script>
 
+    <!-- Universal Alert Replacement -->
+    <script src="{{ asset('js/notifications.js') }}"></script>
+    <script src="{{ asset('js/alert-replacer.js') }}"></script>
+
     @stack('scripts')
 </body>
 
