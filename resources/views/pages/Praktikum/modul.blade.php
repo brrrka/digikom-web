@@ -1,6 +1,4 @@
-<?php
 @php
-
     $bgColor = match ($praktikum->name) {
         'Praktikum Logika Digital' => 'from-[#FFFEDB]',
         'Organisasi dan Arsitektur Komputer 1' => 'from-[#FFECEB]',
@@ -46,12 +44,13 @@
             @foreach ($moduls as $modul)
                 <div class="w-40 md:w-72 lg:w-52 relative group">
                     <div
-                        class="h-14 w-full text-black shadow-md bg-light-green hover:bg-gradient-to-r from-gray-950 to-dark-green hover:text-white transition-all duration-300 cursor-pointer flex justify-center items-center rounded-2xl mb-2 modul">
+                        class="h-14 w-full text-black shadow-md bg-light-green hover:bg-gradient-to-r from-gray-950 to-dark-green hover:text-white transition-all duration-300 cursor-pointer flex justify-center items-center rounded-2xl mb-2 modul-trigger"
+                        onclick="toggleModulDropdown(this)">
                         <p>Modul {{ $modul->modul_ke }}</p>
                     </div>
 
                     <div
-                        class="w-full bg-white p-4 rounded-2xl shadow-lg hidden group-hover:block transition-all duration-300 ease-in-out z-10">
+                        class="modul-dropdown w-full bg-white p-4 rounded-2xl shadow-lg hidden md:group-hover:block transition-all duration-300 ease-in-out z-10">
                         <a href="{{ $modul->file_path ? Storage::url($modul->file_path) : '#' }}"
                             class="download-btn flex justify-center items-center text-white h-10 w-full bg-gradient-to-r from-gray-950 to-dark-green text-sm rounded-lg mb-4 hover:bg-gray-100"
                             data-file="{{ $modul->file_path ? Storage::url($modul->file_path) : '' }}">
@@ -111,6 +110,44 @@
                 closePopup.addEventListener("click", function() {
                     popup.classList.add("hidden");
                 });
+            });
+
+            // Function untuk toggle dropdown pada mobile
+            function toggleModulDropdown(trigger) {
+                const dropdown = trigger.nextElementSibling;
+                const isHidden = dropdown.classList.contains('hidden');
+
+                // Tutup semua dropdown lain terlebih dahulu
+                document.querySelectorAll('.modul-dropdown').forEach(dd => {
+                    dd.classList.add('hidden');
+                });
+
+                // Reset semua trigger ke state normal
+                document.querySelectorAll('.modul-trigger').forEach(t => {
+                    t.classList.remove('bg-gradient-to-r', 'from-gray-950', 'to-dark-green', 'text-white');
+                    t.classList.add('bg-light-green', 'text-black');
+                });
+
+                if (isHidden) {
+                    // Tampilkan dropdown yang diklik
+                    dropdown.classList.remove('hidden');
+                    // Update trigger state
+                    trigger.classList.remove('bg-light-green', 'text-black');
+                    trigger.classList.add('bg-gradient-to-r', 'from-gray-950', 'to-dark-green', 'text-white');
+                }
+            }
+
+            // Tutup dropdown ketika klik di luar area modul
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.group')) {
+                    document.querySelectorAll('.modul-dropdown').forEach(dd => {
+                        dd.classList.add('hidden');
+                    });
+                    document.querySelectorAll('.modul-trigger').forEach(t => {
+                        t.classList.remove('bg-gradient-to-r', 'from-gray-950', 'to-dark-green', 'text-white');
+                        t.classList.add('bg-light-green', 'text-black');
+                    });
+                }
             });
         </script>
 
